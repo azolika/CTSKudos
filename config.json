@@ -1,0 +1,12 @@
+{
+  "departments": {
+    "Financiar - Contabil": ["Chief Economic Officer", "Accountant", "..."],
+    "Comercial": ["Telematics Sales Manager & Planner", "..."],
+    "Operational": ["Chief Operating Officer", "..."],
+    "Product Management": ["Team Lead", "Product Owner", "UX/UI Designer"],
+    "Marketing": ["Chief Marketing Officer", "Marketing Specialist"],
+    "HR": ["HR Manager", "HR Specialist"],
+    "IT": ["Chief Technology Officer", "Team Lead", "Software Developer", "QA Engineer", "Technical Support 1"],
+    "CEO": ["Chief Executive Officer"]
+  }
+}
