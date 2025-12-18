@@ -24,7 +24,7 @@ services:
       APP_BASE_URL: "http://localhost:9000"
 
     volumes:
-      - kudos_db:/app/feedback.db
+      - kudos_db:/app/data
 
 volumes:
   kudos_db:
