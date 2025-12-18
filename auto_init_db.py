@@ -148,6 +148,7 @@ def auto_init_db():
 
     print("🆕 No database found. Creating a new one...")
 
+    os.makedirs(os.path.dirname(DB_FILE), exist_ok=True)
     conn = sqlite3.connect(DB_FILE)
     create_tables(conn)
     insert_admin_user(conn)
