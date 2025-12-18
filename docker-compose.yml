@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  kudos:
+    build: .
+    container_name: kudos_app
+    restart: unless-stopped
+
+    ports:
+      - "9000:9000"
+
+    environment:
+      STREAMLIT_SERVER_HEADLESS: "true"
+      SEND_EMAILS: "true"
+
+      # --- EMAIL CONFIG ---
+      SMTP_HOST: "mail.cargotrack.ro"
+      SMTP_PORT: "587"
+      SMTP_EMAIL: "kudos@cargotrack.ro"
+      SMTP_PASSWORD: "Qm8z*9-MK!cra{k~@]q6UD[wu$xX7!8EBZH@UxuC_"
+      FROM_EMAIL: "kudos@cargotrack.ro"
+
+      # --- APP BASE URL ---
+      APP_BASE_URL: "http://localhost:9000"
+
+    volumes:
+      - kudos_db:/app/feedback.db
+
+volumes:
+  kudos_db:
