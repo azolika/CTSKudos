@@ -1,0 +1,50 @@
+# Exclude databases
+feedback.db
+*.db
+data/feedback.db
+**/feedback.db
+
+# Python build artifacts
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.sqlite
+*.sqlite3
+
+# EXCLUDE VIRTUAL ENVS (VERY IMPORTANT!)
+.venv
+venv
+env
+**/.venv
+**/venv
+**/env
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# Logs
+*.log
+
+# Sensitive configs
+.env
+smtp_config.json
+
+# Git and docs
+.git
+.gitignore
+README.md
+LICENSE
+
+# Local artifacts
+*.tar
+*.zip
+*.bak
+*.tmp
+
+# Docker compose files
+docker-compose.yml
+docker-compose.prod.yml
+Dockerfile
