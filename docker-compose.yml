@@ -17,7 +17,7 @@ services:
       SMTP_HOST: "mail.cargotrack.ro"
       SMTP_PORT: "587"
       SMTP_EMAIL: "kudos@cargotrack.ro"
-      SMTP_PASSWORD: "Qm8z*9-MK!cra{k~@]q6UD[wu$xX7!8EBZH@UxuC_"
+      SMTP_PASSWORD: "Qm8z*9-MK!cra{k~@]q6UD[wu$$xX7!8EBZH@UxuC_"
       FROM_EMAIL: "kudos@cargotrack.ro"
 
       # --- APP BASE URL ---
