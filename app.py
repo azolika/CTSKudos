@@ -140,10 +140,21 @@ authenticator = stauth.Authenticate(
 # ---------------------------------------------------------
 # LOGIN FORM
 # ---------------------------------------------------------
-name, auth_status, username = authenticator.login(
-    location="main",
-    fields={"Form name": "Autentificare"}
-)
+try:
+    name, auth_status, username = authenticator.login(
+        location="main",
+        fields={"Form name": "Autentificare"}
+    )
+except KeyError:
+    # This happens if the cookie contains a username that is no longer in the DB
+    st.error("Sesiunea ta a expirat sau este invalidă (cookie vechi).")
+    st.warning("Te rugăm să ștergi cookie-urile pentru acest site și să reîncerci.")
+    # Attempt to clear cookies if possible, or just stop
+    try:
+        authenticator.cookie_manager.delete(authenticator.cookie_name)
+    except:
+        pass
+    st.stop()
 
 # ---------------------------------------------------------
 # FORGOTTEN PASSWORD BLOCK (ONLY WHEN NOT LOGGED IN)
