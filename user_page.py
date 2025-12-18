@@ -1,34 +1,32 @@
+# ---------------------------------------------------------------
+# user_page.py (refactored)
+# User feedback dashboard
+# All DB operations now come from db_feedback.py
+# UI remains in Romanian, comments in English
+# ---------------------------------------------------------------
+
 import streamlit as st
-import sqlite3
 import pandas as pd
-
-def get_feedback_for_user(user_id):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("""
-        SELECT f.point_type, f.comment, f.timestamp, m.name
-        FROM feedback f
-        JOIN users m ON f.manager_id = m.id
-        WHERE f.employee_id = ?
-        ORDER BY timestamp DESC
-    """, (user_id,))
-    rows = c.fetchall()
-    conn.close()
-    return rows
+from services.db_feedback import get_feedback_for_user
 
 
+# ---------------------------------------------------------------
+# MAIN USER PAGE
+# ---------------------------------------------------------------
 def user_page_main(current_user_id):
     st.title("Feedback-ul meu")
 
-    # Lekérjük az összes feedbacket
+    # Get all feedback entries for this user
     history = get_feedback_for_user(current_user_id)
 
     if not history:
         st.info("Nu există feedback primit încă.")
         return
 
-    # Összesítés
+    # Convert to DataFrame
     df = pd.DataFrame(history, columns=["type", "comment", "timestamp", "manager"])
+
+    # Count points
     red = len(df[df["type"] == "rosu"])
     black = len(df[df["type"] == "negru"])
     total = len(df)
@@ -38,13 +36,16 @@ def user_page_main(current_user_id):
     calificativ = (
         "Nesatisfăcător" if pct_red < 25 else
         "Satisfăcător" if pct_red < 50 else
-        "Bun" if pct_red < 75 else
+        "Bun"         if pct_red < 75 else
         "Excelent"
     )
 
+    # -----------------------------------------------------------
+    # SUMMARY SECTION
+    # -----------------------------------------------------------
     st.header("📊 Rezultate personale")
 
-    # BAR
+    # Summary bar
     st.markdown(f"""
         <div style='width:100%; height:35px; display:flex; border:1px solid #777;
                     border-radius:6px; overflow:hidden; margin-bottom:10px;'>
@@ -59,9 +60,12 @@ def user_page_main(current_user_id):
     col3.metric("🔢 % Roșu", f"{pct_red}%")
     col4.metric("🏅 Calificativ", calificativ)
 
+    # -----------------------------------------------------------
+    # FEEDBACK HISTORY
+    # -----------------------------------------------------------
     st.markdown("### Istoric feedback")
-    for row in history:
-        point_type, comment, timestamp, manager_name = row
+
+    for point_type, comment, timestamp, manager_name in history:
         icon = "🔴" if point_type == "rosu" else "⚫"
         st.write(f"{icon} **{timestamp[:16]}** — de la *{manager_name}*")
         if comment:
