@@ -1,12 +1,74 @@
 {
   "departments": {
-    "Financiar - Contabil": ["Chief Economic Officer", "Accountant", "..."],
-    "Comercial": ["Telematics Sales Manager & Planner", "..."],
-    "Operational": ["Chief Operating Officer", "..."],
-    "Product Management": ["Team Lead", "Product Owner", "UX/UI Designer"],
-    "Marketing": ["Chief Marketing Officer", "Marketing Specialist"],
-    "HR": ["HR Manager", "HR Specialist"],
-    "IT": ["Chief Technology Officer", "Team Lead", "Software Developer", "QA Engineer", "Technical Support 1"],
-    "CEO": ["Chief Executive Officer"]
+    "Administrativ": [
+      "Administrative Manager",
+      "Cleaner"
+    ],
+    "Comercial": [
+      "Account Manager",
+      "Financial Services Sales  Manager",
+      "Sales Representative",
+      "Telematics Services Sales Manager"
+    ],
+    "Contabilitate": [
+      "Accountant",
+      "Chief Economic Officer",
+      "Debt Collector",
+      "Financial Clerk"
+    ],
+    "HR": [
+      "HR Specialist",
+      "Human Resources Manager"
+    ],
+    "IT": [
+      "QA Engineer",
+      "Software Engineer"
+    ],
+    "IT Team 1": [
+      "Software Developer",
+      "Team Lead IT"
+    ],
+    "IT Team 2": [
+      "Software Developer"
+    ],
+    "Instalari": [
+      "Installation Engineer",
+      "Installation Representative"
+    ],
+    "Management General": [
+      "Chief Executive Officer"
+    ],
+    "Marketing": [
+      "Chief Marketing Officer",
+      "Specialist Marketing"
+    ],
+    "Mobilitate": [
+      "Product Manager"
+    ],
+    "Operational": [
+      "Chief Operating Officer"
+    ],
+    "Product Management": [
+      "Product Owner",
+      "Team Lead",
+      "UX/UI Designer"
+    ],
+    "Recuperare TVA": [
+      "Administrative Officer",
+      "Sales Support"
+    ],
+    "Suport 1": [
+      "Customer Support"
+    ],
+    "Suport 2": [
+      "Technical Support"
+    ],
+    "Suport 3": [
+      "Technical Support"
+    ],
+    "Taxe de drum": [
+      "Head of RoadTax",
+      "RoadTax Customer Support"
+    ]
   }
 }
