@@ -1,6 +1,14 @@
-# ---------------------- admin.py (normalized & fixed) ----------------------
+# ---------------------------------------------------------------
+# admin.py (refactored)
+# Admin UI for user and hierarchy management
+# All DB operations routed to:
+#   - db_users.py
+#   - db_hierarchy.py
+# UI remains Romanian
+# Comments in English
+# ---------------------------------------------------------------
+
 import streamlit as st
-import sqlite3
 import bcrypt
 import json
 import pandas as pd
@@ -11,14 +19,29 @@ from st_aggrid import (
     DataReturnMode,
 )
 
+from services.db_feedback import get_user_points, get_user_calificativ
+# Import refactored DB modules
+from services.db_users import (
+    get_all_users,
+    add_user,
+    update_user,
+    delete_user,
+    get_user_id_by_username,
+)
+from services.db_hierarchy import (
+    set_manager_for_user,
+    get_manager_for_user,
+)
+from services.db_feedback import get_last_feedback
+
 # ---------------------------------------------------------------
-# Load departments
+# Load departments config
 # ---------------------------------------------------------------
 try:
     with open("config.json", "r", encoding="utf-8") as f:
         CONFIG = json.load(f)
     DEPARTMENTS_CONFIG = CONFIG.get("departments", {})
-    DEPARTMENTS = list(DEPARTMENTS_CONFIG.keys())
+    DEPARTMENTS = sorted(DEPARTMENTS_CONFIG.keys())
 except Exception:
     CONFIG = {}
     DEPARTMENTS_CONFIG = {}
@@ -26,127 +49,82 @@ except Exception:
 
 
 # ---------------------------------------------------------------
-# DB helpers
-# ---------------------------------------------------------------
-def get_all_users():
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute(
-        """
-        SELECT id, username, name, role, departament, functia
-        FROM users
-        ORDER BY name ASC
-    """
-    )
-    rows = c.fetchall()
-    conn.close()
-    return rows
-
-
-def get_manager_for_user(user_id):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute(
-        """
-        SELECT m.id, m.name
-        FROM hierarchy h
-        JOIN users m ON h.manager_id = m.id
-        WHERE h.user_id = ?
-    """,
-        (user_id,),
-    )
-    row = c.fetchone()
-    conn.close()
-    return row
-
-
-def get_user_id_by_username(username):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("SELECT id FROM users WHERE username = ?", (username,))
-    row = c.fetchone()
-    conn.close()
-    return row[0] if row else None
-
-
-def add_user(username, name, password_hash, departament, functia, role):
-    username = username.lower().strip()
-    departament = (departament or "").strip()
-    functia = (functia or "").strip()
-
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute(
-        """
-        INSERT INTO users(username, name, role, password_hash, departament, functia)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """,
-        (username, name, role, password_hash, departament, functia),
-    )
-    conn.commit()
-    conn.close()
-
-
-def update_user(user_id, name, role, departament, functia):
-    departament = (departament or "").strip()
-    functia = (functia or "").strip()
-
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute(
-        """
-        UPDATE users
-        SET name = ?, role = ?, departament = ?, functia = ?
-        WHERE id = ?
-    """,
-        (name, role, departament, functia, user_id),
-    )
-    conn.commit()
-    conn.close()
-
-
-def delete_user(user_id):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("DELETE FROM hierarchy WHERE user_id = ? OR manager_id = ?", (user_id, user_id))
-    c.execute("DELETE FROM users WHERE id = ?", (user_id,))
-    conn.commit()
-    conn.close()
-
-
-def assign_manager(user_id, manager_id):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("INSERT INTO hierarchy(user_id, manager_id) VALUES (?, ?)", (user_id, manager_id))
-    conn.commit()
-    conn.close()
-
-
-def set_manager_for_user(user_id, manager_id):
-    """Set or clear a user's manager in the hierarchy table."""
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-
-    # töröljük az összes régi manager bejegyzést erre a userre
-    c.execute("DELETE FROM hierarchy WHERE user_id = ?", (user_id,))
-
-    # ha van új manager, beszúrjuk
-    if manager_id is not None:
-        c.execute(
-            "INSERT INTO hierarchy(user_id, manager_id) VALUES (?, ?)",
-            (user_id, manager_id),
-        )
-
-    conn.commit()
-    conn.close()
-
-
-# ---------------------------------------------------------------
-# Admin Home
+# Admin Home Page
 # ---------------------------------------------------------------
 def admin_home():
-    st.title("Panou Administrativ")
-    st.write("Administrează utilizatorii și ierarhiile.")
+    st.title("Panou Administrativ — Statistici")
+
+    import sqlite3
+    from datetime import datetime, timedelta
+
+    conn = sqlite3.connect("data/feedback.db")
+    c = conn.cursor()
+
+    # ---------------------------------------------------------
+    # 1) Total feedback-uri în sistem
+    # ---------------------------------------------------------
+    c.execute("SELECT COUNT(*) FROM feedback")
+    total_feedback = c.fetchone()[0]
+
+    # ---------------------------------------------------------
+    # 2) Feedback-uri în ultimele 30 zile (roșu / negru)
+    # ---------------------------------------------------------
+    cutoff = (datetime.now() - timedelta(days=30)).isoformat()
+    c.execute("""
+        SELECT point_type, COUNT(*)
+        FROM feedback
+        WHERE timestamp >= ?
+        GROUP BY point_type
+    """, (cutoff,))
+    rows = c.fetchall()
+
+    red_30 = 0
+    black_30 = 0
+    for pt, cnt in rows:
+        if pt == "rosu":
+            red_30 = cnt
+        elif pt == "negru":
+            black_30 = cnt
+
+    # ---------------------------------------------------------
+    # 3) Top 5 manageri după activitate
+    # ---------------------------------------------------------
+    c.execute("""
+        SELECT m.name, COUNT(*)
+        FROM feedback f
+        JOIN users m ON f.manager_id = m.id
+        GROUP BY m.id
+        ORDER BY COUNT(*) DESC
+        LIMIT 5
+    """)
+    top_managers = c.fetchall()
+
+    conn.close()
+
+    # ---------------------------------------------------------
+    # UI — stat boxes
+    # ---------------------------------------------------------
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric("Total feedback-uri în sistem", total_feedback)
+
+    with col2:
+        st.metric("Roșii (30 zile)", red_30)
+
+    with col3:
+        st.metric("Negre (30 zile)", black_30)
+
+    st.markdown("---")
+    st.subheader("Top 5 manageri după activitate")
+
+    if top_managers:
+        for name, count in top_managers:
+            st.write(f"**{name}** — {count} feedback-uri")
+    else:
+        st.info("Nu există feedback-uri în sistem.")
+
+    st.markdown("---")
 
 
 # ---------------------------------------------------------------
@@ -155,17 +133,40 @@ def admin_home():
 def admin_users():
     st.title("Gestionare Utilizatori")
 
-    # -------- Lista utilizatori (GRID) --------
+
+    # -----------------------------------------------------------
+    # USER TABLE
+    # -----------------------------------------------------------
+    # build enriched user list
     users = get_all_users()
+    enriched = []
+    for (uid, username, name, role, dept, functia, superior) in users:
+        red, black = get_user_points(uid)
+        total = red + black
+        calificativ = get_user_calificativ(uid)
+
+        enriched.append([
+            uid,
+            username,
+            name,
+            total,
+            calificativ,
+            dept,
+            functia,
+            superior or ""
+        ])
+
+    # new dataframe structure
     df = pd.DataFrame(
-        users,
-        columns=["id", "username", "name", "role", "departament", "functia"],
+        enriched,
+        columns=["id", "username", "name", "Puncte totale", "Calificativ", "departament", "functia", "Superior"]
     )
 
     gb = GridOptionsBuilder.from_dataframe(df)
     gb.configure_selection("single", use_checkbox=True)
     gb.configure_pagination(True)
     gb.configure_side_bar()
+
     grid = AgGrid(
         df,
         gridOptions=gb.build(),
@@ -175,7 +176,7 @@ def admin_users():
         height=300,
     )
 
-    # --- Kiválasztott user stabil kiolvasása ---
+    # Get selected user reliably
     selected_rows = grid.get("selected_rows")
     if selected_rows is None:
         selected_rows = []
@@ -184,7 +185,9 @@ def admin_users():
 
     selected_user = selected_rows[0] if selected_rows else None
 
-    # -------- Új user hozzáadása --------
+    # -----------------------------------------------------------
+    # ADD NEW USER
+    # -----------------------------------------------------------
     st.markdown("---")
     st.subheader("Adaugă Utilizator Nou")
 
@@ -196,7 +199,7 @@ def admin_users():
 
     with col2:
         departament = st.selectbox("Departament", DEPARTMENTS)
-        functii = DEPARTMENTS_CONFIG.get(departament, [])
+        functii = sorted(DEPARTMENTS_CONFIG.get(departament, []))
         if functii:
             functia = st.selectbox("Funcția", functii)
         else:
@@ -204,25 +207,34 @@ def admin_users():
 
         role = st.selectbox("Rol", ["manager", "user"])
 
+    # Manager selection
     st.markdown("### Selectează Manager (opțional)")
     all_users = get_all_users()
-    manager_map = {u[2]: u[0] for u in all_users}  # name -> id
+    manager_map = {u[2]: u[0] for u in all_users}   # name -> id
     manager_list = ["(fără manager)"] + list(manager_map.keys())
+
     chosen_manager = st.selectbox("Manager (nou)", manager_list)
 
+    # Submit new user
     if st.button("Adaugă Utilizator"):
         if not new_username or not new_name or not new_password:
             st.warning("Completează toate câmpurile obligatorii.")
         else:
             pw_hash = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
             add_user(new_username, new_name, pw_hash, departament, functia, role)
+
             new_id = get_user_id_by_username(new_username)
+
+            # Assign manager if selected
             if chosen_manager != "(fără manager)":
                 set_manager_for_user(new_id, manager_map[chosen_manager])
+
             st.success("Utilizator adăugat!")
             st.rerun()
 
-    # -------- Edit / Delete --------
+    # -----------------------------------------------------------
+    # EDIT / DELETE USER
+    # -----------------------------------------------------------
     st.markdown("---")
     st.subheader("Editează / Șterge Utilizator")
 
@@ -230,24 +242,23 @@ def admin_users():
         st.info("Selectează un utilizator din tabel.")
         return
 
-    # Normalizáljuk a kulcsokat, hogy biztosan egyezzenek
     su = {k.lower(): v for k, v in selected_user.items()}
+
     selected_id = su.get("id")
     selected_username = su.get("username")
     selected_name = su.get("name")
     selected_role = su.get("role")
-
-    # NORMALIZÁLT departament & functia
     selected_dept = (su.get("departament") or "").strip()
     selected_func = (su.get("functia") or "").strip()
 
-    # Aktuális manager kiolvasása
+    # Current manager
     manager_info = get_manager_for_user(selected_id)
     current_manager_name = manager_info[1] if manager_info else "(fără manager)"
 
     st.write(f"**Utilizator selectat:** `{selected_username}` — {selected_name}")
     st.write(f"Manager curent: **{current_manager_name}**")
 
+    # Edit form
     col3, col4 = st.columns(2)
     with col3:
         edit_name = st.text_input("Nume complet (edit)", selected_name)
@@ -258,10 +269,9 @@ def admin_users():
         )
 
     with col4:
-        # Departamente normalizálva (strip)
+        # Department options
         dept_options = [d.strip() for d in DEPARTMENTS]
 
-        # ha a DB-ben lévő érték nincs a configban, tegyük be az elejére
         if selected_dept and selected_dept not in dept_options:
             dept_options.insert(0, selected_dept)
 
@@ -271,9 +281,7 @@ def admin_users():
             index=dept_options.index(selected_dept) if selected_dept in dept_options else 0,
         )
 
-        # Funcții normalizálva
-        functii_edit = [f.strip() for f in DEPARTMENTS_CONFIG.get(edit_dept, [])]
-
+        functii_edit = sorted([f.strip() for f in DEPARTMENTS_CONFIG.get(edit_dept, [])])
         if functii_edit:
             if selected_func in functii_edit:
                 edit_func = st.selectbox(
@@ -282,21 +290,21 @@ def admin_users():
                     index=functii_edit.index(selected_func),
                 )
             else:
-                # ha a DB-s functia nincs a listában, tegyük be elsőnek
                 if selected_func:
                     functii_edit.insert(0, selected_func)
                 edit_func = st.selectbox("Funcția (edit)", functii_edit, index=0)
         else:
             edit_func = st.text_input("Funcția (edit)", selected_func)
 
-    # --- Manager szerkesztés ---
+    # Manager edit
     st.markdown("### Manager (editare)")
 
     manager_list_edit = ["(fără manager)"] + list(manager_map.keys())
-    if current_manager_name in manager_map:
-        default_index = manager_list_edit.index(current_manager_name)
-    else:
-        default_index = 0
+    default_index = (
+        manager_list_edit.index(current_manager_name)
+        if current_manager_name in manager_map else
+        0
+    )
 
     edit_manager_name = st.selectbox(
         "Manager (edit)",
@@ -304,15 +312,14 @@ def admin_users():
         index=default_index,
     )
 
-    # Gombok: mentés / törlés
+    # Action buttons
     col_save, col_delete = st.columns(2)
 
+    # Save changes
     with col_save:
         if st.button("Salvează Modificările"):
-            # user adatok frissítése
             update_user(selected_id, edit_name, edit_role, edit_dept, edit_func)
 
-            # manager frissítése
             if edit_manager_name == "(fără manager)":
                 set_manager_for_user(selected_id, None)
             else:
@@ -321,6 +328,7 @@ def admin_users():
             st.success("Modificări salvate!")
             st.rerun()
 
+    # Delete user
     with col_delete:
         if st.button("Șterge Utilizatorul"):
             delete_user(selected_id)
@@ -329,7 +337,7 @@ def admin_users():
 
 
 # ---------------------------------------------------------------
-# Main Admin Router
+# MAIN ADMIN ROUTER
 # ---------------------------------------------------------------
 def admin_main():
     st.sidebar.title("Meniu Administrator")
