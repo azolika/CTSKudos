@@ -1,8 +1,29 @@
+# ---------------------------------------------------------------
+# db.py
+# Database initialization module
+# After refactor, this file ONLY contains init_db() and no logic
+# All user/hierarchy/feedback operations were moved to:
+#   - db_users.py
+#   - db_hierarchy.py
+#   - db_feedback.py
+# Comments are in English (as requested)
+# ---------------------------------------------------------------
+
 import sqlite3
 import bcrypt
+import os
+
 
 def init_db():
-    conn = sqlite3.connect("feedback.db")
+    """Create all required tables if they don't exist."""
+
+    # Ensure data directory exists (important for Docker volume)
+    os.makedirs("data", exist_ok=True)
+
+    # Main DB path (Docker volume mounts /app/data)
+    db_path = "data/feedback.db"
+
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
     # USERS table
@@ -29,7 +50,7 @@ def init_db():
     )
     """)
 
-    # FEEDBACK table  <<<<<< THIS WAS MISSING
+    # FEEDBACK table
     c.execute("""
     CREATE TABLE IF NOT EXISTS feedback(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,105 +64,23 @@ def init_db():
     )
     """)
 
-    conn.commit()
+    # PASSWORD RESET TOKENS
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS password_reset (
+        email TEXT,
+        token TEXT,
+        timestamp TEXT
+    )
+    """)
 
-    # Default admin
-    c.execute("SELECT COUNT(*) FROM users WHERE username='admin'")
+    # Create default admin user if missing
+    c.execute("SELECT COUNT(*) FROM users WHERE username = 'admin'")
     if c.fetchone()[0] == 0:
-        import bcrypt
-        pw = bcrypt.hashpw("admin123".encode(), bcrypt.gensalt()).decode()
+        pw_hash = bcrypt.hashpw("admin123".encode(), bcrypt.gensalt()).decode()
         c.execute("""
             INSERT INTO users(username, name, role, password_hash)
             VALUES (?, ?, ?, ?)
-        """, ("admin", "Administrator", "admin", pw))
+        """, ("admin", "Administrator", "admin", pw_hash))
         conn.commit()
 
     conn.close()
-
-# ---------------------------------------------------------
-# Employees logic
-# ---------------------------------------------------------
-def get_employees_by_manager(manager_id):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("SELECT id, name FROM employees WHERE manager_id = ?", (manager_id,))
-    rows = c.fetchall()
-    conn.close()
-    return rows
-
-
-# ---------------------------------------------------------
-# Feedback logic
-# ---------------------------------------------------------
-def add_feedback(manager_id, employee_id, point_type, comment, timestamp):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute(
-        "INSERT INTO feedback(manager_id, employee_id, point_type, comment, timestamp) VALUES (?, ?, ?, ?, ?)",
-        (manager_id, employee_id, point_type, comment, timestamp)
-    )
-    conn.commit()
-    conn.close()
-
-
-def get_feedback_for_employee(employee_id):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("""
-        SELECT point_type, comment, timestamp
-        FROM feedback
-        WHERE employee_id = ?
-        ORDER BY timestamp DESC
-    """, (employee_id,))
-    rows = c.fetchall()
-    conn.close()
-    return rows
-
-def update_user_password(username, new_password):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-
-    pw_hash = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
-
-    c.execute(
-        "UPDATE users SET password_hash = ? WHERE name = ?",
-        (pw_hash, username)
-    )
-    conn.commit()
-    conn.close()
-
-def add_user(username, name, password_hash, departament, functia, role):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("""
-        INSERT INTO users(username, name, role, password_hash, departament, functia)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (username, name, role, password_hash, departament, functia))
-    conn.commit()
-    conn.close()
-
-
-
-def assign_manager(user_id, manager_id):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("""
-        INSERT INTO hierarchy(user_id, manager_id)
-        VALUES (?, ?)
-    """, (user_id, manager_id))
-    conn.commit()
-    conn.close()
-
-
-def get_subordinates(manager_id):
-    conn = sqlite3.connect("feedback.db")
-    c = conn.cursor()
-    c.execute("""
-        SELECT u.id, u.name, u.departament, u.functia
-        FROM hierarchy h
-        JOIN users u ON h.user_id = u.id
-        WHERE h.manager_id = ?
-    """, (manager_id,))
-    rows = c.fetchall()
-    conn.close()
-    return rows
