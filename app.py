@@ -142,6 +142,8 @@ authenticator = stauth.Authenticate(
 # ---------------------------------------------------------
 # LOGIN FORM
 # ---------------------------------------------------------
+st.title("Kudos by CargoTrack")
+
 try:
     name, auth_status, username = authenticator.login(
         location="main",
