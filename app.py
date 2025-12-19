@@ -200,7 +200,7 @@ else:
     # -----------------------------------------------------
     authenticator.logout("Logout", "sidebar")
 
-    st.title("Kudos by CargoTrack")
+
     login_username = username  # username is the login email
 
     # -----------------------------------------------------
