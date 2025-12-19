@@ -21,7 +21,7 @@ services:
       FROM_EMAIL: "kudos@cargotrack.ro"
 
       # --- APP BASE URL ---
-      APP_BASE_URL: "http://localhost:9001"
+      APP_BASE_URL: "http://192.168.88.175:9001"
 
     volumes:
       - kudos_db:/app/data
@@ -34,7 +34,7 @@ services:
     ports:
       - "8001:8001"
     environment:
-      APP_BASE_URL: "http://localhost:9001"
+      APP_BASE_URL: "http://192.168.88.175:9001"
     volumes:
       - kudos_db:/app/data
 
