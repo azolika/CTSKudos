@@ -200,3 +200,43 @@ def get_last_feedback(limit=50):
     rows = c.fetchall()
     conn.close()
     return rows
+
+
+# ---------------------------------------------------------------
+# POWERBI EXPORT
+# ---------------------------------------------------------------
+def get_all_feedback():
+    """
+    Return ALL feedback entries with manager and employee names.
+    Used for PowerBI export.
+    """
+    conn = _get_conn()
+    c = conn.cursor()
+    c.execute("""
+        SELECT 
+            f.id,
+            f.timestamp,
+            m.name AS manager_name,
+            e.name AS employee_name,
+            f.point_type,
+            f.comment
+        FROM feedback f
+        LEFT JOIN users m ON f.manager_id = m.id
+        LEFT JOIN users e ON f.employee_id = e.id
+        ORDER BY f.timestamp DESC
+    """)
+    rows = c.fetchall()
+    conn.close()
+    
+    # Convert to list of dicts for easier JSON serialization
+    result = []
+    for r in rows:
+        result.append({
+            "id": r[0],
+            "timestamp": r[1],
+            "manager": r[2],
+            "employee": r[3],
+            "type": r[4],
+            "comment": r[5]
+        })
+    return result

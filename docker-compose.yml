@@ -26,5 +26,17 @@ services:
     volumes:
       - kudos_db:/app/data
 
+  kudos_api:
+    build: .
+    container_name: kudos_api_service
+    command: uvicorn api:app --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      APP_BASE_URL: "http://localhost:9000"
+    volumes:
+      - kudos_db:/app/data
+
 volumes:
   kudos_db:
