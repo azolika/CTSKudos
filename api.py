@@ -1,7 +1,15 @@
 from fastapi import FastAPI
 from services.db_feedback import get_all_feedback
+from services.db_users import get_all_users_export
 
 app = FastAPI(title="Kudos Data Export API")
+
+@app.get("/users")
+def read_users():
+    """
+    Get all users (for data sync/export).
+    """
+    return get_all_users_export()
 
 @app.get("/feedback")
 def read_feedback(from_date: str, to_date: str):

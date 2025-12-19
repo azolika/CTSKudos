@@ -226,7 +226,9 @@ def get_all_feedback(start_date: str, end_date: str):
             m.name AS manager_name,
             e.name AS employee_name,
             f.point_type,
-            f.comment
+            f.comment,
+            f.manager_id,
+            f.employee_id
         FROM feedback f
         LEFT JOIN users m ON f.manager_id = m.id
         LEFT JOIN users e ON f.employee_id = e.id
@@ -245,6 +247,8 @@ def get_all_feedback(start_date: str, end_date: str):
             "manager": r[2],
             "employee": r[3],
             "type": r[4],
-            "comment": r[5]
+            "comment": r[5],
+            "manager_id": r[6],
+            "employee_id": r[7]
         })
     return result

@@ -234,3 +234,35 @@ def get_email_by_reset_token(token: str):
     row = c.fetchone()
     conn.close()
     return row[0] if row else None
+
+
+# ---------------------------------------------------------------
+# DATA EXPORT
+# ---------------------------------------------------------------
+
+def get_all_users_export():
+    """
+    Return all users for API export (PowerBI).
+    Includes id, excludes password_hash.
+    """
+    conn = _get_conn()
+    c = conn.cursor()
+    c.execute("""
+        SELECT id, username, name, role, departament, functia
+        FROM users
+        ORDER BY id ASC
+    """)
+    rows = c.fetchall()
+    conn.close()
+
+    result = []
+    for r in rows:
+        result.append({
+            "id": r[0],
+            "username": r[1],
+            "name": r[2],
+            "role": r[3],
+            "departament": r[4],
+            "functia": r[5]
+        })
+    return result
