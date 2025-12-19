@@ -44,14 +44,14 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
         app_url = os.getenv("APP_BASE_URL", "http://localhost:9000")
 
         html_body = f"""
-            <h2>Ați primit un feedback nou în aplicația <strong>Kudos CargoTrack</strong></h2>
+            <h2>Ați primit un feedback nou în aplicația <strong>Kudos by CargoTrack</strong></h2>
 
             <p>Bună, <strong>{employee_name}</strong>,</p>
 
             <p>Ai primit un feedback nou de la managerul tău,
-            <strong>{manager_name}</strong>, în cadrul aplicației <strong>Kudos CargoTrack</strong>.</p>
+            <strong>{manager_name}</strong>, în cadrul aplicației <strong>Kudos by CargoTrack</strong>.</p>
 
-            <p>Tip feedback: <strong>{'Roșu' if point_type == 'rosu' else 'Negru'}</strong><br>
+            <p>Tip feedback: <strong>{'Punct roșu' if point_type == 'rosu' else 'Punct negru'}</strong><br>
             Comentariu: {comment}</p>
 
             <p>Puteți accesa aplicația aici:<br>
@@ -59,7 +59,7 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
 
             <br>
             <p>Cu stimă,<br>
-            Echipa <strong>Kudos CargoTrack</strong></p>
+            Echipa <strong>Kudos by CargoTrack</strong></p>
         """
         print(to_email, html_body)
         send_email(

@@ -43,11 +43,14 @@ def send_password_reset_email(email: str):
     <p><a href="{reset_link}">{reset_link}</a></p>
     <br>
     <p>Dacă nu ai cerut resetarea parolei, poți ignora acest email.</p>
+    <br>
+    <p>Cu stimă,<br>
+    Echipa <strong>Kudos by CargoTrack</strong></p>
     """
 
     send_email(
         to_email=email,
-        subject="Resetare parolă - Kudos CargoTrack",
+        subject="Resetare parolă - Kudos by CargoTrack",
         html_body=html,
     )
 
