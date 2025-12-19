@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
 
     ports:
-      - "9000:9000"
+      - "9001:9000"
 
     environment:
       STREAMLIT_SERVER_HEADLESS: "true"
@@ -21,7 +21,7 @@ services:
       FROM_EMAIL: "kudos@cargotrack.ro"
 
       # --- APP BASE URL ---
-      APP_BASE_URL: "http://localhost:9000"
+      APP_BASE_URL: "http://localhost:9001"
 
     volumes:
       - kudos_db:/app/data
@@ -29,12 +29,12 @@ services:
   kudos_api:
     build: .
     container_name: kudos_api_service
-    command: uvicorn api:app --host 0.0.0.0 --port 8000
+    command: uvicorn api:app --host 0.0.0.0 --port 8001
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
-      APP_BASE_URL: "http://localhost:9000"
+      APP_BASE_URL: "http://localhost:9001"
     volumes:
       - kudos_db:/app/data
 
