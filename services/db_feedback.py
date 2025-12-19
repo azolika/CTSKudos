@@ -205,13 +205,20 @@ def get_last_feedback(limit=50):
 # ---------------------------------------------------------------
 # POWERBI EXPORT
 # ---------------------------------------------------------------
-def get_all_feedback():
+def get_all_feedback(start_date: str, end_date: str):
     """
-    Return ALL feedback entries with manager and employee names.
-    Used for PowerBI export.
+    Return feedback entries within the date range [start_date, end_date].
+    Dates should be comparable strings (e.g. ISO format or YYYY-MM-DD).
     """
     conn = _get_conn()
     c = conn.cursor()
+    
+    # Ensure end_date includes the whole day if it's just "YYYY-MM-DD"
+    if len(end_date) == 10:
+        query_end = end_date + "T23:59:59"
+    else:
+        query_end = end_date
+        
     c.execute("""
         SELECT 
             f.id,
@@ -223,8 +230,9 @@ def get_all_feedback():
         FROM feedback f
         LEFT JOIN users m ON f.manager_id = m.id
         LEFT JOIN users e ON f.employee_id = e.id
+        WHERE f.timestamp >= ? AND f.timestamp <= ?
         ORDER BY f.timestamp DESC
-    """)
+    """, (start_date, query_end))
     rows = c.fetchall()
     conn.close()
     

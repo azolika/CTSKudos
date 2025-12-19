@@ -24,7 +24,6 @@ from services.emailer import send_email
 
 st.set_page_config(
     page_title="Kudos by CargoTrack",
-    layout="wide"
 )
 # ---------------------------------------------------------
 # APP BASE URL FOR RESET LINKS
