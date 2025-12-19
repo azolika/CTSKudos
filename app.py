@@ -24,6 +24,8 @@ from services.emailer import send_email
 
 st.set_page_config(
     page_title="Kudos by CargoTrack",
+    page_icon="favicon.png",
+    layout="centered"
 )
 # ---------------------------------------------------------
 # APP BASE URL FOR RESET LINKS
@@ -58,7 +60,8 @@ def send_password_reset_email(email: str):
 # ---------------------------------------------------------
 # PAGE CONFIG
 # ---------------------------------------------------------
-st.set_page_config(page_title="Feedback App", layout="centered")
+# Page config moved to top
+
 
 #----------------------------------------
 # HANDLE PASSWORD RESET FLOW (?reset=TOKEN)
