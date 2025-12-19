@@ -1,14 +1,3 @@
-# ---------------------------------------------------------------
-# db.py
-# Database initialization module
-# After refactor, this file ONLY contains init_db() and no logic
-# All user/hierarchy/feedback operations were moved to:
-#   - db_users.py
-#   - db_hierarchy.py
-#   - db_feedback.py
-# Comments are in English (as requested)
-# ---------------------------------------------------------------
-
 import sqlite3
 import bcrypt
 import os

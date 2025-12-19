@@ -110,7 +110,7 @@ def manager_main(current_user_id):
             table.append([name, user_red, user_black, pct_r, cal])
 
         df = pd.DataFrame(table, columns=["Nume", "Roșu", "Negru", "% roșu", "Calificativ"])
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df, width="stretch")
 
         # =======================================================
         # WELCOME MESSAGE
