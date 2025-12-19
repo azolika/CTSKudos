@@ -45,6 +45,30 @@ def calculate_team_summary(feedback_rows):
 
 
 # ---------------------------------------------------------------
+# DIALOG: CONFIRM FEEDBACK
+# ---------------------------------------------------------------
+@st.dialog("Confirmare Feedback")
+def open_confirmation_modal(mgr_id, emp_id, p_type, comment, emp_name):
+    st.write(f"Ești sigur că vrei să acorzi un **Punct {p_type.capitalize()}**?")
+    st.write(f"**Către:** {emp_name}")
+    st.write(f"**Mesaj:** {comment}")
+    
+    st.warning("Această acțiune va trimite automat un email angajatului.")
+    
+    col_confirm, col_cancel = st.columns(2)
+    with col_confirm:
+        if st.button("✅ Confirmă și Trimite", type="primary"):
+            add_feedback(mgr_id, emp_id, p_type, comment)
+            st.success("Feedback trimis cu succes!")
+            st.rerun()
+            
+    with col_cancel:
+        if st.button("❌ Anulează"):
+            st.rerun()
+
+
+
+# ---------------------------------------------------------------
 # MAIN MANAGER PAGE
 # ---------------------------------------------------------------
 def manager_main(current_user_id):
@@ -154,16 +178,26 @@ def manager_main(current_user_id):
                 if not comment.strip():
                     st.warning("Comentariul este obligatoriu pentru punct!")
                 else:
-                    add_feedback(current_user_id, selected_user_id, "negru", comment)
-                    st.success("Feedback trimis!")
+                    open_confirmation_modal(
+                        current_user_id, 
+                        selected_user_id, 
+                        "negru", 
+                        comment, 
+                        selected_label
+                    )
 
         with col2:
             if st.button("🔴 Punct Roșu"):
                 if not comment.strip():
                     st.warning("Comentariul este obligatoriu pentru punct!")
                 else:
-                    add_feedback(current_user_id, selected_user_id, "rosu", comment)
-                    st.success("Feedback trimis!")
+                    open_confirmation_modal(
+                        current_user_id, 
+                        selected_user_id, 
+                        "rosu", 
+                        comment, 
+                        selected_label
+                    )
 
         # =======================================================
         # SELECTED USER SUMMARY
