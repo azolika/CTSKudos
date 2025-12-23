@@ -1,51 +1,21 @@
-# -----------------------------------------------------
-# Stage 1: Build dependencies (compile wheels)
-# -----------------------------------------------------
-FROM python:3.10-slim AS builder
-
-WORKDIR /app
-
-# Install build dependencies for heavy libs
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    gcc \
-    libffi-dev \
-    libssl-dev \
-    libsqlite3-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-
-RUN pip install --upgrade pip
-RUN pip wheel --no-cache-dir --no-deps -r requirements.txt -w /wheels
-
-
-# -----------------------------------------------------
-# Stage 2: Final runtime image (lightweight)
-# -----------------------------------------------------
 FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install only runtime deps
+# Install runtime dependencies
 RUN apt-get update && apt-get install -y \
-    libffi8 \
-    libssl3 \
     libsqlite3-0 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /wheels /wheels
-RUN pip install --no-cache-dir /wheels/*
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy application code
+COPY . .
 
-# Copy application
-COPY . /app
+# Remove unnecessary files that might have been copied despite .dockerignore
+RUN rm -rf frontend tests .agent .gemini test_*.py check_schema.py
 
-ENV STREAMLIT_SERVER_PORT=9000
-ENV STREAMLIT_SERVER_ENABLECORS=false
+EXPOSE 8005
 
-ENV STREAMLIT_SERVER_HEADLESS=true
-
-EXPOSE 9000
-
-CMD ["streamlit", "run", "app.py", "--server.port=9000", "--server.address=0.0.0.0"]
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8005", "--reload"]

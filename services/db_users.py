@@ -13,8 +13,8 @@ from datetime import datetime
 # Helper: open DB connection
 # ---------------------------------------------------------------
 def _get_conn():
-    """Open a new SQLite connection to feedback.db."""
-    return sqlite3.connect("data/feedback.db")
+    """Open a new SQLite connection to feedback.db with a 20s timeout."""
+    return sqlite3.connect("data/feedback.db", timeout=20)
 
 
 # ---------------------------------------------------------------
@@ -92,8 +92,10 @@ def add_user(username: str, name: str, password_hash: str, departament: str, fun
         INSERT INTO users(username, name, role, password_hash, departament, functia)
         VALUES (?, ?, ?, ?, ?, ?)
     """, (username, name, role, password_hash, departament, functia))
+    user_id = c.lastrowid
     conn.commit()
     conn.close()
+    return user_id
 
 
 def update_user(user_id: int, name: str, role: str, departament: str, functia: str):
@@ -120,6 +122,7 @@ def delete_user(user_id: int):
     conn = _get_conn()
     c = conn.cursor()
     c.execute("DELETE FROM hierarchy WHERE user_id = ? OR manager_id = ?", (user_id, user_id))
+    c.execute("DELETE FROM feedback WHERE employee_id = ? OR manager_id = ?", (user_id, user_id))
     c.execute("DELETE FROM users WHERE id = ?", (user_id,))
     conn.commit()
     conn.close()
@@ -248,9 +251,10 @@ def get_all_users_export():
     conn = _get_conn()
     c = conn.cursor()
     c.execute("""
-        SELECT id, username, name, role, departament, functia
-        FROM users
-        ORDER BY id ASC
+        SELECT u.id, u.username, u.name, u.role, u.departament, u.functia, h.manager_id
+        FROM users u
+        LEFT JOIN hierarchy h ON u.id = h.user_id
+        ORDER BY u.id ASC
     """)
     rows = c.fetchall()
     conn.close()
@@ -263,6 +267,7 @@ def get_all_users_export():
             "name": r[2],
             "role": r[3],
             "departament": r[4],
-            "functia": r[5]
+            "functia": r[5],
+            "manager_id": r[6]
         })
     return result

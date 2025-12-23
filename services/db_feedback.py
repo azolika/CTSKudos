@@ -7,8 +7,8 @@ from services.db_users import get_user_by_id
 # Helper: DB connection
 # ---------------------------------------------------------------
 def _get_conn():
-    """Open a new SQLite connection to feedback.db."""
-    return sqlite3.connect("data/feedback.db")
+    """Open a new SQLite connection to feedback.db with a 20s timeout."""
+    return sqlite3.connect("data/feedback.db", timeout=20)
 
 
 # ---------------------------------------------------------------
@@ -41,7 +41,7 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
         employee_name = employee[2]
         manager_name = manager[2]
 
-        app_url = os.getenv("APP_BASE_URL", "http://localhost:9000")
+        app_url = os.getenv("APP_BASE_URL", "http://localhost:5173")
 
         html_body = f"""
             <h2>Ați primit un feedback nou în aplicația <strong>Kudos by CargoTrack</strong></h2>
@@ -252,3 +252,59 @@ def get_all_feedback(start_date: str, end_date: str):
             "employee_id": r[7]
         })
     return result
+
+
+def get_admin_stats():
+    """
+    Returns general statistics for the admin dashboard.
+    """
+    from datetime import datetime, timedelta
+    conn = _get_conn()
+    c = conn.cursor()
+
+    # 1) Total feedback-uri în sistem
+    c.execute("SELECT COUNT(*) FROM feedback")
+    total_feedback = c.fetchone()[0]
+
+    # 2) Feedback-uri în ultimele 30 zile
+    cutoff = (datetime.now() - timedelta(days=30)).isoformat()
+    c.execute("""
+        SELECT point_type, COUNT(*)
+        FROM feedback
+        WHERE timestamp >= ?
+        GROUP BY point_type
+    """, (cutoff,))
+    rows_30 = c.fetchall()
+    
+    red_30 = 0
+    black_30 = 0
+    for pt, cnt in rows_30:
+        if pt == "rosu":
+            red_30 = cnt
+        elif pt == "negru":
+            black_30 = cnt
+
+    # 3) Top 5 manageri după activitate
+    c.execute("""
+        SELECT m.name, COUNT(*)
+        FROM feedback f
+        JOIN users m ON f.manager_id = m.id
+        GROUP BY m.id
+        ORDER BY COUNT(*) DESC
+        LIMIT 5
+    """)
+    top_managers = [{"name": r[0], "count": r[1]} for r in c.fetchall()]
+
+    # 4) User counts by role
+    c.execute("SELECT role, COUNT(*) FROM users GROUP BY role")
+    role_counts = {r[0]: r[1] for r in c.fetchall()}
+
+    conn.close()
+
+    return {
+        "total_feedback": total_feedback,
+        "red_30_days": red_30,
+        "black_30_days": black_30,
+        "top_managers": top_managers,
+        "user_counts": role_counts
+    }
