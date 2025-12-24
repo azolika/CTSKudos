@@ -71,13 +71,13 @@ def init_db():
     """)
 
     # Create default admin user if missing
-    c.execute("SELECT COUNT(*) FROM users WHERE username = 'admin'")
+    c.execute("SELECT COUNT(*) FROM users WHERE username = 'admin@cargotrack.ro'")
     if c.fetchone()[0] == 0:
         pw_hash = bcrypt.hashpw("admin123".encode(), bcrypt.gensalt()).decode()
         c.execute("""
             INSERT INTO users(username, name, role, password_hash)
             VALUES (?, ?, ?, ?)
-        """, ("admin", "Administrator", "admin", pw_hash))
+        """, ("admin@cargotrack.ro", "Administrator", "admin", pw_hash))
         conn.commit()
 
     conn.close()
