@@ -24,6 +24,17 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
         }
     };
 
+    const getRoleLabel = (role) => {
+        switch (role) {
+            case ROLES.ADMIN:
+                return 'Admin';
+            case ROLES.MANAGER:
+                return 'Manager/TL';
+            default:
+                return 'User';
+        }
+    };
+
     if (!users || users.length === 0) {
         return (
             <div className="card">
@@ -65,7 +76,7 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
                                             )}`}
                                         >
                                             {getRoleIcon(user.role)}
-                                            <span className="capitalize">{user.role}</span>
+                                            <span>{getRoleLabel(user.role)}</span>
                                         </span>
                                     </td>
                                     <td className="text-slate-600 dark:text-slate-400">

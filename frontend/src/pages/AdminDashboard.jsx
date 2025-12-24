@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import UserManagementTable from '../components/UserManagementTable';
 import UserForm from '../components/UserForm';
 import { AlertCircle, BarChart3, UserPlus, TrendingUp, Users, Award } from 'lucide-react';
+import { ROLES } from '../utils/constants';
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
@@ -303,18 +304,23 @@ const AdminDashboard = () => {
                             </div>
                             <div className="card-body">
                                 <div className="space-y-4">
-                                    {['admin', 'manager', 'user'].map((role) => {
+                                    {[ROLES.ADMIN, ROLES.MANAGER, ROLES.USER].map((role) => {
                                         const count = stats?.user_counts?.[role] || 0;
                                         const percentage = users.length > 0 ? (count / users.length) * 100 : 0;
                                         const colors = {
-                                            admin: 'bg-purple-500',
-                                            manager: 'bg-green-500',
-                                            user: 'bg-blue-500'
+                                            [ROLES.ADMIN]: 'bg-purple-500',
+                                            [ROLES.MANAGER]: 'bg-green-500',
+                                            [ROLES.USER]: 'bg-blue-500'
+                                        };
+                                        const labels = {
+                                            [ROLES.ADMIN]: 'Admin',
+                                            [ROLES.MANAGER]: 'Manager/TL',
+                                            [ROLES.USER]: 'User'
                                         };
                                         return (
                                             <div key={role}>
                                                 <div className="flex justify-between items-center mb-1">
-                                                    <span className="text-sm font-medium capitalize text-slate-700 dark:text-slate-300">{role}</span>
+                                                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{labels[role]}</span>
                                                     <span className="text-sm font-bold text-slate-900 dark:text-white">{count}</span>
                                                 </div>
                                                 <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
