@@ -26,6 +26,7 @@ services:
       MYSQL_DATABASE: ${DB_NAME:-kudos_db}
       MYSQL_USER: ${DB_USER:-kudos_user}
       MYSQL_PASSWORD: ${DB_PASSWORD:-kudos_pass}
+      MARIADB_ROOT_HOST: '%'
     volumes:
       - kudos_data:/var/lib/mysql
 
