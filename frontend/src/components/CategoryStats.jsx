@@ -16,49 +16,52 @@ const CategoryStats = ({ stats }) => {
             <div className="card-body space-y-4">
                 {stats.map((stat, idx) => {
                     const total = stat.rosu + stat.negru;
-                    const percentOfMax = (total / maxTotal) * 100;
+                    if (total === 0) return null;
 
-                    // Prevent 0 width if there are stats
-                    const barWidth = total === 0 ? 0 : Math.max(percentOfMax, 5);
+                    const redPercent = (stat.rosu / total) * 100;
+                    const blackPercent = (stat.negru / total) * 100;
 
                     return (
                         <div key={idx} className="space-y-1">
-                            <div className="flex justify-between text-sm font-medium text-slate-700 dark:text-slate-300">
-                                <span>{stat.category}</span>
-                                <div className="space-x-3 text-xs">
-                                    <span className={stat.rosu > 0 ? "text-red-900 dark:text-red-300 bg-red-100 dark:bg-red-900/30 px-1.5 py-0.5 rounded" : "text-slate-400"}>
-                                        {stat.rosu} roșii
+                            <div className="flex justify-between items-end text-sm font-medium text-slate-700 dark:text-slate-300">
+                                <div className="flex flex-col">
+                                    <span>{stat.category}</span>
+                                    <span className="text-[10px] text-slate-500 font-normal">
+                                        Total: {total} {total === 1 ? 'punct' : 'puncte'}
                                     </span>
-                                    <span className={stat.negru > 0 ? "text-slate-900 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded" : "text-slate-400"}>
-                                        {stat.negru} negre
+                                </div>
+                                <div className="space-x-3 text-xs mb-0.5">
+                                    <span className={stat.rosu > 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-slate-400"}>
+                                        {stat.rosu} R
+                                    </span>
+                                    <span className={stat.negru > 0 ? "text-slate-900 dark:text-slate-300 font-bold" : "text-slate-400"}>
+                                        {stat.negru} N
                                     </span>
                                 </div>
                             </div>
 
-                            {/* Background track */}
-                            <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
-                                {/* Flex container for bars */}
-                                <div
-                                    style={{ width: `${barWidth}%` }}
-                                    className="h-full flex transition-all duration-500 ease-out"
-                                >
-                                    {/* Red portion */}
-                                    {stat.rosu > 0 && (
-                                        <div
-                                            style={{ flexGrow: stat.rosu }}
-                                            className="bg-red-500 h-full"
-                                            title={`${stat.rosu} Puncte Roșii`}
-                                        />
-                                    )}
-                                    {/* Black portion */}
-                                    {stat.negru > 0 && (
-                                        <div
-                                            style={{ flexGrow: stat.negru }}
-                                            className="bg-slate-700 dark:bg-slate-400 h-full"
-                                            title={`${stat.negru} Puncte Negre`}
-                                        />
-                                    )}
-                                </div>
+                            {/* Background track - always 100% */}
+                            <div className="h-4 w-full bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden flex shadow-inner border border-slate-200/50 dark:border-slate-700/50">
+                                {/* Red portion */}
+                                {stat.rosu > 0 && (
+                                    <div
+                                        style={{ width: `${redPercent}%` }}
+                                        className="bg-red-500 h-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden"
+                                        title={`${stat.rosu} Puncte Roșii`}
+                                    >
+                                        {redPercent > 15 && <span className="text-[10px] text-white font-bold">{Math.round(redPercent)}%</span>}
+                                    </div>
+                                )}
+                                {/* Black portion */}
+                                {stat.negru > 0 && (
+                                    <div
+                                        style={{ width: `${blackPercent}%` }}
+                                        className="bg-slate-800 dark:bg-slate-700 h-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden"
+                                        title={`${stat.negru} Puncte Negre`}
+                                    >
+                                        {blackPercent > 15 && <span className="text-[10px] text-white font-bold">{Math.round(blackPercent)}%</span>}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     );
