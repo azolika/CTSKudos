@@ -36,42 +36,55 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
     # ---------------------------------------------------------------
     # SEND EMAIL NOTIFICATION TO EMPLOYEE
     # ---------------------------------------------------------------
-    employee = get_user_by_id(employee_id)
-    manager = get_user_by_id(manager_id)
-    if employee_id in employee:
+    try:
+        employee = get_user_by_id(employee_id)
+        manager = get_user_by_id(manager_id)
+        
+        if employee:
+            to_email = employee[1]  # username = email
+            employee_name = employee[2]
+            manager_name = manager[2] if manager else "Manager"
 
-        to_email = employee[1]  # username = email
-        print(employee[2])
-        employee_name = employee[2]
-        manager_name = manager[2]
+            app_url = os.getenv("APP_BASE_URL", "http://localhost:5173")
+            
+            # Use labels for the email
+            point_label = "Punct Roșu" if point_type == "rosu" else "Punct Negru"
 
-        app_url = os.getenv("APP_BASE_URL", "http://localhost:5173")
+            html_body = f"""
+                <div style="font-family: sans-serif; color: #334155; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+                    <div style="background: linear-gradient(to right, #3b82f6, #1d4ed8); padding: 20px; text-align: center;">
+                        <h1 style="color: white; margin: 0; font-size: 24px;">Kudos by CargoTrack</h1>
+                    </div>
+                    <div style="padding: 30px; line-height: 1.6;">
+                        <h2 style="color: #0f172a; margin-top: 0;">Ați primit un feedback nou!</h2>
+                        <p>Bună, <strong>{employee_name}</strong>,</p>
+                        <p>Ai primit un feedback nou de la <strong>{manager_name}</strong> în cadrul aplicației <strong>Kudos</strong>.</p>
+                        
+                        <div style="background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
+                            <p style="margin: 0;"><strong>Tip feedback:</strong> {point_label}</p>
+                            <p style="margin: 5px 0 0 0;"><strong>Categorie:</strong> {category}</p>
+                            <p style="margin: 10px 0 0 0;"><strong>Comentariu:</strong><br>{comment}</p>
+                        </div>
 
-        html_body = f"""
-            <h2>Ați primit un feedback nou în aplicația <strong>Kudos by CargoTrack</strong></h2>
-
-            <p>Bună, <strong>{employee_name}</strong>,</p>
-
-            <p>Ai primit un feedback nou de la managerul tău,
-            <strong>{manager_name}</strong>, în cadrul aplicației <strong>Kudos by CargoTrack</strong>.</p>
-
-            # <p>Tip feedback: <strong>{'Punct roșu' if point_type == 'rosu' else 'Punct negru'}</strong><br>
-            # Categorie: <strong>{category}</strong><br>
-            # Comentariu: {comment}</p>
-
-            # <p>Puteți accesa aplicația aici:<br>
-            # <a href="{app_url}">{app_url}</a></p>
-
-            <br>
-            <p>Cu stimă,<br>
-            Echipa <strong>Kudos by CargoTrack</strong></p>
-        """
-        print(to_email, html_body)
-        send_email(
-            to_email=to_email,
-            subject="Ați primit un nou feedback",
-            html_body=html_body
-        )
+                        <p>Puteți accesa aplicația pentru a vedea istoricul complet aici:</p>
+                        <p style="text-align: center; margin: 30px 0;">
+                            <a href="{app_url}" style="background-color: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Accesează Aplicația</a>
+                        </p>
+                        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
+                        <p style="font-size: 14px; color: #64748b; text-align: center;">
+                            Cu stimă,<br>
+                            Echipa <strong>Kudos by CargoTrack</strong>
+                        </p>
+                    </div>
+                </div>
+            """
+            send_email(
+                to_email=to_email,
+                subject=f"Feedback nou: {point_label}",
+                html_body=html_body
+            )
+    except Exception as e:
+        print(f"ERROR in feedback email notification: {e}")
 
 
 
