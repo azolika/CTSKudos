@@ -1,42 +1,33 @@
 version: "3.9"
 
 services:
-  kudos:
+  # Backend API Service
+  backend:
     build: .
-    container_name: kudos_app
-    restart: unless-stopped
-
-    ports:
-      - "9001:9000"
-
-    environment:
-      STREAMLIT_SERVER_HEADLESS: "true"
-      SEND_EMAILS: "true"
-
-      # --- EMAIL CONFIG ---
-      SMTP_HOST: "mail.cargotrack.ro"
-      SMTP_PORT: "587"
-      SMTP_EMAIL: "kudos@cargotrack.ro"
-      SMTP_PASSWORD: "Qm8z*9-MK!cra{k~@]q6UD[wu$$xX7!8EBZH@UxuC_"
-      FROM_EMAIL: "kudos@cargotrack.ro"
-
-      # --- APP BASE URL ---
-      APP_BASE_URL: "http://192.168.88.175:9001"
-
-    volumes:
-      - kudos_db:/app/data
-
-  kudos_api:
-    build: .
-    container_name: kudos_api_service
-    command: uvicorn api:app --host 0.0.0.0 --port 8001
+    container_name: kudos_backend
     restart: unless-stopped
     ports:
-      - "8001:8001"
-    environment:
-      APP_BASE_URL: "http://192.168.88.175:9001"
+      - "8005:8005"
+    env_file:
+      - .env
     volumes:
-      - kudos_db:/app/data
+      - ./data:/app/data
+      - ./config.json:/app/config.json
+      - ./config_generated.json:/app/config_generated.json
+
+  # Frontend UI Service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    container_name: kudos_frontend
+    restart: unless-stopped
+    ports:
+      - "9005:80"
+    depends_on:
+      - backend
 
 volumes:
   kudos_db:

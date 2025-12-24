@@ -48,10 +48,18 @@ def init_db():
         point_type TEXT,
         comment TEXT,
         timestamp TEXT,
+        category TEXT DEFAULT 'General',
         FOREIGN KEY(manager_id) REFERENCES users(id),
         FOREIGN KEY(employee_id) REFERENCES users(id)
     )
     """)
+
+    # Attempt to migrate schema for existing tables
+    try:
+        c.execute("ALTER TABLE feedback ADD COLUMN category TEXT DEFAULT 'General'")
+    except sqlite3.OperationalError:
+        # Column likely already exists
+        pass
 
     # PASSWORD RESET TOKENS
     c.execute("""

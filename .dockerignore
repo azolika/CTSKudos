@@ -1,50 +1,15 @@
-# Exclude databases
-feedback.db
-*.db
-data/feedback.db
-**/feedback.db
-
-# Python build artifacts
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-*.sqlite
-*.sqlite3
-
-# EXCLUDE VIRTUAL ENVS (VERY IMPORTANT!)
 .venv
-venv
-env
-**/.venv
-**/venv
-**/env
-
-# IDE
-.idea
-.vscode
-*.iml
-
-# Logs
-*.log
-
-# Sensitive configs
-.env
-smtp_config.json
-
-# Git and docs
+node_modules
+__pycache__
 .git
-.gitignore
-README.md
-LICENSE
-
-# Local artifacts
-*.tar
-*.zip
-*.bak
-*.tmp
-
-# Docker compose files
-docker-compose.yml
-docker-compose.prod.yml
-Dockerfile
+frontend/node_modules
+frontend/dist
+data/*.db
+*.pyc
+.env
+.agent
+.gemini
+tests/
+cleanup_tests.py
+test_*.py
+check_schema.py
