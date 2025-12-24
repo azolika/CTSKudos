@@ -55,12 +55,12 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
             <p>Ai primit un feedback nou de la managerul tău,
             <strong>{manager_name}</strong>, în cadrul aplicației <strong>Kudos by CargoTrack</strong>.</p>
 
-            <p>Tip feedback: <strong>{'Punct roșu' if point_type == 'rosu' else 'Punct negru'}</strong><br>
-            Categorie: <strong>{category}</strong><br>
-            Comentariu: {comment}</p>
+            # <p>Tip feedback: <strong>{'Punct roșu' if point_type == 'rosu' else 'Punct negru'}</strong><br>
+            # Categorie: <strong>{category}</strong><br>
+            # Comentariu: {comment}</p>
 
-            <p>Puteți accesa aplicația aici:<br>
-            <a href="{app_url}">{app_url}</a></p>
+            # <p>Puteți accesa aplicația aici:<br>
+            # <a href="{app_url}">{app_url}</a></p>
 
             <br>
             <p>Cu stimă,<br>
