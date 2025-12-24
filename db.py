@@ -3,99 +3,113 @@ import bcrypt
 import os
 import time
 
-def get_db_connection():
-    """Returns a MariaDB connection using env variables."""
+def get_db_connection(include_db=True):
+    """
+    Returns a MariaDB connection using env variables.
+    If include_db is False, connects to the server without selecting a database.
+    """
     return pymysql.connect(
         host=os.getenv("DB_HOST", "mariadb"),
-        database=os.getenv("DB_NAME", "kudos_db"),
         user=os.getenv("DB_USER", "kudos_user"),
         password=os.getenv("DB_PASSWORD", "kudos_pass"),
-        autocommit=True
+        database=os.getenv("DB_NAME", "kudos_db") if include_db else None,
+        autocommit=True,
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.Cursor
     )
 
 def init_db():
     """Create all required tables if they don't exist."""
     
-    # Wait for MariaDB to be ready (useful for first-time startup in Docker)
-    # Increased retries for slower server environments
-    retries = 15
+    db_name = os.getenv("DB_NAME", "kudos_db")
+    
+    # 1. Wait for MariaDB server and ensure DB exists
+    retries = 20
     conn = None
     while retries > 0:
         try:
-            conn = get_db_connection()
-            print("✔ Database connection established.")
+            # Try connecting without database selection first
+            conn = get_db_connection(include_db=False)
+            print("✔ Connected to MariaDB server.")
+            
+            # Ensure the database exists
+            with conn.cursor() as c:
+                c.execute(f"CREATE DATABASE IF NOT EXISTS {db_name} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
+            conn.select_db(db_name)
+            print(f"✔ Database '{db_name}' is ready.")
             break
         except Exception as e:
-            print(f"⌛ Waiting for MariaDB to be ready... ({e})")
+            print(f"⌛ MariaDB not ready yet ({e}). Retrying in 5s... ({retries} left)")
             retries -= 1
+            if conn:
+                conn.close()
             time.sleep(5)
     
     if not conn:
-        print("❌ CRITICAL: Could not connect to database after several attempts. Exiting.")
+        print("❌ CRITICAL: Could not connect to MariaDB after several attempts.")
         return
 
     try:
-        c = conn.cursor()
-
-        # USERS table
-        c.execute("""
-        CREATE TABLE IF NOT EXISTS users(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(255) UNIQUE,
-            name VARCHAR(255),
-            role VARCHAR(50),
-            password_hash VARCHAR(255),
-            departament VARCHAR(255),
-            functia VARCHAR(255)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-        """)
-
-        # HIERARCHY table
-        c.execute("""
-        CREATE TABLE IF NOT EXISTS hierarchy(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
-            manager_id INT,
-            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY(manager_id) REFERENCES users(id) ON DELETE SET NULL
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-        """)
-
-        # FEEDBACK table - Using VARCHAR for timestamp to match existing ISO strings
-        c.execute("""
-        CREATE TABLE IF NOT EXISTS feedback(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            manager_id INT,
-            employee_id INT,
-            point_type VARCHAR(50),
-            comment TEXT,
-            timestamp VARCHAR(100),
-            category VARCHAR(100) DEFAULT 'General',
-            FOREIGN KEY(manager_id) REFERENCES users(id) ON DELETE SET NULL,
-            FOREIGN KEY(employee_id) REFERENCES users(id) ON DELETE CASCADE
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-        """)
-
-        # PASSWORD RESET TOKENS
-        c.execute("""
-        CREATE TABLE IF NOT EXISTS password_reset (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            email VARCHAR(255),
-            token VARCHAR(255),
-            timestamp VARCHAR(100)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-        """)
-
-        # Create default admin user if missing
-        admin_email = 'admin@cargotrack.ro'
-        c.execute("SELECT COUNT(*) FROM users WHERE username = %s", (admin_email,))
-        if c.fetchone()[0] == 0:
-            pw_hash = bcrypt.hashpw("Cargo2025!@#".encode(), bcrypt.gensalt()).decode()
+        with conn.cursor() as c:
+            # USERS table
             c.execute("""
-                INSERT INTO users(username, name, role, password_hash)
-                VALUES (%s, %s, %s, %s)
-            """, (admin_email, "Administrator", "admin", pw_hash))
-            print("✔ Default admin user created.")
+            CREATE TABLE IF NOT EXISTS users(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(255) UNIQUE,
+                name VARCHAR(255),
+                role VARCHAR(50),
+                password_hash VARCHAR(255),
+                departament VARCHAR(255),
+                functia VARCHAR(255)
+            ) ENGINE=InnoDB;
+            """)
+
+            # HIERARCHY table
+            c.execute("""
+            CREATE TABLE IF NOT EXISTS hierarchy(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                manager_id INT,
+                FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY(manager_id) REFERENCES users(id) ON DELETE SET NULL
+            ) ENGINE=InnoDB;
+            """)
+
+            # FEEDBACK table
+            c.execute("""
+            CREATE TABLE IF NOT EXISTS feedback(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                manager_id INT,
+                employee_id INT,
+                point_type VARCHAR(50),
+                comment TEXT,
+                timestamp VARCHAR(100),
+                category VARCHAR(100) DEFAULT 'General',
+                FOREIGN KEY(manager_id) REFERENCES users(id) ON DELETE SET NULL,
+                FOREIGN KEY(employee_id) REFERENCES users(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB;
+            """)
+
+            # PASSWORD RESET TOKENS
+            c.execute("""
+            CREATE TABLE IF NOT EXISTS password_reset (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(255),
+                token VARCHAR(255),
+                timestamp VARCHAR(100)
+            ) ENGINE=InnoDB;
+            """)
+
+            # Create default admin user
+            admin_email = 'admin@cargotrack.ro'
+            c.execute("SELECT COUNT(*) FROM users WHERE username = %s", (admin_email,))
+            if c.fetchone()[0] == 0:
+                pw_hash = bcrypt.hashpw("Cargo2025!@#".encode(), bcrypt.gensalt()).decode()
+                c.execute("""
+                    INSERT INTO users(username, name, role, password_hash)
+                    VALUES (%s, %s, %s, %s)
+                """, (admin_email, "Administrator", "admin", pw_hash))
+                print("✔ Default admin user created.")
 
     except Exception as e:
         print(f"❌ Error during database initialization: {e}")
