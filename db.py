@@ -1,83 +1,97 @@
-import sqlite3
+import mysql.connector
 import bcrypt
 import os
+import time
 
+def get_db_connection():
+    """Returns a MariaDB connection using env variables."""
+    return mysql.connector.connect(
+        host=os.getenv("DB_HOST", "mariadb"),
+        database=os.getenv("DB_NAME", "kudos_db"),
+        user=os.getenv("DB_USER", "kudos_user"),
+        password=os.getenv("DB_PASSWORD", "kudos_pass"),
+        autocommit=True
+    )
 
 def init_db():
     """Create all required tables if they don't exist."""
+    
+    # Wait for MariaDB to be ready (useful for first-time startup in Docker)
+    retries = 5
+    conn = None
+    while retries > 0:
+        try:
+            conn = get_db_connection()
+            break
+        except Exception as e:
+            print(f"Waiting for database... ({e})")
+            retries -= 1
+            time.sleep(5)
+    
+    if not conn:
+        print("Could not connect to database. Exiting.")
+        return
 
-    # Ensure data directory exists (important for Docker volume)
-    os.makedirs("data", exist_ok=True)
-
-    # Main DB path (Docker volume mounts /app/data)
-    db_path = "data/feedback.db"
-
-    conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
     # USERS table
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE,
-        name TEXT,
-        role TEXT,
-        password_hash TEXT,
-        departament TEXT,
-        functia TEXT
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255) UNIQUE,
+        name VARCHAR(255),
+        role VARCHAR(50),
+        password_hash VARCHAR(255),
+        departament VARCHAR(255),
+        functia VARCHAR(255)
     )
     """)
 
     # HIERARCHY table
     c.execute("""
     CREATE TABLE IF NOT EXISTS hierarchy(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
-        manager_id INTEGER,
-        FOREIGN KEY(user_id) REFERENCES users(id),
-        FOREIGN KEY(manager_id) REFERENCES users(id)
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        manager_id INT,
+        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY(manager_id) REFERENCES users(id) ON DELETE SET NULL
     )
     """)
 
     # FEEDBACK table
     c.execute("""
     CREATE TABLE IF NOT EXISTS feedback(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        manager_id INTEGER,
-        employee_id INTEGER,
-        point_type TEXT,
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        manager_id INT,
+        employee_id INT,
+        point_type VARCHAR(50),
         comment TEXT,
-        timestamp TEXT,
-        category TEXT DEFAULT 'General',
-        FOREIGN KEY(manager_id) REFERENCES users(id),
-        FOREIGN KEY(employee_id) REFERENCES users(id)
+        timestamp DATETIME,
+        category VARCHAR(100) DEFAULT 'General',
+        FOREIGN KEY(manager_id) REFERENCES users(id) ON DELETE SET NULL,
+        FOREIGN KEY(employee_id) REFERENCES users(id) ON DELETE CASCADE
     )
     """)
-
-    # Attempt to migrate schema for existing tables
-    try:
-        c.execute("ALTER TABLE feedback ADD COLUMN category TEXT DEFAULT 'General'")
-    except sqlite3.OperationalError:
-        # Column likely already exists
-        pass
 
     # PASSWORD RESET TOKENS
     c.execute("""
     CREATE TABLE IF NOT EXISTS password_reset (
-        email TEXT,
-        token TEXT,
-        timestamp TEXT
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(255),
+        token VARCHAR(255),
+        timestamp DATETIME
     )
     """)
 
     # Create default admin user if missing
-    c.execute("SELECT COUNT(*) FROM users WHERE username = 'admin@cargotrack.ro'")
+    admin_email = 'admin@cargotrack.ro'
+    c.execute("SELECT COUNT(*) FROM users WHERE username = %s", (admin_email,))
     if c.fetchone()[0] == 0:
-        pw_hash = bcrypt.hashpw("admin123".encode(), bcrypt.gensalt()).decode()
+        pw_hash = bcrypt.hashpw("Cargo2025!@#".encode(), bcrypt.gensalt()).decode()
         c.execute("""
             INSERT INTO users(username, name, role, password_hash)
-            VALUES (?, ?, ?, ?)
-        """, ("admin@cargotrack.ro", "Administrator", "admin", pw_hash))
+            VALUES (%s, %s, %s, %s)
+        """, (admin_email, "Administrator", "admin", pw_hash))
         conn.commit()
 
     conn.close()

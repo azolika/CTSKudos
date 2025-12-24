@@ -6,7 +6,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from services.db_users import get_user_id_by_username, get_user_by_id
 import bcrypt
-import sqlite3
+from db import get_db_connection
 
 # ---------------------------------------------------------
 # CONFIG
@@ -29,9 +29,9 @@ def get_user_by_username_unsafe(username: str):
     Re-implements logic safely to avoid circular deps or exposing hashes too broadly.
     """
     username = username.strip().lower()
-    conn = sqlite3.connect("data/feedback.db", timeout=20)
+    conn = get_db_connection()
     c = conn.cursor()
-    c.execute("SELECT id, username, name, role, password_hash, departament, functia FROM users WHERE username = ?", (username,))
+    c.execute("SELECT id, username, name, role, password_hash, departament, functia FROM users WHERE username = %s", (username,))
     row = c.fetchone()
     conn.close()
     return row

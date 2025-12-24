@@ -10,10 +10,24 @@ services:
       - "8005:8005"
     env_file:
       - .env
+    depends_on:
+      - mariadb
     volumes:
-      - ./data:/app/data
       - ./config.json:/app/config.json
       - ./config_generated.json:/app/config_generated.json
+
+  # Database Service
+  mariadb:
+    image: mariadb:10.11
+    container_name: kudos_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_pass}
+      MYSQL_DATABASE: ${DB_NAME:-kudos_db}
+      MYSQL_USER: ${DB_USER:-kudos_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-kudos_pass}
+    volumes:
+      - kudos_data:/var/lib/mysql
 
   # Frontend UI Service
   frontend:
@@ -30,4 +44,4 @@ services:
       - backend
 
 volumes:
-  kudos_db:
+  kudos_data:

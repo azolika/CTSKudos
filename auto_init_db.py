@@ -1,61 +1,55 @@
+from db import get_db_connection
 import os
 import json
-import sqlite3
 import bcrypt
 
-
-DB_FILE = "data/feedback.db"
 CONFIG_FILE = "config_generated.json"
-
-
-def db_exists():
-    return os.path.exists(DB_FILE)
-
 
 def create_tables(conn):
     c = conn.cursor()
 
     c.execute("""
         CREATE TABLE IF NOT EXISTS users(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            name TEXT,
-            role TEXT,
-            password_hash TEXT,
-            departament TEXT,
-            functia TEXT,
-            company TEXT
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255) UNIQUE,
+            name VARCHAR(255),
+            role VARCHAR(50),
+            password_hash VARCHAR(255),
+            departament VARCHAR(255),
+            functia VARCHAR(255)
         )
     """)
 
     c.execute("""
         CREATE TABLE IF NOT EXISTS hierarchy(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            manager_id INTEGER,
-            FOREIGN KEY(user_id) REFERENCES users(id),
-            FOREIGN KEY(manager_id) REFERENCES users(id)
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            manager_id INT,
+            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY(manager_id) REFERENCES users(id) ON DELETE SET NULL
         )
     """)
 
     c.execute("""
         CREATE TABLE IF NOT EXISTS feedback(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            manager_id INTEGER,
-            employee_id INTEGER,
-            point_type TEXT,
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            manager_id INT,
+            employee_id INT,
+            point_type VARCHAR(50),
             comment TEXT,
-            timestamp TEXT,
-            FOREIGN KEY(manager_id) REFERENCES users(id),
-            FOREIGN KEY(employee_id) REFERENCES users(id)
+            timestamp DATETIME,
+            category VARCHAR(100) DEFAULT 'General',
+            FOREIGN KEY(manager_id) REFERENCES users(id) ON DELETE SET NULL,
+            FOREIGN KEY(employee_id) REFERENCES users(id) ON DELETE CASCADE
         )
     """)
 
     c.execute("""
         CREATE TABLE IF NOT EXISTS password_reset (
-            email TEXT,
-            token TEXT,
-            timestamp TEXT
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            email VARCHAR(255),
+            token VARCHAR(255),
+            timestamp DATETIME
         )
     """)
 
@@ -70,16 +64,15 @@ def insert_admin_user(conn):
     if c.fetchone()[0] == 0:
         pw = bcrypt.hashpw("Cargo2025!@#".encode(), bcrypt.gensalt()).decode()
         c.execute("""
-            INSERT INTO users(username, name, role, password_hash, departament, functia, company)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO users(username, name, role, password_hash, departament, functia)
+            VALUES (%s, %s, %s, %s, %s, %s)
         """, (
             "admin@cargotrack.ro",
             "Administrator",
             "admin",
             pw,
             "Management",
-            "Administrator",
-            "CargoTrack"
+            "Administrator"
         ))
         conn.commit()
         print("✔ Admin user created.")
@@ -88,7 +81,6 @@ def insert_admin_user(conn):
 def insert_initial_data(conn):
     """Load users + hierarchy from JSON."""
     if not os.path.exists(CONFIG_FILE):
-        print(f"⚠ WARNING: {CONFIG_FILE} not found, skipping initial data load.")
         return
 
     print(f"📥 Loading initial data from {CONFIG_FILE}...")
@@ -102,23 +94,22 @@ def insert_initial_data(conn):
     for u in data["users"]:
         try:
             c.execute("""
-                INSERT INTO users(username, name, role, password_hash, departament, functia, company)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO users(username, name, role, password_hash, departament, functia)
+                VALUES (%s, %s, %s, %s, %s, %s)
             """, (
                 u["username"],
                 u["name"],
                 u["role"],
                 u["password_hash"],
                 u["departament"],
-                u["functia"],
-                u["company"]
+                u["functia"]
             ))
         except Exception as e:
-            print("⚠ User insert failed:", u["username"], e)
+            pass
 
     conn.commit()
 
-    # Username → ID map
+    # User map
     c.execute("SELECT id, username FROM users")
     map_uid = {email: uid for uid, email in c.fetchall()}
 
@@ -128,12 +119,11 @@ def insert_initial_data(conn):
         manager_id = map_uid.get(h.get("manager_email"))
 
         if not user_id:
-            print("⚠ Missing user:", h["user"])
             continue
 
         c.execute("""
             INSERT INTO hierarchy(user_id, manager_id)
-            VALUES (?, ?)
+            VALUES (%s, %s)
         """, (user_id, manager_id))
 
     conn.commit()
@@ -141,22 +131,26 @@ def insert_initial_data(conn):
 
 
 def auto_init_db():
-    """Main initializer. Only runs once on first deployment."""
-    if db_exists():
-        print("✔ Database already exists — skipping initial import.")
+    """Main initializer for MariaDB."""
+    try:
+        conn = get_db_connection()
+    except Exception:
+        print("⚠ Could not connect to MariaDB for auto-init.")
         return
 
-    print("🆕 No database found. Creating a new one...")
+    c = conn.cursor()
+    c.execute("SELECT COUNT(*) FROM users")
+    if c.fetchone()[0] > 0:
+        print("✔ Database already has data — skipping initial import.")
+        conn.close()
+        return
 
-    os.makedirs(os.path.dirname(DB_FILE), exist_ok=True)
-    conn = sqlite3.connect(DB_FILE)
+    print("🆕 Database is empty. Running initial setup...")
     create_tables(conn)
     insert_admin_user(conn)
     insert_initial_data(conn)
     conn.close()
+    print("🎉 Initial setup completed.")
 
-    print("🎉 Initial DB setup completed.")
-
-
-# If you want to auto-run when imported:
-auto_init_db()
+if __name__ == "__main__":
+    auto_init_db()

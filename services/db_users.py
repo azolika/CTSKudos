@@ -5,7 +5,7 @@
 # Comments must remain in English (as requested)
 # ---------------------------------------------------------------
 
-import sqlite3
+from db import get_db_connection
 import uuid
 from datetime import datetime
 
@@ -13,8 +13,8 @@ from datetime import datetime
 # Helper: open DB connection
 # ---------------------------------------------------------------
 def _get_conn():
-    """Open a new SQLite connection to feedback.db with a 20s timeout."""
-    return sqlite3.connect("data/feedback.db", timeout=20)
+    """Open a new MariaDB connection."""
+    return get_db_connection()
 
 
 # ---------------------------------------------------------------
@@ -55,7 +55,7 @@ def get_user_by_id(user_id: int):
     c.execute("""
         SELECT id, username, name, role, departament, functia
         FROM users
-        WHERE id = ?
+        WHERE id = %s
     """, (user_id,))
     row = c.fetchone()
     conn.close()
@@ -67,7 +67,7 @@ def get_user_id_by_username(username: str):
     username = username.strip().lower()
     conn = _get_conn()
     c = conn.cursor()
-    c.execute("SELECT id FROM users WHERE username = ?", (username,))
+    c.execute("SELECT id FROM users WHERE username = %s", (username,))
     row = c.fetchone()
     conn.close()
     return row[0] if row else None
@@ -90,7 +90,7 @@ def add_user(username: str, name: str, password_hash: str, departament: str, fun
     c = conn.cursor()
     c.execute("""
         INSERT INTO users(username, name, role, password_hash, departament, functia)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s)
     """, (username, name, role, password_hash, departament, functia))
     user_id = c.lastrowid
     conn.commit()
@@ -107,8 +107,8 @@ def update_user(user_id: int, name: str, role: str, departament: str, functia: s
     c = conn.cursor()
     c.execute("""
         UPDATE users
-        SET name = ?, role = ?, departament = ?, functia = ?
-        WHERE id = ?
+        SET name = %s, role = %s, departament = %s, functia = %s
+        WHERE id = %s
     """, (name, role, departament, functia, user_id))
     conn.commit()
     conn.close()
@@ -121,9 +121,9 @@ def delete_user(user_id: int):
     """
     conn = _get_conn()
     c = conn.cursor()
-    c.execute("DELETE FROM hierarchy WHERE user_id = ? OR manager_id = ?", (user_id, user_id))
-    c.execute("DELETE FROM feedback WHERE employee_id = ? OR manager_id = ?", (user_id, user_id))
-    c.execute("DELETE FROM users WHERE id = ?", (user_id,))
+    c.execute("DELETE FROM hierarchy WHERE user_id = %s OR manager_id = %s", (user_id, user_id))
+    c.execute("DELETE FROM feedback WHERE employee_id = %s OR manager_id = %s", (user_id, user_id))
+    c.execute("DELETE FROM users WHERE id = %s", (user_id,))
     conn.commit()
     conn.close()
 
@@ -135,15 +135,15 @@ def delete_user(user_id: int):
 def update_user_password(username: str, new_password_hash: str):
     """
     Update user password based on username.
-    FIX: previously code used WHERE name=? which was incorrect.
+    FIX: previously code used WHERE name=%s which was incorrect.
     """
     username = username.lower().strip()
     conn = _get_conn()
     c = conn.cursor()
     c.execute("""
         UPDATE users
-        SET password_hash = ?
-        WHERE username = ?
+        SET password_hash = %s
+        WHERE username = %s
     """, (new_password_hash, username))
     conn.commit()
     conn.close()
@@ -161,7 +161,7 @@ def get_manager_for_user(user_id: int):
         SELECT m.id, m.name
         FROM hierarchy h
         JOIN users m ON h.manager_id = m.id
-        WHERE h.user_id = ?
+        WHERE h.user_id = %s
     """, (user_id,))
     row = c.fetchone()
     conn.close()
@@ -177,13 +177,13 @@ def set_manager_for_user(user_id: int, manager_id: int | None):
     c = conn.cursor()
 
     # remove old manager
-    c.execute("DELETE FROM hierarchy WHERE user_id = ?", (user_id,))
+    c.execute("DELETE FROM hierarchy WHERE user_id = %s", (user_id,))
 
     # set new manager if provided
     if manager_id is not None:
         c.execute("""
             INSERT INTO hierarchy(user_id, manager_id)
-            VALUES (?, ?)
+            VALUES (%s, %s)
         """, (user_id, manager_id))
 
     conn.commit()
@@ -201,7 +201,7 @@ def get_subordinates(manager_id: int):
         SELECT u.id, u.name, u.departament, u.functia
         FROM hierarchy h
         JOIN users u ON h.user_id = u.id
-        WHERE h.manager_id = ?
+        WHERE h.manager_id = %s
         ORDER BY u.name
     """, (manager_id,))
     rows = c.fetchall()
@@ -217,7 +217,7 @@ def create_password_reset_token(email: str):
     c = conn.cursor()
     c.execute("""
         INSERT INTO password_reset(email, token, timestamp)
-        VALUES (?, ?, ?)
+        VALUES (%s, %s, %s)
     """, (email, token, datetime.now().isoformat()))
     conn.commit()
     conn.close()
@@ -230,7 +230,7 @@ def get_email_by_reset_token(token: str):
     c = conn.cursor()
     c.execute("""
         SELECT email FROM password_reset
-        WHERE token = ?
+        WHERE token = %s
         ORDER BY timestamp DESC
         LIMIT 1
     """, (token,))

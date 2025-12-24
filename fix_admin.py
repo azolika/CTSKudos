@@ -1,10 +1,8 @@
-import sqlite3
+from db import get_db_connection
 import bcrypt
 
-DB_FILE = "data/feedback.db"
-
 def fix_admin():
-    conn = sqlite3.connect(DB_FILE)
+    conn = get_db_connection()
     c = conn.cursor()
     
     # Check if admin exists
@@ -19,26 +17,26 @@ def fix_admin():
         print(f"Updating existing user ID {user_id} to admin@cargotrack.ro")
         c.execute("""
             UPDATE users 
-            SET username='admin@cargotrack.ro', password_hash=? 
-            WHERE id=?
+            SET username='admin@cargotrack.ro', password_hash=%s 
+            WHERE id=%s
         """, (pw_hash, user_id))
     else:
         print("Creating new admin user")
         c.execute("""
-            INSERT INTO users(username, name, role, password_hash, departament, functia, company)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO users(username, name, role, password_hash, departament, functia)
+            VALUES (%s, %s, %s, %s, %s, %s)
         """, (
             "admin@cargotrack.ro",
             "Administrator",
             "admin",
             pw_hash,
             "Management",
-            "Administrator",
-            "CargoTrack"
+            "Administrator"
         ))
     
     conn.commit()
     conn.close()
+    print("✔ Admin user fixed.")
     print("✔ Admin user fixed.")
 
 if __name__ == "__main__":

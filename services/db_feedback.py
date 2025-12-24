@@ -1,4 +1,4 @@
-import sqlite3
+from db import get_db_connection
 from datetime import datetime
 import os
 from services.emailer import send_email
@@ -7,8 +7,8 @@ from services.db_users import get_user_by_id
 # Helper: DB connection
 # ---------------------------------------------------------------
 def _get_conn():
-    """Open a new SQLite connection to feedback.db with a 20s timeout."""
-    return sqlite3.connect("data/feedback.db", timeout=20)
+    """Open a new MariaDB connection."""
+    return get_db_connection()
 
 
 # ---------------------------------------------------------------
@@ -28,7 +28,7 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
     c = conn.cursor()
     c.execute("""
         INSERT INTO feedback(manager_id, employee_id, point_type, comment, timestamp, category)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s)
     """, (manager_id, employee_id, point_type, comment, datetime.now().isoformat(), category))
     conn.commit()
     conn.close()
@@ -90,7 +90,7 @@ def get_feedback_for_employee(employee_id: int):
     c.execute("""
         SELECT point_type, comment, timestamp, category
         FROM feedback
-        WHERE employee_id = ?
+        WHERE employee_id = %s
         ORDER BY timestamp DESC
     """, (employee_id,))
     rows = c.fetchall()
@@ -109,7 +109,7 @@ def get_feedback_for_user(user_id: int):
         SELECT f.point_type, f.comment, f.timestamp, m.name, f.category
         FROM feedback f
         JOIN users m ON f.manager_id = m.id
-        WHERE f.employee_id = ?
+        WHERE f.employee_id = %s
         ORDER BY f.timestamp DESC
     """, (user_id,))
     rows = c.fetchall()
@@ -133,7 +133,7 @@ def get_feedback_points_for_subordinates(sub_ids: list[int]):
     conn = _get_conn()
     c = conn.cursor()
 
-    placeholders = ",".join(["?"] * len(sub_ids))
+    placeholders = ",".join(["%s"] * len(sub_ids))
     c.execute(
         f"SELECT point_type, employee_id FROM feedback WHERE employee_id IN ({placeholders})",
         sub_ids
@@ -151,7 +151,7 @@ def get_user_points(user_id: int):
     c.execute("""
         SELECT point_type
         FROM feedback
-        WHERE employee_id = ?
+        WHERE employee_id = %s
     """, (user_id,))
     rows = c.fetchall()
     conn.close()
@@ -201,7 +201,7 @@ def get_last_feedback(limit=50):
         LEFT JOIN users m ON f.manager_id = m.id
         LEFT JOIN users e ON f.employee_id = e.id
         ORDER BY f.timestamp DESC
-        LIMIT ?
+        LIMIT %s
     """, (limit,))
     rows = c.fetchall()
     conn.close()
@@ -221,7 +221,7 @@ def get_user_stats_by_category(user_id: int):
     c.execute("""
         SELECT category, point_type, COUNT(*)
         FROM feedback
-        WHERE employee_id = ?
+        WHERE employee_id = %s
         GROUP BY category, point_type
     """, (user_id,))
     rows = c.fetchall()
@@ -281,7 +281,7 @@ def get_all_feedback(start_date: str, end_date: str):
         FROM feedback f
         LEFT JOIN users m ON f.manager_id = m.id
         LEFT JOIN users e ON f.employee_id = e.id
-        WHERE f.timestamp >= ? AND f.timestamp <= ?
+        WHERE f.timestamp >= %s AND f.timestamp <= %s
         ORDER BY f.timestamp DESC
     """, (start_date, query_end))
     rows = c.fetchall()
@@ -321,7 +321,7 @@ def get_admin_stats():
     c.execute("""
         SELECT point_type, COUNT(*)
         FROM feedback
-        WHERE timestamp >= ?
+        WHERE timestamp >= %s
         GROUP BY point_type
     """, (cutoff,))
     rows_30 = c.fetchall()

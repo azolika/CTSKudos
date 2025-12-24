@@ -5,15 +5,14 @@
 # Comments are in English (as requested)
 # ---------------------------------------------------------------
 
-import sqlite3
-
+from db import get_db_connection
 
 # ---------------------------------------------------------------
 # Helper: DB connection
 # ---------------------------------------------------------------
 def _get_conn():
-    """Open a new SQLite connection to feedback.db."""
-    return sqlite3.connect("data/feedback.db")
+    """Open a new MariaDB connection."""
+    return get_db_connection()
 
 
 # ---------------------------------------------------------------
@@ -31,13 +30,13 @@ def set_manager_for_user(user_id: int, manager_id: int | None):
     c = conn.cursor()
 
     # Remove any previous manager assignment
-    c.execute("DELETE FROM hierarchy WHERE user_id = ?", (user_id,))
+    c.execute("DELETE FROM hierarchy WHERE user_id = %s", (user_id,))
 
     # Insert new manager assignment if provided
     if manager_id is not None:
         c.execute("""
             INSERT INTO hierarchy(user_id, manager_id)
-            VALUES (?, ?)
+            VALUES (%s, %s)
         """, (user_id, manager_id))
 
     conn.commit()
@@ -53,7 +52,7 @@ def assign_manager(user_id: int, manager_id: int):
     c = conn.cursor()
     c.execute("""
         INSERT INTO hierarchy(user_id, manager_id)
-        VALUES (?, ?)
+        VALUES (%s, %s)
     """, (user_id, manager_id))
     conn.commit()
     conn.close()
@@ -70,7 +69,7 @@ def get_manager_for_user(user_id: int):
         SELECT m.id, m.name
         FROM hierarchy h
         JOIN users m ON h.manager_id = m.id
-        WHERE h.user_id = ?
+        WHERE h.user_id = %s
     """, (user_id,))
     row = c.fetchone()
     conn.close()
@@ -89,7 +88,7 @@ def get_subordinates(manager_id: int):
         SELECT u.id, u.name, u.departament, u.functia
         FROM hierarchy h
         JOIN users u ON h.user_id = u.id
-        WHERE h.manager_id = ?
+        WHERE h.manager_id = %s
         ORDER BY u.name
     """, (manager_id,))
     rows = c.fetchall()
