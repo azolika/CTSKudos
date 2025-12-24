@@ -254,26 +254,63 @@ async def read_my_feedback(since: Optional[str] = None, current_user: dict = Dep
     # raw_data: (point_type, comment, timestamp, manager_name, category)
     results = []
     for r in raw_data:
+        # r: (point_type, comment, timestamp, manager_name, category, is_manager)
         results.append({
             "point_type": r[0],
             "comment": r[1],
             "timestamp": r[2],
             "manager_name": r[3],
-            "category": r[4] if len(r) > 4 else "General"
+            "category": r[4] if len(r) > 4 else "General",
+            "is_manager_feedback": r[5] if len(r) > 5 else True
         })
     return results
 
 @app.get("/feedback/team")
 async def read_team_feedback(since: Optional[str] = None, current_user: dict = Depends(get_current_user)):
-    """Get all feedback points for subordinates of the current manager."""
+    """Get all feedback points for subordinates, including official/peer tag."""
+    # 1. Get subordinates
     subs = get_subordinates(current_user["id"])
     sub_ids = [s[0] for s in subs]
     if not sub_ids:
         return []
     
+    # 2. Get feedback for them
     raw_data = get_feedback_points_for_subordinates(sub_ids, since=since)
-    # raw_data: (point_type, employee_id)
-    return [{"point_type": r[0], "employee_id": r[1]} for r in raw_data]
+    
+    # 3. Build a lookup for "who reports to whom" across the whole org
+    from db import get_db_connection
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT user_id, manager_id FROM hierarchy")
+    hierarchy_rows = c.fetchall()
+    conn.close()
+    
+    # Building a direct manager map: recipient_id -> manager_id
+    manager_map = {r[0]: r[1] for r in hierarchy_rows}
+    
+    # helper to check if someone is a superior (handles recursive chain)
+    def check_is_superior(sender_id, recipient_id, m_map):
+        curr = recipient_id
+        visited = set()
+        while curr in m_map and curr not in visited:
+            visited.add(curr)
+            mgr = m_map[curr]
+            if mgr == sender_id:
+                return True
+            curr = mgr
+        return False
+
+    # 4. Process and return with the is_manager_feedback flag
+    results = []
+    for r in raw_data:
+        # r: (point_type, employee_id, manager_id)
+        is_official = check_is_superior(sender_id=r[2], recipient_id=r[1], m_map=manager_map)
+        results.append({
+            "point_type": r[0],
+            "employee_id": r[1],
+            "is_manager_feedback": is_official
+        })
+    return results
 
 @app.get("/feedback/employee/{employee_id}")
 async def read_employee_feedback(employee_id: int, since: Optional[str] = None, current_user: dict = Depends(get_current_user)):
@@ -293,7 +330,8 @@ async def read_employee_feedback(employee_id: int, since: Optional[str] = None, 
             "comment": r[1],
             "timestamp": r[2],
             "manager_name": r[3],
-            "category": r[4] if len(r) > 4 else "General"
+            "category": r[4] if len(r) > 4 else "General",
+            "is_manager_feedback": r[5] if len(r) > 5 else True
         } for r in raw_data
     ]
 

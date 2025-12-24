@@ -107,14 +107,27 @@ def get_feedback_for_employee(employee_id: int):
 
 def get_feedback_for_user(user_id: int, since: str = None):
     """
-    Returns feedback with manager names (used in manager.py and user_page.py).
-    Returns rows: (point_type, comment, timestamp, manager_name, category)
+    Returns feedback with manager names and a flag if the sender is a superior.
+    Returns rows: (point_type, comment, timestamp, manager_name, category, is_manager_feedback)
     """
     conn = _get_conn()
     c = conn.cursor()
     
+    # 1. Get all superiors (direct and indirect) for this user to identify "Official" feedback
+    c.execute("""
+        WITH RECURSIVE superiors AS (
+            SELECT manager_id FROM hierarchy WHERE user_id = %s
+            UNION ALL
+            SELECT h.manager_id FROM hierarchy h
+            JOIN superiors s ON h.user_id = s.manager_id
+        )
+        SELECT DISTINCT manager_id FROM superiors WHERE manager_id IS NOT NULL
+    """, (user_id,))
+    superior_ids = {row[0] for row in c.fetchall()}
+    
+    # 2. Get feedback
     query = """
-        SELECT f.point_type, f.comment, f.timestamp, m.name, f.category
+        SELECT f.point_type, f.comment, f.timestamp, m.name, f.category, f.manager_id
         FROM feedback f
         JOIN users m ON f.manager_id = m.id
         WHERE f.employee_id = %s
@@ -130,7 +143,15 @@ def get_feedback_for_user(user_id: int, since: str = None):
     c.execute(query, params)
     rows = c.fetchall()
     conn.close()
-    return rows
+    
+    # 3. Add the is_manager_feedback flag
+    processed_rows = []
+    for r in rows:
+        # r: (point_type, comment, timestamp, manager_name, category, manager_id)
+        is_manager = r[5] in superior_ids
+        processed_rows.append((r[0], r[1], r[2], r[3], r[4], is_manager))
+        
+    return processed_rows
 
 
 # ---------------------------------------------------------------
@@ -141,7 +162,7 @@ def get_feedback_points_for_subordinates(sub_ids: list[int], since: str = None):
     """
     Return all feedback points for a list of subordinate user IDs.
     Used to calculate team-wide statistics in manager dashboard.
-    Returns rows: (point_type, employee_id)
+    Returns rows: (point_type, employee_id, manager_id)
     """
     if not sub_ids:
         return []
@@ -150,7 +171,7 @@ def get_feedback_points_for_subordinates(sub_ids: list[int], since: str = None):
     c = conn.cursor()
 
     placeholders = ",".join(["%s"] * len(sub_ids))
-    query = f"SELECT point_type, employee_id FROM feedback WHERE employee_id IN ({placeholders})"
+    query = f"SELECT point_type, employee_id, manager_id FROM feedback WHERE employee_id IN ({placeholders})"
     params = list(sub_ids)
     
     if since:
@@ -230,52 +251,59 @@ def get_last_feedback(limit=50):
 
 def get_user_stats_by_category(user_id: int, since: str = None):
     """
-    Returns a list of dicts:
-    [
-      {"category": "Communication", "rosu": 5, "negru": 2},
-      ...
-    ]
+    Returns a list of dicts with rosu_manager and rosu_peer split.
     """
     conn = _get_conn()
     c = conn.cursor()
     
-    query = """
-        SELECT category, point_type, COUNT(*)
-        FROM feedback
-        WHERE employee_id = %s
-    """
-    params = [user_id]
+    # 1. Get superiors for hierarchical check
+    c.execute("""
+        WITH RECURSIVE superiors AS (
+            SELECT manager_id FROM hierarchy WHERE user_id = %s
+            UNION ALL
+            SELECT h.manager_id FROM hierarchy h
+            JOIN superiors s ON h.user_id = s.manager_id
+        )
+        SELECT DISTINCT manager_id FROM superiors WHERE manager_id IS NOT NULL
+    """, (user_id,))
+    superior_ids = {row[0] for row in c.fetchall()}
     
+    # 2. Get all feedback points for categorization
+    query = "SELECT category, point_type, manager_id FROM feedback WHERE employee_id = %s"
+    params = [user_id]
     if since:
         query += " AND timestamp >= %s"
         params.append(since)
         
-    query += " GROUP BY category, point_type"
-    
     c.execute(query, params)
     rows = c.fetchall()
     conn.close()
 
-    # Process rows into structured data
+    # 3. Aggregate
     stats = {}
-    for cat, ptype, count in rows:
+    for cat, ptype, mid in rows:
         if not cat: 
             cat = "General"
         if cat not in stats:
-            stats[cat] = {"rosu": 0, "negru": 0}
+            stats[cat] = {"rosu_manager": 0, "rosu_peer": 0, "negru": 0}
         
         if ptype == "rosu":
-            stats[cat]["rosu"] = count
+            if mid in superior_ids:
+                stats[cat]["rosu_manager"] += 1
+            else:
+                stats[cat]["rosu_peer"] += 1
         elif ptype == "negru":
-            stats[cat]["negru"] = count
+            stats[cat]["negru"] += 1
             
     # Convert to list
     result = []
     for cat, counts in stats.items():
         result.append({
             "category": cat,
-            "rosu": counts["rosu"],
-            "negru": counts["negru"]
+            "rosu_manager": counts["rosu_manager"],
+            "rosu_peer": counts["rosu_peer"],
+            "negru": counts["negru"],
+            "rosu": counts["rosu_manager"] + counts["rosu_peer"] # for backward compatibility
         })
     return result
 

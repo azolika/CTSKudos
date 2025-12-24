@@ -15,41 +15,58 @@ const CategoryStats = ({ stats }) => {
             </div>
             <div className="card-body space-y-4">
                 {stats.map((stat, idx) => {
-                    const total = stat.rosu + stat.negru;
+                    const total = stat.rosu_manager + stat.rosu_peer + stat.negru;
                     if (total === 0) return null;
 
-                    const redPercent = (stat.rosu / total) * 100;
+                    const mRedPercent = (stat.rosu_manager / total) * 100;
+                    const pRedPercent = (stat.rosu_peer / total) * 100;
                     const blackPercent = (stat.negru / total) * 100;
 
                     return (
                         <div key={idx} className="space-y-1">
                             <div className="flex justify-between items-end text-sm font-medium text-slate-700 dark:text-slate-300">
                                 <div className="flex flex-col">
-                                    <span>{stat.category}</span>
+                                    <span className="font-bold">{stat.category}</span>
                                     <span className="text-[10px] text-slate-500 font-normal">
-                                        Total: {total} {total === 1 ? 'punct' : 'puncte'}
+                                        Total: {total} {total === 1 ? 'pct' : 'pct'}
                                     </span>
                                 </div>
-                                <div className="space-x-3 text-xs mb-0.5">
-                                    <span className={stat.rosu > 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-slate-400"}>
-                                        {stat.rosu} R
-                                    </span>
-                                    <span className={stat.negru > 0 ? "text-slate-900 dark:text-slate-300 font-bold" : "text-slate-400"}>
-                                        {stat.negru} N
-                                    </span>
+                                <div className="flex items-center space-x-2 text-[10px] mb-0.5 opacity-90">
+                                    <div className="flex items-center">
+                                        <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-1"></div>
+                                        <span className="font-bold text-red-600">{stat.rosu_manager}M</span>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <div className="w-1.5 h-1.5 bg-rose-400 rounded-full mr-1"></div>
+                                        <span className="font-bold text-rose-500">{stat.rosu_peer}P</span>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <div className="w-1.5 h-1.5 bg-slate-800 dark:bg-slate-400 rounded-full mr-1"></div>
+                                        <span className="font-bold text-slate-700 dark:text-slate-300">{stat.negru}N</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Background track - always 100% */}
-                            <div className="h-4 w-full bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden flex shadow-inner border border-slate-200/50 dark:border-slate-700/50">
-                                {/* Red portion */}
-                                {stat.rosu > 0 && (
+                            {/* Background track */}
+                            <div className="h-5 w-full bg-slate-100 dark:bg-slate-800 rounded-md overflow-hidden flex shadow-inner border border-slate-200/50 dark:border-slate-700/50">
+                                {/* Manager Red */}
+                                {stat.rosu_manager > 0 && (
                                     <div
-                                        style={{ width: `${redPercent}%` }}
-                                        className="bg-red-500 h-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden"
-                                        title={`${stat.rosu} Puncte Roșii`}
+                                        style={{ width: `${mRedPercent}%` }}
+                                        className="bg-red-600 h-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden border-r border-white/10"
+                                        title={`${stat.rosu_manager} Puncte Roșii Manager`}
                                     >
-                                        {redPercent > 15 && <span className="text-[10px] text-white font-bold">{Math.round(redPercent)}%</span>}
+                                        {mRedPercent > 10 && <span className="text-[9px] text-white font-black">{Math.round(mRedPercent)}%</span>}
+                                    </div>
+                                )}
+                                {/* Peer Red / Kudos */}
+                                {stat.rosu_peer > 0 && (
+                                    <div
+                                        style={{ width: `${pRedPercent}%` }}
+                                        className="bg-rose-400 h-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden border-r border-white/10"
+                                        title={`${stat.rosu_peer} Kudos Colegi`}
+                                    >
+                                        {pRedPercent > 10 && <span className="text-[9px] text-white font-black">{Math.round(pRedPercent)}%</span>}
                                     </div>
                                 )}
                                 {/* Black portion */}
@@ -59,7 +76,7 @@ const CategoryStats = ({ stats }) => {
                                         className="bg-slate-800 dark:bg-slate-700 h-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden"
                                         title={`${stat.negru} Puncte Negre`}
                                     >
-                                        {blackPercent > 15 && <span className="text-[10px] text-white font-bold">{Math.round(blackPercent)}%</span>}
+                                        {blackPercent > 10 && <span className="text-[9px] text-white font-black">{Math.round(blackPercent)}%</span>}
                                     </div>
                                 )}
                             </div>

@@ -47,20 +47,35 @@ export const calculateFeedbackStats = (feedbackList) => {
     if (!feedbackList || feedbackList.length === 0) {
         return {
             red: 0,
+            redManager: 0,
+            redPeer: 0,
             black: 0,
             total: 0,
+            totalOfficial: 0,
             percentageRed: 0,
             rating: 'N/A',
         };
     }
 
-    const red = feedbackList.filter(f => f.point_type === FEEDBACK_TYPES.RED).length;
+    const redManager = feedbackList.filter(f => f.point_type === FEEDBACK_TYPES.RED && f.is_manager_feedback).length;
+    const redPeer = feedbackList.filter(f => f.point_type === FEEDBACK_TYPES.RED && !f.is_manager_feedback).length;
     const black = feedbackList.filter(f => f.point_type === FEEDBACK_TYPES.BLACK).length;
-    const total = red + black;
-    const percentageRed = total > 0 ? Math.round((red / total) * 1000) / 10 : 0;
+
+    // Official stats for rating calculations (ignores peer kudos)
+    const totalOfficial = redManager + black;
+    const percentageRed = totalOfficial > 0 ? Math.round((redManager / totalOfficial) * 1000) / 10 : 0;
     const rating = calculateRating(percentageRed);
 
-    return { red, black, total, percentageRed, rating };
+    return {
+        red: redManager + redPeer, // Total red
+        redManager,
+        redPeer,
+        black,
+        total: redManager + redPeer + black,
+        totalOfficial,
+        percentageRed,
+        rating
+    };
 };
 
 // Local Storage Keys
