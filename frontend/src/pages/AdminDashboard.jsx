@@ -3,7 +3,7 @@ import { userAPI, adminAPI, feedbackAPI } from '../services/api';
 import Layout from '../components/Layout';
 import UserManagementTable from '../components/UserManagementTable';
 import UserForm from '../components/UserForm';
-import { AlertCircle, BarChart3, UserPlus, TrendingUp, Users, Award, Download } from 'lucide-react';
+import { AlertCircle, BarChart3, UserPlus, TrendingUp, Users, Award } from 'lucide-react';
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
@@ -115,30 +115,6 @@ const AdminDashboard = () => {
         setEditingUser(null);
     };
 
-    const handleExport = async () => {
-        try {
-            const fromDate = new Date();
-            fromDate.setDate(fromDate.getDate() - 30);
-            const toDate = new Date();
-
-            const data = await feedbackAPI.exportFeedback(
-                fromDate.toISOString().split('T')[0],
-                toDate.toISOString().split('T')[0]
-            );
-
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `feedback_export_${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } catch (err) {
-            console.error('Export failed:', err);
-            alert('Eroare la exportul datelor.');
-        }
-    };
 
     // Calculate statistics
     const totalUsers = users.length;
@@ -270,13 +246,6 @@ const AdminDashboard = () => {
                                 Gestionare Utilizatori
                             </h2>
                             <div className="flex space-x-3">
-                                <button
-                                    onClick={handleExport}
-                                    className="btn btn-secondary flex items-center space-x-2"
-                                >
-                                    <Download className="w-4 h-4" />
-                                    <span>Descarcă Raport</span>
-                                </button>
                                 <button
                                     onClick={handleAddUser}
                                     className="btn btn-primary flex items-center space-x-2"
