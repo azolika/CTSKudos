@@ -55,16 +55,16 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
                     <div style="background: linear-gradient(to right, #3b82f6, #1d4ed8); padding: 20px; text-align: center;">
                         <h1 style="color: white; margin: 0; font-size: 24px;">Kudos by CargoTrack</h1>
                     </div>
-                    <div style="padding: 30px; line-height: 1.6;">
-                        <h2 style="color: #0f172a; margin-top: 0;">Ați primit un feedback nou!</h2>
-                        <p>Bună, <strong>{employee_name}</strong>,</p>
-                        <p>Ai primit un feedback nou de la <strong>{manager_name}</strong> în cadrul aplicației <strong>Kudos</strong>.</p>
+                    # <div style="padding: 30px; line-height: 1.6;">
+                    #     <h2 style="color: #0f172a; margin-top: 0;">Ați primit un feedback nou!</h2>
+                    #     <p>Bună, <strong>{employee_name}</strong>,</p>
+                    #     <p>Ai primit un feedback nou de la <strong>{manager_name}</strong> în cadrul aplicației <strong>Kudos</strong>.</p>
                         
-                        <div style="background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
-                            <p style="margin: 0;"><strong>Tip feedback:</strong> {point_label}</p>
-                            <p style="margin: 5px 0 0 0;"><strong>Categorie:</strong> {category}</p>
-                            <p style="margin: 10px 0 0 0;"><strong>Comentariu:</strong><br>{comment}</p>
-                        </div>
+                    #     <div style="background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
+                    #         <p style="margin: 0;"><strong>Tip feedback:</strong> {point_label}</p>
+                    #         <p style="margin: 5px 0 0 0;"><strong>Categorie:</strong> {category}</p>
+                    #         <p style="margin: 10px 0 0 0;"><strong>Comentariu:</strong><br>{comment}</p>
+                    #     </div>
 
                         <p>Puteți accesa aplicația pentru a vedea istoricul complet aici:</p>
                         <p style="text-align: center; margin: 30px 0;">
