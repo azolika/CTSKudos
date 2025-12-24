@@ -225,7 +225,7 @@ async def create_feedback(
     feedback: FeedbackCreate, 
     current_user: dict = Depends(get_current_user)
 ):
-    if current_user["role"] not in ["manager", "admin"]:
+    if current_user["role"] not in ["manager/tl", "admin"]:
         raise HTTPException(status_code=403, detail="Only managers can give feedback")
         
     add_feedback(
@@ -309,7 +309,7 @@ async def read_user_category_stats(target_user_id: int, current_user: dict = Dep
     is_self = current_user["id"] == target_user_id
     
     is_subordinate = False
-    if not is_admin and not is_self and current_user["role"] == "manager":
+    if not is_admin and not is_self and current_user["role"] == "manager/tl":
          subs = get_subordinates(current_user["id"])
          sub_ids = [s[0] for s in subs]
          if target_user_id in sub_ids:

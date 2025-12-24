@@ -139,6 +139,11 @@ def init_db():
                 """, (admin_email, "Administrator", "admin", pw_hash))
                 print("✔ Default admin user created.")
 
+            # Migration: Rename 'manager' role to 'manager/tl'
+            c.execute("UPDATE users SET role = 'manager/tl' WHERE role = 'manager'")
+            if c.rowcount > 0:
+                print(f"✔ Migrated {c.rowcount} users from 'manager' to 'manager/tl' role.")
+
     except Exception as e:
         print(f"❌ Error during database initialization: {e}")
     finally:

@@ -157,7 +157,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     required
                                 >
                                     <option value={ROLES.USER}>User</option>
-                                    <option value={ROLES.MANAGER}>Manager</option>
+                                    <option value={ROLES.MANAGER}>Manager/TL</option>
                                     <option value={ROLES.ADMIN}>Admin</option>
                                 </select>
                             </div>
