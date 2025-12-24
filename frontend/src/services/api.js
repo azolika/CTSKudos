@@ -146,6 +146,16 @@ export const feedbackAPI = {
         });
         return response.data;
     },
+
+    getCategories: async () => {
+        const response = await api.get('/config/categories');
+        return response.data;
+    },
+
+    getUserCategoryStats: async (userId) => {
+        const response = await api.get(`/feedback/stats/categories/${userId}`);
+        return response.data;
+    },
 };
 
 // ============================================

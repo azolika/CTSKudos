@@ -46,9 +46,15 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                                     <span className="text-2xl">{icon}</span>
                                     <div className="flex-1">
                                         <div className="flex items-center justify-between mb-2">
-                                            <p className="text-sm font-medium text-slate-900 dark:text-white">
-                                                de la <span className="font-semibold">{feedback.manager_name}</span>
-                                            </p>
+                                            <div className="flex items-center space-x-2">
+                                                <p className="text-sm font-medium text-slate-900 dark:text-white">
+                                                    de la <span className="font-semibold">{feedback.manager_name}</span>
+                                                </p>
+                                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${isRed ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-300'
+                                                    }`}>
+                                                    {feedback.category || 'General'}
+                                                </span>
+                                            </div>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
                                                 {formatDate(feedback.timestamp)}
                                             </p>

@@ -5,6 +5,7 @@ import Layout from '../components/Layout';
 import TeamStats from '../components/TeamStats';
 import FeedbackForm from '../components/FeedbackForm';
 import FeedbackStats from '../components/FeedbackStats';
+import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
 import { calculateFeedbackStats } from '../utils/constants';
 import { AlertCircle, UserCircle } from 'lucide-react';
@@ -19,6 +20,8 @@ const ManagerDashboard = () => {
     const [allTeamFeedback, setAllTeamFeedback] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [myCategoryStats, setMyCategoryStats] = useState([]);
+    const [selectedEmployeeCategoryStats, setSelectedEmployeeCategoryStats] = useState([]);
 
     useEffect(() => {
         loadData();
@@ -33,15 +36,17 @@ const ManagerDashboard = () => {
     const loadData = async () => {
         try {
             setLoading(true);
-            const [subsData, myFeedbackData, teamFeedbackData] = await Promise.all([
+            const [subsData, myFeedbackData, teamFeedbackData, myCatStats] = await Promise.all([
                 userAPI.getSubordinates(),
                 feedbackAPI.getMyFeedback(),
                 feedbackAPI.getTeamFeedback(),
+                feedbackAPI.getUserCategoryStats(user.id)
             ]);
 
             setSubordinates(subsData);
             setMyFeedback(myFeedbackData);
             setAllTeamFeedback(teamFeedbackData);
+            setMyCategoryStats(myCatStats);
 
             if (subsData.length > 0) {
                 setSelectedEmployee(subsData[0]);
@@ -58,8 +63,12 @@ const ManagerDashboard = () => {
 
     const loadEmployeeFeedback = async (employeeId) => {
         try {
-            const data = await feedbackAPI.getEmployeeFeedback(employeeId);
+            const [data, catStats] = await Promise.all([
+                feedbackAPI.getEmployeeFeedback(employeeId),
+                feedbackAPI.getUserCategoryStats(employeeId)
+            ]);
             setEmployeeFeedback(data);
+            setSelectedEmployeeCategoryStats(catStats);
         } catch (err) {
             console.error('Failed to load employee feedback:', err);
         }
@@ -205,6 +214,7 @@ const ManagerDashboard = () => {
                                             stats={calculateFeedbackStats(employeeFeedback)}
                                             title={`📊 Rezultate pentru ${selectedEmployee.name}`}
                                         />
+                                        <CategoryStats stats={selectedEmployeeCategoryStats} />
                                         <FeedbackHistory
                                             feedbackList={employeeFeedback}
                                             title="Istoric feedback"
@@ -220,6 +230,7 @@ const ManagerDashboard = () => {
                 {activeTab === 'employee' && (
                     <div className="space-y-8 fade-in">
                         <FeedbackStats stats={myStats} title="📊 Rezultate personale" />
+                        <CategoryStats stats={myCategoryStats} />
                         <FeedbackHistory feedbackList={myFeedback} />
                     </div>
                 )}

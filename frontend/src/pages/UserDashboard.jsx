@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { feedbackAPI } from '../services/api';
 import Layout from '../components/Layout';
 import FeedbackStats from '../components/FeedbackStats';
+import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
 import { calculateFeedbackStats } from '../utils/constants';
 import { AlertCircle } from 'lucide-react';
@@ -10,18 +11,25 @@ import { AlertCircle } from 'lucide-react';
 const UserDashboard = () => {
     const { user } = useAuth();
     const [feedback, setFeedback] = useState([]);
+    const [categoryStats, setCategoryStats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        loadFeedback();
-    }, []);
+        if (user?.id) {
+            loadFeedback();
+        }
+    }, [user?.id]);
 
     const loadFeedback = async () => {
         try {
             setLoading(true);
-            const data = await feedbackAPI.getMyFeedback();
+            const [data, catStats] = await Promise.all([
+                feedbackAPI.getMyFeedback(),
+                feedbackAPI.getUserCategoryStats(user.id)
+            ]);
             setFeedback(data);
+            setCategoryStats(catStats);
             setError('');
         } catch (err) {
             console.error('Failed to load feedback:', err);
@@ -77,6 +85,9 @@ const UserDashboard = () => {
 
                 {/* Feedback Statistics */}
                 <FeedbackStats stats={stats} title="📊 Rezultate personale" />
+
+                {/* Category Statistics */}
+                <CategoryStats stats={categoryStats} />
 
                 {/* Feedback History */}
                 <FeedbackHistory feedbackList={feedback} />

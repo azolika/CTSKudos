@@ -41,6 +41,12 @@ import json
 
 app = FastAPI(title="Kudos API")
 
+from db import init_db
+
+@app.on_event("startup")
+def on_startup():
+    init_db()
+
 # ---------------------------------------------------------
 # CONFIG
 # ---------------------------------------------------------
@@ -72,6 +78,26 @@ app.add_middleware(
 )
 
 # ---------------------------------------------------------
+# CATEGORIES
+# ---------------------------------------------------------
+FEEDBACK_CATEGORIES = [
+    "Productivitate",
+    "Calitate",
+    "Muncă în echipă",
+    "Comunicare",
+    "Inițiativă",
+    "Punctualitate",
+    "Creativitate",
+    "Seriozitate",
+    "Abilități tehnice",
+    "Leadership"
+]
+
+@app.get("/config/categories")
+async def get_feedback_categories():
+    return FEEDBACK_CATEGORIES
+
+# ---------------------------------------------------------
 # MODELS
 # ---------------------------------------------------------
 class Token(BaseModel):
@@ -91,6 +117,7 @@ class FeedbackCreate(BaseModel):
     employee_id: int
     point_type: str  # 'rosu', 'negru'
     comment: str
+    category: str = "General"  # Default to General if not provided
 
 class UserCreate(BaseModel):
     username: str
@@ -205,7 +232,8 @@ async def create_feedback(
         manager_id=current_user["id"],
         employee_id=feedback.employee_id,
         point_type=feedback.point_type,
-        comment=feedback.comment
+        comment=feedback.comment,
+        category=feedback.category
     )
     return {"message": "Feedback added successfully"}
 
@@ -214,14 +242,15 @@ async def read_my_feedback(current_user: dict = Depends(get_current_user)):
     """Get feedback received by the current user."""
     # Using get_feedback_for_user which includes manager names
     raw_data = get_feedback_for_user(current_user["id"])
-    # raw_data: (point_type, comment, timestamp, manager_name)
+    # raw_data: (point_type, comment, timestamp, manager_name, category)
     results = []
     for r in raw_data:
         results.append({
             "point_type": r[0],
             "comment": r[1],
             "timestamp": r[2],
-            "manager_name": r[3]
+            "manager_name": r[3],
+            "category": r[4] if len(r) > 4 else "General"
         })
     return results
 
@@ -248,13 +277,14 @@ async def read_employee_feedback(employee_id: int, current_user: dict = Depends(
              raise HTTPException(status_code=403, detail="Not authorized to view this employee's feedback")
     
     raw_data = get_feedback_for_user(employee_id)
-    # raw_data: (point_type, comment, timestamp, manager_name)
+    # raw_data: (point_type, comment, timestamp, manager_name, category)
     return [
         {
             "point_type": r[0],
             "comment": r[1],
             "timestamp": r[2],
-            "manager_name": r[3]
+            "manager_name": r[3],
+            "category": r[4] if len(r) > 4 else "General"
         } for r in raw_data
     ]
 
@@ -268,6 +298,28 @@ async def read_admin_stats(current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Admin only")
     return get_admin_stats()
+
+
+@app.get("/feedback/stats/categories/{target_user_id}")
+async def read_user_category_stats(target_user_id: int, current_user: dict = Depends(get_current_user)):
+    """Get feedback statistics by category for a specific user."""
+    
+    # Permission check
+    is_admin = current_user["role"] == "admin"
+    is_self = current_user["id"] == target_user_id
+    
+    is_subordinate = False
+    if not is_admin and not is_self and current_user["role"] == "manager":
+         subs = get_subordinates(current_user["id"])
+         sub_ids = [s[0] for s in subs]
+         if target_user_id in sub_ids:
+             is_subordinate = True
+    
+    if not (is_admin or is_self or is_subordinate):
+        raise HTTPException(status_code=403, detail="Not authorized to view stats for this user")
+
+    from services.db_feedback import get_user_stats_by_category
+    return get_user_stats_by_category(target_user_id)
 
 
 # ---------------------------------------------------------

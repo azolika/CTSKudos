@@ -8,8 +8,21 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
     const [loading, setLoading] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [pendingFeedback, setPendingFeedback] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+
+    useState(() => {
+        feedbackAPI.getCategories().then(data => {
+            setCategories(data);
+            if (data.length > 0) setSelectedCategory(data[0]);
+        }).catch(console.error);
+    }, []);
 
     const handleSubmit = (pointType) => {
+        if (!selectedCategory) {
+            alert('Te rugăm să selectezi o categorie!');
+            return;
+        }
         if (!comment.trim()) {
             alert('Comentariul este obligatoriu pentru punct!');
             return;
@@ -19,6 +32,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
             employee_id: selectedEmployee.id,
             point_type: pointType,
             comment: comment.trim(),
+            category: selectedCategory
         });
         setShowConfirmModal(true);
     };
@@ -56,6 +70,25 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                     </h3>
                 </div>
                 <div className="card-body space-y-4">
+                    {/* Category Selector */}
+                    <div>
+                        <label htmlFor="category" className="label">
+                            Categorie
+                        </label>
+                        <select
+                            id="category"
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            className="input"
+                            disabled={loading}
+                        >
+                            <option value="" disabled>Selectează o categorie</option>
+                            {categories.map((cat) => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                        </select>
+                    </div>
+
                     {/* Comment Input */}
                     <div>
                         <label htmlFor="comment" className="label">
@@ -76,7 +109,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                     <div className="grid grid-cols-2 gap-4">
                         <button
                             onClick={() => handleSubmit(FEEDBACK_TYPES.BLACK)}
-                            disabled={loading || !comment.trim()}
+                            disabled={loading || !comment.trim() || !selectedCategory}
                             className="btn btn-feedback-black flex items-center justify-center space-x-2"
                         >
                             <span>⚫</span>
@@ -85,7 +118,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
 
                         <button
                             onClick={() => handleSubmit(FEEDBACK_TYPES.RED)}
-                            disabled={loading || !comment.trim()}
+                            disabled={loading || !comment.trim() || !selectedCategory}
                             className="btn btn-feedback-red flex items-center justify-center space-x-2"
                         >
                             <span>🔴</span>
@@ -128,6 +161,9 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                 <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 space-y-2">
                                     <p className="text-sm text-slate-600 dark:text-slate-400">
                                         <strong>Către:</strong> {selectedEmployee.name}
+                                    </p>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                                        <strong>Categorie:</strong> {pendingFeedback.category}
                                     </p>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">
                                         <strong>Mesaj:</strong>
