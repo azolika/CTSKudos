@@ -120,18 +120,18 @@ export const userAPI = {
 // ============================================
 
 export const feedbackAPI = {
-    getMyFeedback: async () => {
-        const response = await api.get('/feedback/my');
+    getMyFeedback: async (since) => {
+        const response = await api.get('/feedback/my', { params: { since } });
         return response.data;
     },
 
-    getTeamFeedback: async () => {
-        const response = await api.get('/feedback/team');
+    getTeamFeedback: async (since) => {
+        const response = await api.get('/feedback/team', { params: { since } });
         return response.data;
     },
 
-    getEmployeeFeedback: async (employeeId) => {
-        const response = await api.get(`/feedback/employee/${employeeId}`);
+    getEmployeeFeedback: async (employeeId, since) => {
+        const response = await api.get(`/feedback/employee/${employeeId}`, { params: { since } });
         return response.data;
     },
 
@@ -152,8 +152,8 @@ export const feedbackAPI = {
         return response.data;
     },
 
-    getUserCategoryStats: async (userId) => {
-        const response = await api.get(`/feedback/stats/categories/${userId}`);
+    getUserCategoryStats: async (userId, since) => {
+        const response = await api.get(`/feedback/stats/categories/${userId}`, { params: { since } });
         return response.data;
     },
 };

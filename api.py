@@ -238,10 +238,10 @@ async def create_feedback(
     return {"message": "Feedback added successfully"}
 
 @app.get("/feedback/my")
-async def read_my_feedback(current_user: dict = Depends(get_current_user)):
+async def read_my_feedback(since: Optional[str] = None, current_user: dict = Depends(get_current_user)):
     """Get feedback received by the current user."""
     # Using get_feedback_for_user which includes manager names
-    raw_data = get_feedback_for_user(current_user["id"])
+    raw_data = get_feedback_for_user(current_user["id"], since=since)
     # raw_data: (point_type, comment, timestamp, manager_name, category)
     results = []
     for r in raw_data:
@@ -255,19 +255,19 @@ async def read_my_feedback(current_user: dict = Depends(get_current_user)):
     return results
 
 @app.get("/feedback/team")
-async def read_team_feedback(current_user: dict = Depends(get_current_user)):
+async def read_team_feedback(since: Optional[str] = None, current_user: dict = Depends(get_current_user)):
     """Get all feedback points for subordinates of the current manager."""
     subs = get_subordinates(current_user["id"])
     sub_ids = [s[0] for s in subs]
     if not sub_ids:
         return []
     
-    raw_data = get_feedback_points_for_subordinates(sub_ids)
+    raw_data = get_feedback_points_for_subordinates(sub_ids, since=since)
     # raw_data: (point_type, employee_id)
     return [{"point_type": r[0], "employee_id": r[1]} for r in raw_data]
 
 @app.get("/feedback/employee/{employee_id}")
-async def read_employee_feedback(employee_id: int, current_user: dict = Depends(get_current_user)):
+async def read_employee_feedback(employee_id: int, since: Optional[str] = None, current_user: dict = Depends(get_current_user)):
     """Get full feedback history for a specific employee."""
     # Security: check if employee is subordinate if not admin
     if current_user["role"] != "admin":
@@ -276,7 +276,7 @@ async def read_employee_feedback(employee_id: int, current_user: dict = Depends(
         if employee_id not in sub_ids:
              raise HTTPException(status_code=403, detail="Not authorized to view this employee's feedback")
     
-    raw_data = get_feedback_for_user(employee_id)
+    raw_data = get_feedback_for_user(employee_id, since=since)
     # raw_data: (point_type, comment, timestamp, manager_name, category)
     return [
         {
@@ -301,7 +301,7 @@ async def read_admin_stats(current_user: dict = Depends(get_current_user)):
 
 
 @app.get("/feedback/stats/categories/{target_user_id}")
-async def read_user_category_stats(target_user_id: int, current_user: dict = Depends(get_current_user)):
+async def read_user_category_stats(target_user_id: int, since: Optional[str] = None, current_user: dict = Depends(get_current_user)):
     """Get feedback statistics by category for a specific user."""
     
     # Permission check
@@ -319,7 +319,7 @@ async def read_user_category_stats(target_user_id: int, current_user: dict = Dep
         raise HTTPException(status_code=403, detail="Not authorized to view stats for this user")
 
     from services.db_feedback import get_user_stats_by_category
-    return get_user_stats_by_category(target_user_id)
+    return get_user_stats_by_category(target_user_id, since=since)
 
 
 # ---------------------------------------------------------

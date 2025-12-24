@@ -81,3 +81,42 @@ export const formatDate = (dateString) => {
         minute: '2-digit',
     });
 };
+// Period Selection Options
+export const PERIOD_OPTIONS = [
+    { label: 'Tot istoricul', value: 'all' },
+    { label: 'An curent (YTD)', value: 'ytd' },
+    { label: 'Ultimul an (1Y)', value: '1y' },
+    { label: 'Ultimele 6 luni', value: '6m' },
+    { label: 'Ultimele 3 luni', value: '3m' },
+    { label: 'Ultima lună', value: '1m' },
+];
+
+// Calculate 'since' date based on period value
+export const getSinceDate = (periodValue) => {
+    if (!periodValue || periodValue === 'all') return null;
+
+    const now = new Date();
+    const date = new Date();
+
+    switch (periodValue) {
+        case 'ytd':
+            date.setMonth(0, 1);
+            date.setHours(0, 0, 0, 0);
+            break;
+        case '1y':
+            date.setFullYear(now.getFullYear() - 1);
+            break;
+        case '6m':
+            date.setMonth(now.getMonth() - 6);
+            break;
+        case '3m':
+            date.setMonth(now.getMonth() - 3);
+            break;
+        case '1m':
+            date.setMonth(now.getMonth() - 1);
+            break;
+        default:
+            return null;
+    }
+    return date.toISOString();
+};

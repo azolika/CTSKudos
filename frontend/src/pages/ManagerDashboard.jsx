@@ -7,7 +7,7 @@ import FeedbackForm from '../components/FeedbackForm';
 import FeedbackStats from '../components/FeedbackStats';
 import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
-import { calculateFeedbackStats } from '../utils/constants';
+import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
 import { AlertCircle, UserCircle } from 'lucide-react';
 
 const ManagerDashboard = () => {
@@ -22,25 +22,27 @@ const ManagerDashboard = () => {
     const [error, setError] = useState('');
     const [myCategoryStats, setMyCategoryStats] = useState([]);
     const [selectedEmployeeCategoryStats, setSelectedEmployeeCategoryStats] = useState([]);
+    const [period, setPeriod] = useState('all');
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [period]);
 
     useEffect(() => {
         if (selectedEmployee) {
             loadEmployeeFeedback(selectedEmployee.id);
         }
-    }, [selectedEmployee]);
+    }, [selectedEmployee, period]);
 
     const loadData = async () => {
         try {
             setLoading(true);
+            const since = getSinceDate(period);
             const [subsData, myFeedbackData, teamFeedbackData, myCatStats] = await Promise.all([
                 userAPI.getSubordinates(),
-                feedbackAPI.getMyFeedback(),
-                feedbackAPI.getTeamFeedback(),
-                feedbackAPI.getUserCategoryStats(user.id)
+                feedbackAPI.getMyFeedback(since),
+                feedbackAPI.getTeamFeedback(since),
+                feedbackAPI.getUserCategoryStats(user.id, since)
             ]);
 
             setSubordinates(subsData);
@@ -63,9 +65,10 @@ const ManagerDashboard = () => {
 
     const loadEmployeeFeedback = async (employeeId) => {
         try {
+            const since = getSinceDate(period);
             const [data, catStats] = await Promise.all([
-                feedbackAPI.getEmployeeFeedback(employeeId),
-                feedbackAPI.getUserCategoryStats(employeeId)
+                feedbackAPI.getEmployeeFeedback(employeeId, since),
+                feedbackAPI.getUserCategoryStats(employeeId, since)
             ]);
             setEmployeeFeedback(data);
             setSelectedEmployeeCategoryStats(catStats);
@@ -100,13 +103,32 @@ const ManagerDashboard = () => {
         <Layout>
             <div className="space-y-8">
                 {/* Welcome Header */}
-                <div className="fade-in">
-                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                        Bun venit, {user?.name}!
-                    </h1>
-                    <p className="text-slate-600 dark:text-slate-400">
-                        Gestionează echipa ta și oferă feedback angajaților.
-                    </p>
+                <div className="fade-in flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                            Bun venit, {user?.name}!
+                        </h1>
+                        <p className="text-slate-600 dark:text-slate-400">
+                            Gestionează echipa ta și oferă feedback angajaților.
+                        </p>
+                    </div>
+
+                    <div className="flex items-center space-x-3">
+                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Perioadă:
+                        </label>
+                        <select
+                            value={period}
+                            onChange={(e) => setPeriod(e.target.value)}
+                            className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all cursor-pointer"
+                        >
+                            {PERIOD_OPTIONS.map((p) => (
+                                <option key={p.value} value={p.value}>
+                                    {p.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
                 {/* Error Message */}

@@ -105,20 +105,29 @@ def get_feedback_for_employee(employee_id: int):
     return rows
 
 
-def get_feedback_for_user(user_id: int):
+def get_feedback_for_user(user_id: int, since: str = None):
     """
     Returns feedback with manager names (used in manager.py and user_page.py).
     Returns rows: (point_type, comment, timestamp, manager_name, category)
     """
     conn = _get_conn()
     c = conn.cursor()
-    c.execute("""
+    
+    query = """
         SELECT f.point_type, f.comment, f.timestamp, m.name, f.category
         FROM feedback f
         JOIN users m ON f.manager_id = m.id
         WHERE f.employee_id = %s
-        ORDER BY f.timestamp DESC
-    """, (user_id,))
+    """
+    params = [user_id]
+    
+    if since:
+        query += " AND f.timestamp >= %s"
+        params.append(since)
+    
+    query += " ORDER BY f.timestamp DESC"
+    
+    c.execute(query, params)
     rows = c.fetchall()
     conn.close()
     return rows
@@ -128,7 +137,7 @@ def get_feedback_for_user(user_id: int):
 # TEAM FEEDBACK SUMMARY (USED IN MANAGER DASHBOARD)
 # ---------------------------------------------------------------
 
-def get_feedback_points_for_subordinates(sub_ids: list[int]):
+def get_feedback_points_for_subordinates(sub_ids: list[int], since: str = None):
     """
     Return all feedback points for a list of subordinate user IDs.
     Used to calculate team-wide statistics in manager dashboard.
@@ -141,10 +150,14 @@ def get_feedback_points_for_subordinates(sub_ids: list[int]):
     c = conn.cursor()
 
     placeholders = ",".join(["%s"] * len(sub_ids))
-    c.execute(
-        f"SELECT point_type, employee_id FROM feedback WHERE employee_id IN ({placeholders})",
-        sub_ids
-    )
+    query = f"SELECT point_type, employee_id FROM feedback WHERE employee_id IN ({placeholders})"
+    params = list(sub_ids)
+    
+    if since:
+        query += " AND timestamp >= %s"
+        params.append(since)
+        
+    c.execute(query, params)
     rows = c.fetchall()
     conn.close()
     return rows
@@ -215,7 +228,7 @@ def get_last_feedback(limit=50):
     return rows
 
 
-def get_user_stats_by_category(user_id: int):
+def get_user_stats_by_category(user_id: int, since: str = None):
     """
     Returns a list of dicts:
     [
@@ -225,12 +238,21 @@ def get_user_stats_by_category(user_id: int):
     """
     conn = _get_conn()
     c = conn.cursor()
-    c.execute("""
+    
+    query = """
         SELECT category, point_type, COUNT(*)
         FROM feedback
         WHERE employee_id = %s
-        GROUP BY category, point_type
-    """, (user_id,))
+    """
+    params = [user_id]
+    
+    if since:
+        query += " AND timestamp >= %s"
+        params.append(since)
+        
+    query += " GROUP BY category, point_type"
+    
+    c.execute(query, params)
     rows = c.fetchall()
     conn.close()
 
