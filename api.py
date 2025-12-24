@@ -64,8 +64,9 @@ origins = [
     "http://localhost:5173",  # Vite default
     "http://localhost:9000",
     "http://localhost:9005",  # Production frontend (new)
-    "http://192.168.88.166:9005", # Production frontend IP
+    "http://192.168.88.166:9005", # Staging frontend IP
     "http://127.0.0.1:5173",
+    "http://192.168.88.175:9005", # Production frontend IP
     "*" # Permissive for dev
 ]
 
