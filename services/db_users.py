@@ -192,18 +192,29 @@ def set_manager_for_user(user_id: int, manager_id: int | None):
 
 def get_subordinates(manager_id: int):
     """
-    Return all subordinate users for a given manager.
-    Unified version used by both admin and manager modules.
+    Return all descendant users in the hierarchy tree for a given manager.
+    Uses a RECURSIVE CTE to fetch all levels of the hierarchy.
     """
     conn = _get_conn()
     c = conn.cursor()
-    c.execute("""
-        SELECT u.id, u.name, u.departament, u.functia
-        FROM hierarchy h
-        JOIN users u ON h.user_id = u.id
-        WHERE h.manager_id = %s
+    
+    # RECURSIVE CTE to find all descendants
+    query = """
+        WITH RECURSIVE subordinates_cte AS (
+            -- Anchor member: direct reports
+            SELECT user_id FROM hierarchy WHERE manager_id = %s
+            UNION ALL
+            -- Recursive member: reports of the reports
+            SELECT h.user_id FROM hierarchy h
+            JOIN subordinates_cte s ON h.manager_id = s.user_id
+        )
+        SELECT DISTINCT u.id, u.name, u.departament, u.functia
+        FROM subordinates_cte s
+        JOIN users u ON s.user_id = u.id
         ORDER BY u.name
-    """, (manager_id,))
+    """
+    
+    c.execute(query, (manager_id,))
     rows = c.fetchall()
     conn.close()
     return rows
