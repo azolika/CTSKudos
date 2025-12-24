@@ -7,6 +7,7 @@ import FeedbackForm from '../components/FeedbackForm';
 import FeedbackStats from '../components/FeedbackStats';
 import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
+import KudosForm from '../components/KudosForm';
 import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
 import { AlertCircle, UserCircle } from 'lucide-react';
 
@@ -251,6 +252,9 @@ const ManagerDashboard = () => {
                 {/* Employee Tab */}
                 {activeTab === 'employee' && (
                     <div className="space-y-8 fade-in">
+                        <div className="max-w-2xl mx-auto w-full">
+                            <KudosForm currentUser={user} onSuccess={loadData} />
+                        </div>
                         <FeedbackStats stats={myStats} title="📊 Rezultate personale" />
                         <CategoryStats stats={myCategoryStats} />
                         <FeedbackHistory feedbackList={myFeedback} />

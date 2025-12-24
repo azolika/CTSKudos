@@ -225,8 +225,17 @@ async def create_feedback(
     feedback: FeedbackCreate, 
     current_user: dict = Depends(get_current_user)
 ):
-    if current_user["role"] not in ["manager/tl", "admin"]:
-        raise HTTPException(status_code=403, detail="Only managers can give feedback")
+    role = current_user["role"]
+    
+    # Validation: regular users can ONLY send positive feedback (rosu)
+    if role == "user":
+        if feedback.point_type != "rosu":
+            raise HTTPException(
+                status_code=403, 
+                detail="Utilizatorii obișnuiți pot trimite doar puncte roșii (Kudos)."
+            )
+    elif role not in ["manager/tl", "admin"]:
+        raise HTTPException(status_code=403, detail="Nu aveți permisiunea de a trimite feedback.")
         
     add_feedback(
         manager_id=current_user["id"],

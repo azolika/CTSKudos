@@ -5,6 +5,7 @@ import Layout from '../components/Layout';
 import FeedbackStats from '../components/FeedbackStats';
 import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
+import KudosForm from '../components/KudosForm';
 import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
 import { AlertCircle } from 'lucide-react';
 
@@ -103,6 +104,11 @@ const UserDashboard = () => {
                         </div>
                     </div>
                 )}
+
+                {/* Send Kudos Section */}
+                <div className="fade-in max-w-2xl mx-auto w-full">
+                    <KudosForm currentUser={user} onSuccess={loadFeedback} />
+                </div>
 
                 {/* Feedback Statistics */}
                 <FeedbackStats stats={stats} title="📊 Rezultate personale" />
