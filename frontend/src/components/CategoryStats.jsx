@@ -15,11 +15,10 @@ const CategoryStats = ({ stats }) => {
             </div>
             <div className="card-body space-y-4">
                 {stats.map((stat, idx) => {
-                    const total = stat.rosu_manager + stat.rosu_peer + stat.negru;
+                    const total = stat.rosu_manager + stat.negru;
                     if (total === 0) return null;
 
                     const mRedPercent = (stat.rosu_manager / total) * 100;
-                    const pRedPercent = (stat.rosu_peer / total) * 100;
                     const blackPercent = (stat.negru / total) * 100;
 
                     return (
@@ -31,18 +30,18 @@ const CategoryStats = ({ stats }) => {
                                         Total: {total} {total === 1 ? 'pct' : 'pct'}
                                     </span>
                                 </div>
-                                <div className="flex items-center space-x-2 text-[10px] mb-0.5 opacity-90">
+                                <div className="flex items-center space-x-2 text-[11px] mb-0.5 opacity-90">
                                     <div className="flex items-center">
                                         <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-1"></div>
-                                        <span className="font-bold text-red-600">{stat.rosu_manager}M</span>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <div className="w-1.5 h-1.5 bg-rose-400 rounded-full mr-1"></div>
-                                        <span className="font-bold text-rose-500">{stat.rosu_peer}P</span>
+                                        <span className="font-bold text-red-600">{stat.rosu_manager}Roșu</span>
                                     </div>
                                     <div className="flex items-center">
                                         <div className="w-1.5 h-1.5 bg-slate-800 dark:bg-slate-400 rounded-full mr-1"></div>
-                                        <span className="font-bold text-slate-700 dark:text-slate-300">{stat.negru}N</span>
+                                        <span className="font-bold text-slate-700 dark:text-slate-300">{stat.negru}Negru</span>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <div className="w-1.5 h-1.5 bg-rose-400 rounded-full mr-1"></div>
+                                        <span className="font-bold text-rose-500">{stat.rosu_peer}Kudos Colegi</span>
                                     </div>
                                 </div>
                             </div>
