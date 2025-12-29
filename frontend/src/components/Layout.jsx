@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
             case ROLES.ADMIN:
                 return 'Administrator';
             case ROLES.MANAGER:
-                return 'Manager/TL';
+                return 'Manager/Team Lead';
             default:
                 return 'Angajat';
         }

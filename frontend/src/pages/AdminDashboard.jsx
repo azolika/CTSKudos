@@ -314,7 +314,7 @@ const AdminDashboard = () => {
                                         };
                                         const labels = {
                                             [ROLES.ADMIN]: 'Admin',
-                                            [ROLES.MANAGER]: 'Manager/TL',
+                                            [ROLES.MANAGER]: 'Manager/Team Lead',
                                             [ROLES.USER]: 'User'
                                         };
                                         return (

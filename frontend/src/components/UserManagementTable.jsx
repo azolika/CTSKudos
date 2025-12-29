@@ -29,7 +29,7 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
             case ROLES.ADMIN:
                 return 'Admin';
             case ROLES.MANAGER:
-                return 'Manager/TL';
+                return 'Manager/Team Lead';
             default:
                 return 'User';
         }
