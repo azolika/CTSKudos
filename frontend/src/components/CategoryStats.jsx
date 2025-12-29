@@ -20,6 +20,7 @@ const CategoryStats = ({ stats }) => {
 
                     const mRedPercent = (stat.rosu_manager / total) * 100;
                     const blackPercent = (stat.negru / total) * 100;
+                    const pRedPercent = (stat.rosu_peer / total) * 100;
 
                     return (
                         <div key={idx} className="space-y-1">
