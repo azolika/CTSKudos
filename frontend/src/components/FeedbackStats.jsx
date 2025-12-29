@@ -43,14 +43,14 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                                 </p>
                                 <div className="flex items-baseline space-x-2">
                                     <p className="text-3xl font-black text-red-700 dark:text-red-300 mt-1">
-                                        {stats.red}
+                                        {stats.redManager}
                                     </p>
                                     <div className="flex flex-col text-[10px] space-y-0.5 opacity-80">
                                         <span className="bg-red-200 dark:bg-red-900/40 px-1.5 rounded text-red-800 dark:text-red-200">
                                             {stats.redManager} Manager
                                         </span>
                                         <span className="bg-pink-100 dark:bg-pink-900/40 px-1.5 rounded text-pink-800 dark:text-pink-200">
-                                            {stats.redPeer} Colegi
+                                            + {stats.redPeer} Kudos Colegi
                                         </span>
                                     </div>
                                 </div>
