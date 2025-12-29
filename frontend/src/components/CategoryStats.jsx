@@ -20,7 +20,6 @@ const CategoryStats = ({ stats }) => {
 
                     const mRedPercent = (stat.rosu_manager / total) * 100;
                     const blackPercent = (stat.negru / total) * 100;
-                    const pRedPercent = (stat.rosu_peer / total) * 100;
 
                     return (
                         <div key={idx} className="space-y-1">
@@ -57,16 +56,6 @@ const CategoryStats = ({ stats }) => {
                                         title={`${stat.rosu_manager} Puncte Roșii Manager`}
                                     >
                                         {mRedPercent > 10 && <span className="text-[9px] text-white font-black">{Math.round(mRedPercent)}%</span>}
-                                    </div>
-                                )}
-                                {/* Peer Red / Kudos */}
-                                {stat.rosu_peer > 0 && (
-                                    <div
-                                        style={{ width: `${pRedPercent}%` }}
-                                        className="bg-rose-400 h-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden border-r border-white/10"
-                                        title={`${stat.rosu_peer} Kudos Colegi`}
-                                    >
-                                        {pRedPercent > 10 && <span className="text-[9px] text-white font-black">{Math.round(pRedPercent)}%</span>}
                                     </div>
                                 )}
                                 {/* Black portion */}
