@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Add parent directory to path to import db
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from db import get_db_connection
 import bcrypt
 
@@ -36,7 +42,6 @@ def fix_admin():
     
     conn.commit()
     conn.close()
-    print("✔ Admin user fixed.")
     print("✔ Admin user fixed.")
 
 if __name__ == "__main__":
