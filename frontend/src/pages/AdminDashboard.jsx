@@ -240,37 +240,13 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Top Managers and Info */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2 space-y-4">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-                                Gestionare Utilizatori
-                            </h2>
-                            <div className="flex space-x-3">
-                                <button
-                                    onClick={handleAddUser}
-                                    className="btn btn-primary flex items-center space-x-2"
-                                >
-                                    <UserPlus className="w-4 h-4" />
-                                    <span>Adaugă Utilizator</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <UserManagementTable
-                            users={users}
-                            onEdit={handleEditUser}
-                            onDelete={handleDeleteUser}
-                            onPasswordChange={handlePasswordChange}
-                        />
-                    </div>
-
-                    <div className="space-y-6">
+                <div className="space-y-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div className="card h-fit">
                             <div className="card-header">
                                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center">
                                     <Award className="w-5 h-5 mr-2 text-yellow-500" />
-                                    Top 5 Manageri (Activitate)
+                                    Top 5 Manageri/Team Leads (Activitate)
                                 </h3>
                             </div>
                             <div className="card-body p-0">
@@ -335,6 +311,30 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                                Gestionare Utilizatori
+                            </h2>
+                            <div className="flex space-x-3">
+                                <button
+                                    onClick={handleAddUser}
+                                    className="btn btn-primary flex items-center space-x-2"
+                                >
+                                    <UserPlus className="w-4 h-4" />
+                                    <span>Adaugă Utilizator</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <UserManagementTable
+                            users={users}
+                            onEdit={handleEditUser}
+                            onDelete={handleDeleteUser}
+                            onPasswordChange={handlePasswordChange}
+                        />
                     </div>
                 </div>
             </div>
