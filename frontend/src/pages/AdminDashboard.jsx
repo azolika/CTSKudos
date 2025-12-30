@@ -186,7 +186,7 @@ const AdminDashboard = () => {
                 )}
 
                 {/* Statistics */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     <div className="card h-full">
                         <div className="card-body">
                             <div className="flex items-center justify-between">
@@ -241,6 +241,25 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
+                    {/* New Kudos Card */}
+                    <div className="card h-full border-l-4 border-green-500">
+                        <div className="card-body">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                        Kudos (30 zile)
+                                    </p>
+                                    <p className="text-3xl font-bold text-green-600 dark:text-green-400">
+                                        {stats?.kudos_30_days || 0}
+                                    </p>
+                                </div>
+                                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                                    <Award className="w-6 h-6 text-green-600 dark:text-green-400" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="card h-full">
                         <div className="card-body">
                             <div className="flex items-center justify-between">
@@ -249,7 +268,7 @@ const AdminDashboard = () => {
                                         Total Utilizatori
                                     </p>
                                     <p className="text-3xl font-bold text-slate-900 dark:text-white">
-                                        {users.length}
+                                        {totalUsers}
                                     </p>
                                 </div>
                                 <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">

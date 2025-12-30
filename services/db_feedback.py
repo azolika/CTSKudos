@@ -375,6 +375,38 @@ def get_admin_stats():
 
     # 2) Feedback-uri în ultimele 30 zile
     cutoff = (datetime.now() - timedelta(days=30)).isoformat()
+    
+    # Get all red feedback from last 30 days to check for Kudos (peer feedback)
+    c.execute("""
+        SELECT f.manager_id, f.employee_id
+        FROM feedback f
+        WHERE f.point_type = 'rosu' AND f.timestamp >= %s
+    """, (cutoff,))
+    red_rows_30 = c.fetchall()
+    
+    # We need hierarchy map to check for superiors quickly
+    c.execute("SELECT user_id, manager_id FROM hierarchy")
+    hierarchy_rows = c.fetchall()
+    manager_map = {}
+    for uid, mid in hierarchy_rows:
+        manager_map[uid] = mid
+
+    def is_superior(sender_id, recipient_id):
+        curr = recipient_id
+        visited = set()
+        while curr in manager_map and curr not in visited:
+            mgr = manager_map[curr]
+            if mgr == sender_id: return True
+            visited.add(curr)
+            curr = mgr
+        return False
+
+    kudos_30 = 0
+    for mid, eid in red_rows_30:
+        if not is_superior(mid, eid):
+            kudos_30 += 1
+
+    # Get total breakdowns
     c.execute("""
         SELECT point_type, COUNT(*)
         FROM feedback
@@ -412,6 +444,7 @@ def get_admin_stats():
         "total_feedback": total_feedback,
         "red_30_days": red_30,
         "black_30_days": black_30,
+        "kudos_30_days": kudos_30,
         "top_managers": top_managers,
         "user_counts": role_counts
     }
