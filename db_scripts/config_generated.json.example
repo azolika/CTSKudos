@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "username": "john.doe@example.com",
+      "name": "John Doe",
+      "role": "manager/tl",
+      "password_hash": "$2b$12$LQv3c1yqBWVHxkd0LpX8OuzDTRm/0b3T3xJjO1M.TzN.bY.V.bY.V",
+      "departament": "IT",
+      "functia": "Team Lead"
+    },
+    {
+      "username": "jane.smith@example.com",
+      "name": "Jane Smith",
+      "role": "user",
+      "password_hash": "$2b$12$LQv3c1yqBWVHxkd0LpX8OuzDTRm/0b3T3xJjO1M.TzN.bY.V.bY.V",
+      "departament": "IT",
+      "functia": "Developer"
+    },
+    {
+      "username": "bob.wilson@example.com",
+      "name": "Bob Wilson",
+      "role": "user",
+      "password_hash": "$2b$12$LQv3c1yqBWVHxkd0LpX8OuzDTRm/0b3T3xJjO1M.TzN.bY.V.bY.V",
+      "departament": "Sales",
+      "functia": "Sales Agent"
+    }
+  ],
+  "hierarchy": [
+    {
+      "user": "jane.smith@example.com",
+      "manager_email": "john.doe@example.com"
+    },
+    {
+      "user": "bob.wilson@example.com",
+      "manager_email": "john.doe@example.com"
+    }
+  ]
+}
