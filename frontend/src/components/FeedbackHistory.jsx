@@ -32,10 +32,18 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                 <div className="space-y-4">
                     {feedbackList.map((feedback, index) => {
                         const isRed = feedback.point_type === FEEDBACK_TYPES.RED;
-                        const icon = isRed ? '🔴' : '⚫';
-                        const bgColor = isRed
-                            ? 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800'
-                            : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700';
+                        const isKudos = isRed && !feedback.is_manager_feedback;
+
+                        let icon = '⚫';
+                        if (isKudos) icon = '❤️';
+                        else if (isRed) icon = '🔴';
+
+                        let bgColor = 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700'; // Default black p.
+                        if (isKudos) {
+                            bgColor = 'bg-pink-50 dark:bg-pink-900/10 border-pink-200 dark:border-pink-800';
+                        } else if (isRed) {
+                            bgColor = 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800';
+                        }
 
                         return (
                             <div
@@ -50,7 +58,11 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                                                 <p className="text-sm font-medium text-slate-900 dark:text-white">
                                                     de la <span className="font-semibold">{feedback.manager_name}</span>
                                                 </p>
-                                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${isRed ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-300'
+                                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${isKudos
+                                                        ? 'bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200'
+                                                        : isRed
+                                                            ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+                                                            : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-300'
                                                     }`}>
                                                     {feedback.category || 'General'}
                                                 </span>
