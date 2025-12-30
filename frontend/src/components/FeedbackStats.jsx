@@ -104,9 +104,6 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                                         {rating}
                                     </span>
                                 </div>
-                                <p className="text-[10px] text-purple-500 mt-2 uppercase tracking-tighter">
-                                    Calculat de manager
-                                </p>
                             </div>
                         </div>
                     </div>
