@@ -33,13 +33,20 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                 <div className="card-body space-y-4">
                     <ProgressBar percentageRed={teamStats.percentageRed} />
 
+                    {/* Total Kudos display */}
+                    <div className="flex justify-center -mt-2 mb-2">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300">
+                            ❤️ Total Kudos primiți de echipă: {teamStats.redPeer}
+                        </span>
+                    </div>
+
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="text-center">
                             <p className="text-3xl font-bold text-red-600 dark:text-red-400">
-                                {teamStats.red}
+                                {teamStats.redManager}
                             </p>
                             <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                🔴 Puncte roșii
+                                🔴 Puncte roșii (Manager)
                             </p>
                         </div>
 
@@ -95,6 +102,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                         <th>Departament</th>
                                         <th>Funcția</th>
                                         <th className="text-center">Roșu</th>
+                                        <th className="text-center">Kudos</th>
                                         <th className="text-center">Negru</th>
                                         <th className="text-center">% Roșu</th>
                                         <th>Calificativ</th>
@@ -119,7 +127,12 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                             </td>
                                             <td className="text-center">
                                                 <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 font-semibold">
-                                                    {sub.red}
+                                                    {sub.redManager}
+                                                </span>
+                                            </td>
+                                            <td className="text-center">
+                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 font-semibold">
+                                                    {sub.redPeer}
                                                 </span>
                                             </td>
                                             <td className="text-center">
@@ -132,7 +145,9 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                             </td>
                                             <td>
                                                 <span
-                                                    className={`badge ${sub.percentageRed >= 75
+                                                    className={`badge ${sub.rating === 'Nu există date'
+                                                        ? 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                                                        : sub.percentageRed >= 75
                                                             ? 'badge-success'
                                                             : sub.percentageRed >= 50
                                                                 ? 'badge-info'

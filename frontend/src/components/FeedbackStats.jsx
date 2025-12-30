@@ -5,6 +5,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
     const { red, black, total, percentageRed, rating } = stats;
 
     const getRatingColor = () => {
+        if (rating === 'Nu există date') return 'text-slate-400 dark:text-slate-500';
         if (percentageRed >= 75) return 'text-green-600 dark:text-green-400';
         if (percentageRed >= 50) return 'text-blue-600 dark:text-blue-400';
         if (percentageRed >= 25) return 'text-yellow-600 dark:text-yellow-400';
@@ -12,6 +13,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
     };
 
     const getRatingBadge = () => {
+        if (rating === 'Nu există date') return 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300';
         if (percentageRed >= 75) return 'badge-success';
         if (percentageRed >= 50) return 'badge-info';
         if (percentageRed >= 25) return 'badge-warning';

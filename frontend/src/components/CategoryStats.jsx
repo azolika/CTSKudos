@@ -33,15 +33,15 @@ const CategoryStats = ({ stats }) => {
                                 <div className="flex items-center space-x-2 text-[11px] mb-0.5 opacity-90">
                                     <div className="flex items-center">
                                         <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-1"></div>
-                                        <span className="font-bold text-red-600">{stat.rosu_manager}Roșu</span>
+                                        <span className="font-bold text-red-600">{stat.rosu_manager} Roșu</span>
                                     </div>
                                     <div className="flex items-center">
                                         <div className="w-1.5 h-1.5 bg-slate-800 dark:bg-slate-400 rounded-full mr-1"></div>
-                                        <span className="font-bold text-slate-700 dark:text-slate-300">{stat.negru}Negru</span>
+                                        <span className="font-bold text-slate-700 dark:text-slate-300">{stat.negru} Negru</span>
                                     </div>
                                     <div className="flex items-center">
                                         <div className="w-1.5 h-1.5 bg-rose-400 rounded-full mr-1"></div>
-                                        <span className="font-bold text-rose-500">{stat.rosu_peer}Kudos Colegi</span>
+                                        <span className="font-bold text-rose-500">{stat.rosu_peer} Kudos Colegi</span>
                                     </div>
                                 </div>
                             </div>

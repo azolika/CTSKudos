@@ -43,6 +43,7 @@ export const calculateRating = (percentageRed) => {
 };
 
 // Calculate feedback statistics
+// Calculate feedback statistics
 export const calculateFeedbackStats = (feedbackList) => {
     if (!feedbackList || feedbackList.length === 0) {
         return {
@@ -53,7 +54,7 @@ export const calculateFeedbackStats = (feedbackList) => {
             total: 0,
             totalOfficial: 0,
             percentageRed: 0,
-            rating: 'N/A',
+            rating: 'Nu există date',
         };
     }
 
@@ -63,8 +64,10 @@ export const calculateFeedbackStats = (feedbackList) => {
 
     // Official stats for rating calculations (ignores peer kudos)
     const totalOfficial = redManager + black;
+
+    // If no official feedback (even if there are kudos), return "No Data" for rating
     const percentageRed = totalOfficial > 0 ? Math.round((redManager / totalOfficial) * 1000) / 10 : 0;
-    const rating = calculateRating(percentageRed);
+    const rating = totalOfficial > 0 ? calculateRating(percentageRed) : 'Nu există date';
 
     return {
         red: redManager + redPeer, // Total red
