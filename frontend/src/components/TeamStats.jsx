@@ -1,4 +1,4 @@
-import { Users, TrendingUp } from 'lucide-react';
+import { Users, TrendingUp, Award, Heart } from 'lucide-react';
 import ProgressBar from './ProgressBar';
 import { calculateFeedbackStats } from '../utils/constants';
 
@@ -30,51 +30,83 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         📊 Rezultate generale ale echipei
                     </h2>
                 </div>
-                <div className="card-body space-y-4">
+                <div className="card-body space-y-6">
                     <ProgressBar percentageRed={teamStats.percentageRed} />
 
-                    {/* Total Kudos display */}
-                    <div className="flex justify-center -mt-2 mb-2">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
-                            💚 Total Kudos primiți de echipă: {teamStats.redPeer}
-                        </span>
-                    </div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="text-center">
-                            <p className="text-3xl font-bold text-red-600 dark:text-red-400">
-                                {teamStats.redManager}
-                            </p>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                🔴 Puncte roșii (Manager)
-                            </p>
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                        {/* Red Points */}
+                        <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-3 border border-red-200 dark:border-red-800">
+                            <div className="w-full">
+                                <p className="text-xs text-red-600 dark:text-red-400 font-bold mb-1">
+                                    🔴 Feedback Manageri
+                                </p>
+                                <div className="flex items-baseline space-x-2">
+                                    <p className="text-2xl font-black text-red-700 dark:text-red-300 mt-1">
+                                        {teamStats.redManager}
+                                    </p>
+                                    <p className="hidden md:block text-[9px] text-red-500 mt-1 uppercase tracking-tighter">
+                                        Oficial
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="text-center">
-                            <p className="text-3xl font-bold text-slate-700 dark:text-slate-300">
-                                {teamStats.black}
-                            </p>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                ⚫ Puncte negre
-                            </p>
+                        {/* Black Points */}
+                        <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg p-3 border border-slate-300 dark:border-slate-600">
+                            <div className="w-full">
+                                <p className="text-xs text-slate-600 dark:text-slate-400 font-bold mb-1">
+                                    ⚫ Puncte negre
+                                </p>
+                                <p className="text-2xl font-black text-slate-700 dark:text-slate-300 mt-1">
+                                    {teamStats.black}
+                                </p>
+                            </div>
                         </div>
 
-                        <div className="text-center">
-                            <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-                                {teamStats.percentageRed}%
-                            </p>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                🔢 % Puncte roșii
-                            </p>
+                        {/* Kudos Card */}
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800">
+                            <div className="w-full">
+                                <p className="text-xs text-green-600 dark:text-green-400 font-bold mb-1 flex items-center">
+                                    <Heart className="w-3 h-3 mr-1 fill-current" />
+                                    Kudos Colegi
+                                </p>
+                                <div className="flex items-baseline space-x-2">
+                                    <p className="text-2xl font-black text-green-700 dark:text-green-300 mt-1">
+                                        {teamStats.redPeer}
+                                    </p>
+                                    <p className="hidden md:block text-[9px] text-green-500 mt-1 uppercase tracking-tighter">
+                                        Echipă
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="text-center">
-                            <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                                {teamStats.rating}
-                            </p>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                🏅 Calificativ
-                            </p>
+                        {/* Percentage */}
+                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                            <div className="w-full">
+                                <p className="text-xs text-blue-600 dark:text-blue-400 font-bold mb-1">
+                                    🔢 Performanță
+                                </p>
+                                <p className="text-2xl font-black text-blue-700 dark:text-blue-300 mt-1">
+                                    {teamStats.percentageRed}%
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Rating */}
+                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg p-3 border border-purple-200 dark:border-purple-800">
+                            <div className="w-full">
+                                <p className="text-xs text-purple-600 dark:text-purple-400 font-bold mb-1 flex items-center">
+                                    <Award className="w-3 h-3 mr-1" />
+                                    Rating
+                                </p>
+                                <div className="mt-1">
+                                    <span className="text-sm font-black text-purple-700 dark:text-purple-300">
+                                        {teamStats.rating}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
