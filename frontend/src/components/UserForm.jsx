@@ -40,6 +40,18 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                 [name]: value,
                 functia: availableFunctions[0] || ''
             }));
+        } else if (name === 'role') {
+            // If switching to Admin, clear department and function
+            if (value === ROLES.ADMIN) {
+                setFormData((prev) => ({
+                    ...prev,
+                    role: value,
+                    departament: '',
+                    functia: ''
+                }));
+            } else {
+                setFormData((prev) => ({ ...prev, [name]: value }));
+            }
         } else {
             setFormData((prev) => ({ ...prev, [name]: value }));
         }
@@ -142,7 +154,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             </div>
                         )}
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Role */}
                             <div>
                                 <label htmlFor="role" className="label">
@@ -162,52 +174,54 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                 </select>
                             </div>
 
-                            {/* Department */}
-                            <div>
-                                <label htmlFor="departament" className="label">
-                                    Departament *
-                                </label>
-                                <select
-                                    id="departament"
-                                    name="departament"
-                                    value={formData.departament}
-                                    onChange={handleChange}
-                                    className="input"
-                                    required
-                                >
-                                    <option value="">Selectează Departament</option>
-                                    {departmentOptions.map((dept) => (
-                                        <option key={dept} value={dept}>
-                                            {dept}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
+                            {/* Department - Hidden for Admins */}
+                            {formData.role !== ROLES.ADMIN && (
+                                <div>
+                                    <label htmlFor="departament" className="label">
+                                        Departament *
+                                    </label>
+                                    <select
+                                        id="departament"
+                                        name="departament"
+                                        value={formData.departament}
+                                        onChange={handleChange}
+                                        className="input"
+                                        required
+                                    >
+                                        <option value="">Selectează Departament</option>
+                                        {departmentOptions.map((dept) => (
+                                            <option key={dept} value={dept}>
+                                                {dept}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
 
-                        <div className="grid grid-cols-2 gap-4">
-                            {/* Function */}
-                            <div>
-                                <label htmlFor="functia" className="label">
-                                    Funcția *
-                                </label>
-                                <select
-                                    id="functia"
-                                    name="functia"
-                                    value={formData.functia}
-                                    onChange={handleChange}
-                                    className="input"
-                                    required
-                                    disabled={!formData.departament}
-                                >
-                                    {!formData.departament && <option value="">Alege departamentul întâi</option>}
-                                    {functionOptions.map((func) => (
-                                        <option key={func} value={func}>
-                                            {func}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                            {/* Function - Hidden for Admins */}
+                            {formData.role !== ROLES.ADMIN && (
+                                <div>
+                                    <label htmlFor="functia" className="label">
+                                        Funcția *
+                                    </label>
+                                    <select
+                                        id="functia"
+                                        name="functia"
+                                        value={formData.functia}
+                                        onChange={handleChange}
+                                        className="input"
+                                        required
+                                        disabled={!formData.departament}
+                                    >
+                                        {!formData.departament && <option value="">Alege departamentul întâi</option>}
+                                        {functionOptions.map((func) => (
+                                            <option key={func} value={func}>
+                                                {func}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
 
                             {/* Manager */}
                             <div>
