@@ -91,6 +91,18 @@ export const STORAGE_KEYS = {
 export const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
+
+    // Check if the date string already has timezone info.
+    // If it's a simple ISO string like '2023-12-30T10:00:00' coming from a DB that stores in UTC but doesn't append 'Z',
+    // we might need to force it to be treated as UTC. 
+    // However, usually API sends 'Z' or DB strings are parsed as local by default in some browsers if 'Z' is missing.
+    // Best practice: Ensure backend sends ISO 8601 with Z. 
+    // If we assume backend sends UTC (which it should), we can try to append 'Z' if missing to force UTC interpretation before conversion.
+
+    // But for now, let's rely on standard toLocaleString which converts to system local time.
+    // If the input dateString is "2023...Z", new Date() creates a date object in UTC.
+    // .toLocaleString() then prints it in the browser's local time.
+
     return date.toLocaleString('ro-RO', {
         year: 'numeric',
         month: '2-digit',
