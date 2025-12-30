@@ -51,7 +51,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                                         <span className="bg-red-200 dark:bg-red-900/40 px-1.5 rounded text-red-800 dark:text-red-200">
                                             {stats.redManager} Manager
                                         </span>
-                                        <span className="bg-pink-100 dark:bg-pink-900/40 px-1.5 rounded text-pink-800 dark:text-pink-200">
+                                        <span className="bg-green-100 dark:bg-green-900/40 px-1.5 rounded text-green-800 dark:text-green-200">
                                             + {stats.redPeer} Kudos Colegi
                                         </span>
                                     </div>

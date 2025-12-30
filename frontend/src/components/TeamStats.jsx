@@ -35,8 +35,8 @@ const TeamStats = ({ subordinates, allFeedback }) => {
 
                     {/* Total Kudos display */}
                     <div className="flex justify-center -mt-2 mb-2">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300">
-                            ❤️ Total Kudos primiți de echipă: {teamStats.redPeer}
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                            💚 Total Kudos primiți de echipă: {teamStats.redPeer}
                         </span>
                     </div>
 
@@ -131,7 +131,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                                 </span>
                                             </td>
                                             <td className="text-center">
-                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 font-semibold">
+                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-semibold">
                                                     {sub.redPeer}
                                                 </span>
                                             </td>

@@ -40,8 +40,8 @@ const CategoryStats = ({ stats }) => {
                                         <span className="font-bold text-slate-700 dark:text-slate-300">{stat.negru} Negru</span>
                                     </div>
                                     <div className="flex items-center">
-                                        <div className="w-1.5 h-1.5 bg-rose-400 rounded-full mr-1"></div>
-                                        <span className="font-bold text-rose-500">{stat.rosu_peer} Kudos Colegi</span>
+                                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></div>
+                                        <span className="font-bold text-green-600">{stat.rosu_peer} Kudos Colegi</span>
                                     </div>
                                 </div>
                             </div>

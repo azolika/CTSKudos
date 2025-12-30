@@ -63,7 +63,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
 
     return (
         <div className="card overflow-visible">
-            <div className="card-header bg-gradient-to-r from-pink-500 to-rose-500 py-4">
+            <div className="card-header bg-gradient-to-r from-emerald-500 to-green-500 py-4">
                 <h3 className="text-lg font-bold text-white flex items-center">
                     <Heart className="w-5 h-5 mr-2 fill-current" />
                     Trimite un Kudos (Apreciere)
@@ -117,9 +117,9 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                         {/* Action - Fixed type */}
                         <div>
                             <label className="label">Tip Feedback</label>
-                            <div className="flex items-center space-x-2 px-3 py-2 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 rounded-lg text-red-600 dark:text-red-400 font-medium text-sm">
-                                <span>🔴</span>
-                                <span>Punct Roșu (Kudos)</span>
+                            <div className="flex items-center space-x-2 px-3 py-2 bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-900/30 rounded-lg text-green-600 dark:text-green-400 font-medium text-sm">
+                                <span>💚</span>
+                                <span>Kudos</span>
                             </div>
                         </div>
                     </div>
@@ -142,8 +142,8 @@ const KudosForm = ({ currentUser, onSuccess }) => {
 
                     {message.text && (
                         <div className={`p-3 rounded-lg text-sm ${message.type === 'success'
-                                ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
-                                : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
+                            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
+                            : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
                             }`}>
                             {message.text}
                         </div>
@@ -152,7 +152,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                     <button
                         type="submit"
                         disabled={loading || !selectedUserId || !comment.trim()}
-                        className="btn bg-rose-500 hover:bg-rose-600 text-white w-full py-3 flex items-center justify-center space-x-2 shadow-lg shadow-rose-200 dark:shadow-rose-900/20 transition-all active:scale-[0.98]"
+                        className="btn bg-green-500 hover:bg-green-600 text-white w-full py-3 flex items-center justify-center space-x-2 shadow-lg shadow-green-200 dark:shadow-green-900/20 transition-all active:scale-[0.98]"
                     >
                         {loading ? (
                             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
