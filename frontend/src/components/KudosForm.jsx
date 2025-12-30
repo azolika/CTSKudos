@@ -134,16 +134,16 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                                 {badges.map((badge) => (
                                     <button
-                                        key={badge}
+                                        key={badge.label}
                                         type="button"
-                                        onClick={() => setSelectedBadge(badge)}
-                                        className={`flex items-center p-3 rounded-lg border text-sm font-medium transition-all ${selectedBadge === badge
+                                        onClick={() => setSelectedBadge(badge.label)}
+                                        className={`flex items-center p-3 rounded-lg border text-sm font-medium transition-all ${selectedBadge === badge.label
                                             ? 'bg-green-100 border-green-500 text-green-800 dark:bg-green-900/30 dark:border-green-400 dark:text-green-300 ring-2 ring-green-200 dark:ring-green-900/20'
                                             : 'bg-white border-slate-200 text-slate-700 hover:border-green-300 hover:bg-green-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700'
                                             }`}
                                     >
-                                        <Award className={`w-4 h-4 mr-2 ${selectedBadge === badge ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`} />
-                                        {badge}
+                                        <Award className={`w-4 h-4 mr-2 ${selectedBadge === badge.label ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`} />
+                                        {badge.label}
                                     </button>
                                 ))}
                             </div>

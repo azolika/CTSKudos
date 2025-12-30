@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { userAPI, feedbackAPI } from '../services/api';
+import { userAPI, feedbackAPI, adminAPI } from '../services/api';
 import Layout from '../components/Layout';
 import TeamStats from '../components/TeamStats';
 import FeedbackForm from '../components/FeedbackForm';
@@ -8,6 +8,7 @@ import FeedbackStats from '../components/FeedbackStats';
 import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
 import KudosForm from '../components/KudosForm';
+import KudosBadgesLegend from '../components/KudosBadgesLegend';
 import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
 import { AlertCircle, UserCircle } from 'lucide-react';
 
@@ -23,6 +24,7 @@ const ManagerDashboard = () => {
     const [error, setError] = useState('');
     const [myCategoryStats, setMyCategoryStats] = useState([]);
     const [selectedEmployeeCategoryStats, setSelectedEmployeeCategoryStats] = useState([]);
+    const [badges, setBadges] = useState([]);
     const [period, setPeriod] = useState('all');
 
     useEffect(() => {
@@ -39,17 +41,19 @@ const ManagerDashboard = () => {
         try {
             setLoading(true);
             const since = getSinceDate(period);
-            const [subsData, myFeedbackData, teamFeedbackData, myCatStats] = await Promise.all([
+            const [subsData, myFeedbackData, teamFeedbackData, myCatStats, configData] = await Promise.all([
                 userAPI.getSubordinates(),
                 feedbackAPI.getMyFeedback(since),
                 feedbackAPI.getTeamFeedback(since),
-                feedbackAPI.getUserCategoryStats(user.id, since)
+                feedbackAPI.getUserCategoryStats(user.id, since),
+                adminAPI.getConfig()
             ]);
 
             setSubordinates(subsData);
             setMyFeedback(myFeedbackData);
             setAllTeamFeedback(teamFeedbackData);
             setMyCategoryStats(myCatStats);
+            setBadges(configData.kudos_badges || []);
 
             if (subsData.length > 0) {
                 setSelectedEmployee(subsData[0]);
@@ -252,12 +256,11 @@ const ManagerDashboard = () => {
                 {/* Employee Tab */}
                 {activeTab === 'employee' && (
                     <div className="space-y-8 fade-in">
-                        <div className="max-w-2xl mx-auto w-full">
-                            <KudosForm currentUser={user} onSuccess={loadData} />
-                        </div>
+                        <KudosForm currentUser={user} onSuccess={loadData} />
                         <FeedbackStats stats={myStats} title="📊 Rezultate personale" />
                         <CategoryStats stats={myCategoryStats} />
                         <FeedbackHistory feedbackList={myFeedback} />
+                        <KudosBadgesLegend badges={badges} />
                     </div>
                 )}
             </div>
