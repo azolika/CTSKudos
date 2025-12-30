@@ -7,12 +7,14 @@ import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
 import KudosForm from '../components/KudosForm';
 import KudosBadgesLegend from '../components/KudosBadgesLegend';
+import UserKudosBadges from '../components/UserKudosBadges';
 import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
 import { AlertCircle } from 'lucide-react';
 
 const UserDashboard = () => {
     const { user } = useAuth();
     const [feedback, setFeedback] = useState([]);
+    const [allFeedback, setAllFeedback] = useState([]);
     const [categoryStats, setCategoryStats] = useState([]);
     const [badges, setBadges] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -29,12 +31,14 @@ const UserDashboard = () => {
         try {
             setLoading(true);
             const since = getSinceDate(period);
-            const [data, catStats, configData] = await Promise.all([
+            const [data, fullData, catStats, configData] = await Promise.all([
                 feedbackAPI.getMyFeedback(since),
+                feedbackAPI.getMyFeedback(null),
                 feedbackAPI.getUserCategoryStats(user.id, since),
                 adminAPI.getConfig()
             ]);
             setFeedback(data);
+            setAllFeedback(fullData);
             setCategoryStats(catStats);
             setBadges(configData.kudos_badges || []);
             setError('');
@@ -67,8 +71,9 @@ const UserDashboard = () => {
                 {/* Welcome Header */}
                 <div className="fade-in flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center flex-wrap">
                             Bun venit, {user?.name}!
+                            <UserKudosBadges feedback={allFeedback} />
                         </h1>
                         <p className="text-slate-600 dark:text-slate-400">
                             Aici poți vedea feedback-ul primit de la managerul tău.

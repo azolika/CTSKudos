@@ -9,6 +9,7 @@ import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
 import KudosForm from '../components/KudosForm';
 import KudosBadgesLegend from '../components/KudosBadgesLegend';
+import UserKudosBadges from '../components/UserKudosBadges';
 import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
 import { AlertCircle, UserCircle } from 'lucide-react';
 
@@ -19,6 +20,7 @@ const ManagerDashboard = () => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [employeeFeedback, setEmployeeFeedback] = useState([]);
     const [myFeedback, setMyFeedback] = useState([]);
+    const [myFullFeedback, setMyFullFeedback] = useState([]);
     const [allTeamFeedback, setAllTeamFeedback] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -41,9 +43,10 @@ const ManagerDashboard = () => {
         try {
             setLoading(true);
             const since = getSinceDate(period);
-            const [subsData, myFeedbackData, teamFeedbackData, myCatStats, configData] = await Promise.all([
+            const [subsData, myFeedbackData, myFullData, teamFeedbackData, myCatStats, configData] = await Promise.all([
                 userAPI.getSubordinates(),
                 feedbackAPI.getMyFeedback(since),
+                feedbackAPI.getMyFeedback(null),
                 feedbackAPI.getTeamFeedback(since),
                 feedbackAPI.getUserCategoryStats(user.id, since),
                 adminAPI.getConfig()
@@ -51,6 +54,7 @@ const ManagerDashboard = () => {
 
             setSubordinates(subsData);
             setMyFeedback(myFeedbackData);
+            setMyFullFeedback(myFullData);
             setAllTeamFeedback(teamFeedbackData);
             setMyCategoryStats(myCatStats);
             setBadges(configData.kudos_badges || []);
@@ -110,8 +114,9 @@ const ManagerDashboard = () => {
                 {/* Welcome Header */}
                 <div className="fade-in flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 flex items-center flex-wrap">
                             Bun venit, {user?.name}!
+                            <UserKudosBadges feedback={myFullFeedback} />
                         </h1>
                         <p className="text-slate-600 dark:text-slate-400">
                             Gestionează echipa ta și oferă feedback angajaților.
