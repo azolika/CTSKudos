@@ -1,4 +1,4 @@
-import { TrendingUp, Award } from 'lucide-react';
+import { TrendingUp, Award, Heart } from 'lucide-react';
 import ProgressBar from './ProgressBar';
 
 const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
@@ -35,26 +35,21 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
                     {/* Red Points */}
                     <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-4 border border-red-200 dark:border-red-800">
                         <div className="flex items-center justify-between">
                             <div className="w-full">
                                 <p className="text-sm text-red-600 dark:text-red-400 font-bold mb-1">
-                                    🔴 Puncte roșii
+                                    🔴 Feedback Manager
                                 </p>
                                 <div className="flex items-baseline space-x-2">
                                     <p className="text-3xl font-black text-red-700 dark:text-red-300 mt-1">
                                         {stats.redManager}
                                     </p>
-                                    <div className="flex flex-col text-[10px] space-y-0.5 opacity-80">
-                                        <span className="bg-red-200 dark:bg-red-900/40 px-1.5 rounded text-red-800 dark:text-red-200">
-                                            {stats.redManager} Manager
-                                        </span>
-                                        <span className="bg-green-100 dark:bg-green-900/40 px-1.5 rounded text-green-800 dark:text-green-200">
-                                            + {stats.redPeer} Kudos Colegi
-                                        </span>
-                                    </div>
+                                    <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter">
+                                        Puncte oficiale
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -63,13 +58,36 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                     {/* Black Points */}
                     <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg p-4 border border-slate-300 dark:border-slate-600">
                         <div className="flex items-center justify-between text-center md:text-left">
-                            <div>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 font-bold mb-1 text-center md:text-left">
+                            <div className="w-full">
+                                <p className="text-sm text-slate-600 dark:text-slate-400 font-bold mb-1">
                                     ⚫ Puncte negre
                                 </p>
                                 <p className="text-3xl font-black text-slate-700 dark:text-slate-300 mt-1">
                                     {black}
                                 </p>
+                                <p className="text-[10px] text-slate-500 mt-1 uppercase tracking-tighter opacity-0">
+                                    -
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Kudos Card */}
+                    <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                        <div className="flex items-center justify-between">
+                            <div className="w-full">
+                                <p className="text-sm text-green-600 dark:text-green-400 font-bold mb-1 flex items-center">
+                                    <Heart className="w-4 h-4 mr-1 fill-current" />
+                                    Kudos Colegi
+                                </p>
+                                <div className="flex items-baseline space-x-2">
+                                    <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
+                                        {stats.redPeer}
+                                    </p>
+                                    <p className="text-[10px] text-green-500 mt-1 uppercase tracking-tighter">
+                                        Recunoaștere
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +95,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                     {/* Percentage */}
                     <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
                         <div className="flex items-center justify-between">
-                            <div>
+                            <div className="w-full">
                                 <p className="text-sm text-blue-600 dark:text-blue-400 font-bold mb-1">
                                     🔢 Performanță
                                 </p>
