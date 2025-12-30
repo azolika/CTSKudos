@@ -36,68 +36,58 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
                         {/* Red Points */}
-                        <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-3 border border-red-200 dark:border-red-800">
+                        <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-3 border border-red-200 dark:border-red-800 text-center">
                             <div className="w-full">
-                                <p className="text-xs text-red-600 dark:text-red-400 font-bold mb-1">
-                                    🔴 Feedback Manageri
+                                <p className="text-sm text-red-600 dark:text-red-400 font-bold mb-1">
+                                    🔴 Puncte roșii
                                 </p>
-                                <div className="flex items-baseline space-x-2">
-                                    <p className="text-2xl font-black text-red-700 dark:text-red-300 mt-1">
-                                        {teamStats.redManager}
-                                    </p>
-                                    <p className="hidden md:block text-[9px] text-red-500 mt-1 uppercase tracking-tighter">
-                                        Oficial
-                                    </p>
-                                </div>
+                                <p className="text-3xl font-black text-red-700 dark:text-red-300 mt-1">
+                                    {teamStats.redManager}
+                                </p>
                             </div>
                         </div>
 
                         {/* Black Points */}
-                        <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg p-3 border border-slate-300 dark:border-slate-600">
+                        <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg p-3 border border-slate-300 dark:border-slate-600 text-center">
                             <div className="w-full">
-                                <p className="text-xs text-slate-600 dark:text-slate-400 font-bold mb-1">
+                                <p className="text-sm text-slate-600 dark:text-slate-400 font-bold mb-1">
                                     ⚫ Puncte negre
                                 </p>
-                                <p className="text-2xl font-black text-slate-700 dark:text-slate-300 mt-1">
+                                <p className="text-3xl font-black text-slate-700 dark:text-slate-300 mt-1">
                                     {teamStats.black}
                                 </p>
                             </div>
                         </div>
 
                         {/* Kudos Card */}
-                        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800">
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800 text-center">
                             <div className="w-full">
-                                <p className="text-xs text-green-600 dark:text-green-400 font-bold mb-1 flex items-center">
+                                <p className="text-sm text-green-600 dark:text-green-400 font-bold mb-1 flex items-center justify-center">
                                     <Heart className="w-3 h-3 mr-1 fill-current" />
                                     Kudos Colegi
                                 </p>
-                                <div className="flex items-baseline space-x-2">
-                                    <p className="text-2xl font-black text-green-700 dark:text-green-300 mt-1">
-                                        {teamStats.redPeer}
-                                    </p>
-                                    <p className="hidden md:block text-[9px] text-green-500 mt-1 uppercase tracking-tighter">
-                                        Echipă
-                                    </p>
-                                </div>
+                                <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
+                                    {teamStats.redPeer}
+                                </p>
                             </div>
                         </div>
 
                         {/* Percentage */}
-                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800 text-center">
                             <div className="w-full">
-                                <p className="text-xs text-blue-600 dark:text-blue-400 font-bold mb-1">
+                                <p className="text-sm text-blue-600 dark:text-blue-400 font-bold mb-1">
                                     🔢 Performanță
                                 </p>
-                                <p className="text-2xl font-black text-blue-700 dark:text-blue-300 mt-1">
+                                <p className="text-3xl font-black text-blue-700 dark:text-blue-300 mt-1">
                                     {teamStats.percentageRed}%
                                 </p>
                             </div>
                         </div>
 
                         {/* Rating */}
-                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg p-3 border border-purple-200 dark:border-purple-800">
+                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg p-3 border border-purple-200 dark:border-purple-800 text-center">
                             <div className="w-full">
-                                <p className="text-xs text-purple-600 dark:text-purple-400 font-bold mb-1 flex items-center">
+                                <p className="text-sm text-purple-600 dark:text-purple-400 font-bold mb-1 flex items-center justify-center">
                                     <Award className="w-3 h-3 mr-1" />
                                     Rating
                                 </p>

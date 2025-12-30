@@ -208,7 +208,7 @@ def get_subordinates(manager_id: int):
             SELECT h.user_id FROM hierarchy h
             JOIN subordinates_cte s ON h.manager_id = s.user_id
         )
-        SELECT DISTINCT u.id, u.name, u.departament, u.functia
+        SELECT DISTINCT u.id, u.name, u.role, u.departament, u.functia
         FROM subordinates_cte s
         JOIN users u ON s.user_id = u.id
         ORDER BY u.name

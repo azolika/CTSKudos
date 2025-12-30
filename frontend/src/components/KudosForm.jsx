@@ -22,8 +22,8 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                     userAPI.getAllUsers(),
                     adminAPI.getConfig()
                 ]);
-                // Filter out current user from the list
-                setUsers(usersData.filter(u => u.id !== currentUser?.id));
+                // Filter out current user AND administrators from the list
+                setUsers(usersData.filter(u => u.id !== currentUser?.id && u.role !== 'admin'));
                 setBadges(configData.kudos_badges || []);
             } catch (err) {
                 console.error('Failed to load initial data:', err);

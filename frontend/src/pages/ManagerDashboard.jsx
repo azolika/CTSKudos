@@ -52,7 +52,7 @@ const ManagerDashboard = () => {
                 adminAPI.getConfig()
             ]);
 
-            setSubordinates(subsData);
+            setSubordinates(subsData.filter(u => u.role !== 'admin'));
             setMyFeedback(myFeedbackData);
             setMyFullFeedback(myFullData);
             setAllTeamFeedback(teamFeedbackData);

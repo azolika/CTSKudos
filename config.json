@@ -70,5 +70,39 @@
       "Head of RoadTax",
       "RoadTax Customer Support"
     ]
-  }
+  },
+  "kudos_badges": [
+    {
+      "label": "🤝 Coechipier de nădejde",
+      "description": "Se acordă pentru colaborare excelentă și sprijinul oferit echipei în mod constant, contribuind la un mediu de lucru armonios."
+    },
+    {
+      "label": "💡 Idei strălucite",
+      "description": "Pentru creativitate și propunerea de soluții inovatoare care aduc un plus de valoare proiectelor noastre."
+    },
+    {
+      "label": "🚀 Depășirea așteptărilor",
+      "description": "Pentru efortul suplimentar depus în realizarea sarcinilor și obținerea unor rezultate remarcabile."
+    },
+    {
+      "label": "🛠️ Rezolvitor de probleme",
+      "description": "Pentru abilitatea de a identifica rapid cauzele problemelor și de a implementa soluții eficiente sub presiune."
+    },
+    {
+      "label": "✨ Atitudine pozitivă",
+      "description": "Pentru optimismul și energia contagioasă care motivează echipa chiar și în momentele solicitante."
+    },
+    {
+      "label": "🎓 Împărtășește cunoștințe",
+      "description": "Pentru generozitatea de a-i învăța pe ceilalți și efortul de a ridica nivelul tehnic al întregului colectiv."
+    },
+    {
+      "label": "🎯 Concentrat pe obiective",
+      "description": "Pentru perseverența și disciplina demonstrate în atingerea targetelor, fără a face compromisuri la calitate."
+    },
+    {
+      "label": "🆘 Mereu de ajutor",
+      "description": "Pentru disponibilitatea de a sări în ajutorul oricărui coleg, indiferent de complexitatea solicitării."
+    }
+  ]
 }
