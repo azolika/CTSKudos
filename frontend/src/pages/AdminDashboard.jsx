@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import UserManagementTable from '../components/UserManagementTable';
 import UserForm from '../components/UserForm';
 import ChangePasswordModal from '../components/ChangePasswordModal';
+import DeleteConfirmModal from '../components/DeleteConfirmModal';
 import { AlertCircle, BarChart3, UserPlus, TrendingUp, Users, Award } from 'lucide-react';
 import { ROLES } from '../utils/constants';
 
@@ -14,8 +15,10 @@ const AdminDashboard = () => {
     const [error, setError] = useState('');
     const [showUserForm, setShowUserForm] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [userForPassword, setUserForPassword] = useState(null);
+    const [userToDelete, setUserToDelete] = useState(null);
     const [formLoading, setFormLoading] = useState(false);
     const [config, setConfig] = useState({ departments: {} });
 
@@ -58,18 +61,23 @@ const AdminDashboard = () => {
         setShowPasswordModal(true);
     };
 
-    const handleDeleteUser = async (user) => {
-        if (!confirm(`Sigur vrei să ștergi utilizatorul "${user.name}"?`)) {
-            return;
-        }
+    const openDeleteModal = (user) => {
+        setUserToDelete(user);
+        setShowDeleteModal(true);
+    };
 
+    const handleConfirmDelete = async (user) => {
         try {
-            console.log(`Deleting user ID: ${user.id}`);
+            setFormLoading(true);
             await userAPI.deleteUser(user.id);
             await loadData();
+            setShowDeleteModal(false);
+            setUserToDelete(null);
         } catch (err) {
             console.error('Failed to delete user:', err);
             alert('Eroare la ștergerea utilizatorului. Vă rugăm încercați din nou.');
+        } finally {
+            setFormLoading(false);
         }
     };
 
@@ -345,7 +353,7 @@ const AdminDashboard = () => {
                         <UserManagementTable
                             users={users}
                             onEdit={handleEditUser}
-                            onDelete={handleDeleteUser}
+                            onDelete={openDeleteModal}
                             onPasswordChange={openPasswordModal}
                         />
                     </div>
@@ -372,6 +380,19 @@ const AdminDashboard = () => {
                     onCancel={() => {
                         setShowPasswordModal(false);
                         setUserForPassword(null);
+                    }}
+                    loading={formLoading}
+                />
+            )}
+
+            {/* Delete Confirmation Modal */}
+            {showDeleteModal && userToDelete && (
+                <DeleteConfirmModal
+                    user={userToDelete}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={() => {
+                        setShowDeleteModal(false);
+                        setUserToDelete(null);
                     }}
                     loading={formLoading}
                 />
