@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { feedbackAPI, userAPI } from '../services/api';
+import { feedbackAPI, userAPI, adminAPI } from '../services/api';
 import { FEEDBACK_TYPES } from '../utils/constants';
-import { Heart, Send, Search, MessageSquare, X } from 'lucide-react';
+import { Heart, Send, Search, Award, X, Sparkles } from 'lucide-react';
 
 const KudosForm = ({ currentUser, onSuccess }) => {
     const [users, setUsers] = useState([]);
+    const [badges, setBadges] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState('');
-    const [comment, setComment] = useState('');
+    const [selectedBadge, setSelectedBadge] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -17,11 +18,15 @@ const KudosForm = ({ currentUser, onSuccess }) => {
     useEffect(() => {
         const loadInitialData = async () => {
             try {
-                const usersData = await userAPI.getAllUsers();
+                const [usersData, configData] = await Promise.all([
+                    userAPI.getAllUsers(),
+                    adminAPI.getConfig()
+                ]);
                 // Filter out current user from the list
                 setUsers(usersData.filter(u => u.id !== currentUser?.id));
+                setBadges(configData.kudos_badges || []);
             } catch (err) {
-                console.error('Failed to load users:', err);
+                console.error('Failed to load initial data:', err);
             }
         };
         loadInitialData();
@@ -29,8 +34,8 @@ const KudosForm = ({ currentUser, onSuccess }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!selectedUserId || !comment.trim()) {
-            setMessage({ type: 'error', text: 'Vă rugăm să completați toate câmpurile.' });
+        if (!selectedUserId || !selectedBadge) {
+            setMessage({ type: 'error', text: 'Vă rugăm să alegeți un coleg și un mesaj.' });
             return;
         }
 
@@ -39,7 +44,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
         setPendingFeedback({
             employee_id: parseInt(selectedUserId),
             point_type: FEEDBACK_TYPES.RED,
-            comment: comment.trim(),
+            comment: selectedBadge,
             category: "Kudos", // Default category for Kudos
             employee_name: selectedUser?.name || 'Coleg'
         });
@@ -63,7 +68,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
             await feedbackAPI.createFeedback(payload);
 
             setMessage({ type: 'success', text: 'Kudos trimis cu succes!' });
-            setComment('');
+            setSelectedBadge('');
             setSelectedUserId('');
             setShowConfirmModal(false);
             setPendingFeedback(null);
@@ -120,20 +125,28 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                             </div>
                         </div>
 
-                        {/* Comment */}
+                        {/* Badges */}
                         <div>
-                            <label htmlFor="kudos-comment" className="label">
-                                <MessageSquare className="w-4 h-4 inline mr-1" />
-                                Mesaj
+                            <label className="label">
+                                <Sparkles className="w-4 h-4 inline mr-1 text-yellow-500" />
+                                Alege un mesaj (Badge)
                             </label>
-                            <textarea
-                                id="kudos-comment"
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                className="input min-h-[80px] resize-y"
-                                placeholder="Scrie o scurtă apreciere despre munca colegului tău..."
-                                disabled={loading}
-                            />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                                {badges.map((badge) => (
+                                    <button
+                                        key={badge}
+                                        type="button"
+                                        onClick={() => setSelectedBadge(badge)}
+                                        className={`flex items-center p-3 rounded-lg border text-sm font-medium transition-all ${selectedBadge === badge
+                                            ? 'bg-green-100 border-green-500 text-green-800 dark:bg-green-900/30 dark:border-green-400 dark:text-green-300 ring-2 ring-green-200 dark:ring-green-900/20'
+                                            : 'bg-white border-slate-200 text-slate-700 hover:border-green-300 hover:bg-green-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700'
+                                            }`}
+                                    >
+                                        <Award className={`w-4 h-4 mr-2 ${selectedBadge === badge ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`} />
+                                        {badge}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         {message.text && (
@@ -147,7 +160,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
 
                         <button
                             type="submit"
-                            disabled={loading || !selectedUserId || !comment.trim()}
+                            disabled={loading || !selectedUserId || !selectedBadge}
                             className="btn bg-green-500 hover:bg-green-600 text-white w-full py-3 flex items-center justify-center space-x-2 shadow-lg shadow-green-200 dark:shadow-green-900/20 transition-all active:scale-[0.98]"
                         >
                             {loading ? (
