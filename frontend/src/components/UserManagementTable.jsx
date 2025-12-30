@@ -95,14 +95,7 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
                                                 <Edit className="w-4 h-4" />
                                             </button>
                                             <button
-                                                onClick={() => {
-                                                    const newPassword = prompt(`Introdu noua parolă pentru ${user.name}:`);
-                                                    if (newPassword && newPassword.length >= 6) {
-                                                        onPasswordChange(user.id, newPassword);
-                                                    } else if (newPassword) {
-                                                        alert('Parola trebuie să aibă cel puțin 6 caractere.');
-                                                    }
-                                                }}
+                                                onClick={() => onPasswordChange(user)}
                                                 className="p-2 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
                                                 title="Schimbă Parola"
                                             >

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { feedbackAPI } from '../services/api';
+import { feedbackAPI, adminAPI } from '../services/api';
 import Layout from '../components/Layout';
 import FeedbackStats from '../components/FeedbackStats';
 import CategoryStats from '../components/CategoryStats';
 import FeedbackHistory from '../components/FeedbackHistory';
 import KudosForm from '../components/KudosForm';
+import KudosBadgesLegend from '../components/KudosBadgesLegend';
 import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
 import { AlertCircle } from 'lucide-react';
 
@@ -13,6 +14,7 @@ const UserDashboard = () => {
     const { user } = useAuth();
     const [feedback, setFeedback] = useState([]);
     const [categoryStats, setCategoryStats] = useState([]);
+    const [badges, setBadges] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [period, setPeriod] = useState('all');
@@ -27,12 +29,14 @@ const UserDashboard = () => {
         try {
             setLoading(true);
             const since = getSinceDate(period);
-            const [data, catStats] = await Promise.all([
+            const [data, catStats, configData] = await Promise.all([
                 feedbackAPI.getMyFeedback(since),
-                feedbackAPI.getUserCategoryStats(user.id, since)
+                feedbackAPI.getUserCategoryStats(user.id, since),
+                adminAPI.getConfig()
             ]);
             setFeedback(data);
             setCategoryStats(catStats);
+            setBadges(configData.kudos_badges || []);
             setError('');
         } catch (err) {
             console.error('Failed to load feedback:', err);
@@ -106,9 +110,7 @@ const UserDashboard = () => {
                 )}
 
                 {/* Send Kudos Section */}
-                <div className="fade-in max-w-2xl mx-auto w-full">
-                    <KudosForm currentUser={user} onSuccess={loadFeedback} />
-                </div>
+                <KudosForm currentUser={user} onSuccess={loadFeedback} />
 
                 {/* Feedback Statistics */}
                 <FeedbackStats stats={stats} title="📊 Rezultate personale" />
@@ -118,6 +120,9 @@ const UserDashboard = () => {
 
                 {/* Feedback History */}
                 <FeedbackHistory feedbackList={feedback} />
+
+                {/* Kudos Meaning / Legend */}
+                <KudosBadgesLegend badges={badges} />
             </div>
         </Layout>
     );

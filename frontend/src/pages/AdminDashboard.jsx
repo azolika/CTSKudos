@@ -3,6 +3,7 @@ import { userAPI, adminAPI, feedbackAPI } from '../services/api';
 import Layout from '../components/Layout';
 import UserManagementTable from '../components/UserManagementTable';
 import UserForm from '../components/UserForm';
+import ChangePasswordModal from '../components/ChangePasswordModal';
 import { AlertCircle, BarChart3, UserPlus, TrendingUp, Users, Award } from 'lucide-react';
 import { ROLES } from '../utils/constants';
 
@@ -12,7 +13,9 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [showUserForm, setShowUserForm] = useState(false);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
+    const [userForPassword, setUserForPassword] = useState(null);
     const [formLoading, setFormLoading] = useState(false);
     const [config, setConfig] = useState({ departments: {} });
 
@@ -50,6 +53,11 @@ const AdminDashboard = () => {
         setShowUserForm(true);
     };
 
+    const openPasswordModal = (user) => {
+        setUserForPassword(user);
+        setShowPasswordModal(true);
+    };
+
     const handleDeleteUser = async (user) => {
         if (!confirm(`Sigur vrei să ștergi utilizatorul "${user.name}"?`)) {
             return;
@@ -67,11 +75,16 @@ const AdminDashboard = () => {
 
     const handlePasswordChange = async (userId, newPassword) => {
         try {
+            setFormLoading(true);
             await userAPI.changePassword(userId, newPassword);
             alert('Parola a fost actualizată cu succes!');
+            setShowPasswordModal(false);
+            setUserForPassword(null);
         } catch (err) {
             console.error('Failed to change password:', err);
             alert('Eroare la schimbarea parolei. Vă rugăm încercați din nou.');
+        } finally {
+            setFormLoading(false);
         }
     };
 
@@ -333,7 +346,7 @@ const AdminDashboard = () => {
                             users={users}
                             onEdit={handleEditUser}
                             onDelete={handleDeleteUser}
-                            onPasswordChange={handlePasswordChange}
+                            onPasswordChange={openPasswordModal}
                         />
                     </div>
                 </div>
@@ -347,6 +360,19 @@ const AdminDashboard = () => {
                     config={config}
                     onSubmit={handleFormSubmit}
                     onCancel={handleFormCancel}
+                    loading={formLoading}
+                />
+            )}
+
+            {/* Change Password Modal */}
+            {showPasswordModal && userForPassword && (
+                <ChangePasswordModal
+                    user={userForPassword}
+                    onSubmit={handlePasswordChange}
+                    onCancel={() => {
+                        setShowPasswordModal(false);
+                        setUserForPassword(null);
+                    }}
                     loading={formLoading}
                 />
             )}
