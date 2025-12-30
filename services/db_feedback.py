@@ -423,16 +423,23 @@ def get_admin_stats():
         elif pt == "negru":
             black_30 = cnt
 
-    # 3) Top 5 manageri după activitate
-    c.execute("""
-        SELECT m.name, COUNT(*)
-        FROM feedback f
-        JOIN users m ON f.manager_id = m.id
-        GROUP BY m.id
-        ORDER BY COUNT(*) DESC
-        LIMIT 5
-    """)
-    top_managers = [{"name": r[0], "count": r[1]} for r in c.fetchall()]
+    # 3) Top 5 manageri după activitate (doar feedback oficial)
+    c.execute("SELECT manager_id, employee_id FROM feedback")
+    all_feedback_rows = c.fetchall()
+    
+    manager_activity = {}
+    for mid, eid in all_feedback_rows:
+        if is_superior(mid, eid):
+            manager_activity[mid] = manager_activity.get(mid, 0) + 1
+            
+    # Get manager names for the top 5
+    top_mgr_ids = sorted(manager_activity.items(), key=lambda x: x[1], reverse=True)[:5]
+    top_managers = []
+    for mid, count in top_mgr_ids:
+        c.execute("SELECT name FROM users WHERE id = %s", (mid,))
+        name_row = c.fetchone()
+        if name_row:
+            top_managers.append({"name": name_row[0], "count": count})
 
     # 4) User counts by role
     c.execute("SELECT role, COUNT(*) FROM users GROUP BY role")
