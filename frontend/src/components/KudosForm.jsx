@@ -239,7 +239,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                     ) : (
                                         <>
                                             <Send className="w-4 h-4" />
-                                            <span>Confirmă și Trimite</span>
+                                            <span>Trimite</span>
                                         </>
                                     )}
                                 </button>

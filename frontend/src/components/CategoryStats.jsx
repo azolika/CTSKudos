@@ -11,7 +11,7 @@ const CategoryStats = ({ stats }) => {
     return (
         <div className="card mt-6">
             <div className="card-header">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Statistici pe Categorii</h3>
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Statistici pe categorii</h3>
             </div>
             <div className="card-body space-y-4">
                 {stats.map((stat, idx) => {
@@ -39,15 +39,11 @@ const CategoryStats = ({ stats }) => {
                                         <div className="w-1.5 h-1.5 bg-slate-800 dark:bg-slate-400 rounded-full mr-1"></div>
                                         <span className="font-bold text-slate-700 dark:text-slate-300">{stat.negru} Negru</span>
                                     </div>
-                                    <div className="flex items-center">
-                                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></div>
-                                        <span className="font-bold text-green-600">{stat.rosu_peer} Kudos Colegi</span>
-                                    </div>
                                 </div>
                             </div>
 
                             {/* Background track */}
-                            <div className="h-5 w-full bg-slate-100 dark:bg-slate-800 rounded-md overflow-hidden flex shadow-inner border border-slate-200/50 dark:border-slate-700/50">
+                            <div className="h-6 w-full bg-slate-100 dark:bg-slate-800 rounded-md overflow-hidden flex shadow-inner border border-slate-200/50 dark:border-slate-700/50">
                                 {/* Manager Red */}
                                 {stat.rosu_manager > 0 && (
                                     <div

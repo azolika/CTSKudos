@@ -295,7 +295,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                 ) : (
                                     <>
                                         {isEdit ? <Save className="w-5 h-5" /> : <UserPlus className="w-5 h-5" />}
-                                        <span>{isEdit ? 'Salvează modificările' : 'Creează utilizator'}</span>
+                                        <span>{isEdit ? 'Salvează' : 'Creează utilizator'}</span>
                                     </>
                                 )}
                             </button>

@@ -38,7 +38,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         {/* Red Points */}
                         <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-3 border border-red-200 dark:border-red-800 text-center">
                             <div className="w-full">
-                                <p className="text-sm text-red-600 dark:text-red-400 font-bold mb-1">
+                                <p className="text-m text-red-600 dark:text-red-400 font-bold mb-1">
                                     🔴 Puncte roșii
                                 </p>
                                 <p className="text-3xl font-black text-red-700 dark:text-red-300 mt-1">
@@ -50,7 +50,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         {/* Black Points */}
                         <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg p-3 border border-slate-300 dark:border-slate-600 text-center">
                             <div className="w-full">
-                                <p className="text-sm text-slate-600 dark:text-slate-400 font-bold mb-1">
+                                <p className="text-m text-slate-600 dark:text-slate-400 font-bold mb-1">
                                     ⚫ Puncte negre
                                 </p>
                                 <p className="text-3xl font-black text-slate-700 dark:text-slate-300 mt-1">
@@ -62,9 +62,9 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         {/* Kudos Card */}
                         <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800 text-center">
                             <div className="w-full">
-                                <p className="text-sm text-green-600 dark:text-green-400 font-bold mb-1 flex items-center justify-center">
+                                <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1 flex items-center justify-center">
                                     <Heart className="w-3 h-3 mr-1 fill-current" />
-                                    Kudos Colegi
+                                    Kudos
                                 </p>
                                 <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
                                     {teamStats.redPeer}
@@ -75,7 +75,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         {/* Percentage */}
                         <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800 text-center">
                             <div className="w-full">
-                                <p className="text-sm text-blue-600 dark:text-blue-400 font-bold mb-1">
+                                <p className="text-m text-blue-600 dark:text-blue-400 font-bold mb-1">
                                     🔢 Performanță
                                 </p>
                                 <p className="text-3xl font-black text-blue-700 dark:text-blue-300 mt-1">
@@ -87,12 +87,12 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         {/* Rating */}
                         <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg p-3 border border-purple-200 dark:border-purple-800 text-center">
                             <div className="w-full">
-                                <p className="text-sm text-purple-600 dark:text-purple-400 font-bold mb-1 flex items-center justify-center">
+                                <p className="text-m text-purple-600 dark:text-purple-400 font-bold mb-1 flex items-center justify-center">
                                     <Award className="w-3 h-3 mr-1" />
-                                    Rating
+                                    Calificativ
                                 </p>
                                 <div className="mt-1">
-                                    <span className="text-sm font-black text-purple-700 dark:text-purple-300">
+                                    <span className="badge badge-info text-xl font-black px-3 py-1">
                                         {teamStats.rating}
                                     </span>
                                 </div>

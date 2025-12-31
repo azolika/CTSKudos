@@ -80,7 +80,7 @@ const DeleteConfirmModal = ({ user, onConfirm, onCancel, loading }) => {
                                 ) : (
                                     <>
                                         <Trash2 className="w-5 h-5" />
-                                        <span>Șterge Utilizator</span>
+                                        <span>Șterge</span>
                                     </>
                                 )}
                             </button>
