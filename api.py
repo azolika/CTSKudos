@@ -225,6 +225,14 @@ async def create_feedback(
     feedback: FeedbackCreate, 
     current_user: dict = Depends(get_current_user)
 ):
+    # Ensure recipient is NOT an admin
+    recipient = get_user_by_id(feedback.employee_id)
+    if not recipient or recipient[3] == "admin":
+        raise HTTPException(
+            status_code=403, 
+            detail="Nu se pot acorda puncte sau Kudos administratorilor."
+        )
+
     role = current_user["role"]
     
     # Validation: regular users can ONLY send positive feedback (rosu)
@@ -376,14 +384,15 @@ async def read_user_category_stats(target_user_id: int, since: Optional[str] = N
 async def get_my_subordinates(current_user: dict = Depends(get_current_user)):
     """Get subordinates for current manager."""
     rows = get_subordinates(current_user["id"])
-    # rows: id, name, dept, functia
+    # rows: id, name, role, dept, functia
     data = []
     for r in rows:
         data.append({
             "id": r[0],
             "name": r[1],
-            "departament": r[2],
-            "functia": r[3]
+            "role": r[2],
+            "departament": r[3],
+            "functia": r[4]
         })
     return data
 

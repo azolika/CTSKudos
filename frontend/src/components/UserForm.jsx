@@ -123,24 +123,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     disabled={isEdit}
                                 />
                             </div>
-
-                            {/* Name */}
-                            <div className="space-y-1.5">
-                                <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <User className="w-4 h-4 mr-1.5 text-slate-400" />
-                                    Nume complet
-                                </label>
-                                <input
-                                    name="name"
-                                    type="text"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className="input focus:ring-primary-500/20 transition-all"
-                                    placeholder="Prenume Nume"
-                                    required
-                                />
-                            </div>
-
                             {/* Password */}
                             {!isEdit && (
                                 <div className="space-y-1.5">
@@ -159,6 +141,25 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     />
                                 </div>
                             )}
+
+                            {/* Name */}
+                            <div className="space-y-1.5">
+                                <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                    <User className="w-4 h-4 mr-1.5 text-slate-400" />
+                                    Nume complet
+                                </label>
+                                <input
+                                    name="name"
+                                    type="text"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    className="input focus:ring-primary-500/20 transition-all"
+                                    placeholder="Prenume Nume"
+                                    required
+                                />
+                            </div>
+
+
 
                             {/* Role */}
                             <div className="space-y-1.5">
