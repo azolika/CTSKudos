@@ -14,7 +14,6 @@ services:
       - mariadb
     volumes:
       - ./config.json:/app/config.json
-      - ./config_generated.json:/app/config_generated.json
 
   # Database Service
   mariadb:
@@ -31,20 +30,19 @@ services:
       MARIADB_ROOT_HOST: '%'
     volumes:
       - kudos_data:/var/lib/mysql
-
   # Frontend UI Service
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-      args:
-        - VITE_API_URL=${VITE_API_URL}
-    container_name: kudos_frontend
-    restart: unless-stopped
-    ports:
-      - "9005:80"
-    depends_on:
-      - backend
+  # frontend:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.frontend
+  #     args:
+  #       - VITE_API_URL=${VITE_API_URL}
+  #   container_name: kudos_frontend
+  #   restart: unless-stopped
+  #   ports:
+  #     - "9005:80"
+  #   depends_on:
+  #     - backend
 
 volumes:
   kudos_data:
