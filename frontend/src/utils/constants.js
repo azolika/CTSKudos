@@ -43,7 +43,6 @@ export const calculateRating = (percentageRed) => {
 };
 
 // Calculate feedback statistics
-// Calculate feedback statistics
 export const calculateFeedbackStats = (feedbackList) => {
     if (!feedbackList || feedbackList.length === 0) {
         return {
