@@ -108,21 +108,20 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                     {/* Action Buttons */}
                     <div className="grid grid-cols-2 gap-4">
                         <button
-                            onClick={() => handleSubmit(FEEDBACK_TYPES.BLACK)}
-                            disabled={loading || !comment.trim() || !selectedCategory}
-                            className="btn btn-feedback-black flex items-center justify-center space-x-2"
-                        >
-                            <span>⚫</span>
-                            <span>Punct Negru</span>
-                        </button>
-
-                        <button
                             onClick={() => handleSubmit(FEEDBACK_TYPES.RED)}
                             disabled={loading || !comment.trim() || !selectedCategory}
                             className="btn btn-feedback-official flex items-center justify-center space-x-2"
                         >
                             <span>🟢</span>
                             <span>Punct Verde</span>
+                        </button>
+                        <button
+                            onClick={() => handleSubmit(FEEDBACK_TYPES.BLACK)}
+                            disabled={loading || !comment.trim() || !selectedCategory}
+                            className="btn btn-feedback-black flex items-center justify-center space-x-2"
+                        >
+                            <span>⚫</span>
+                            <span>Punct Negru</span>
                         </button>
                     </div>
                 </div>
