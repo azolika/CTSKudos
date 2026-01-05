@@ -16,7 +16,7 @@ export const FEEDBACK_TYPES = {
 
 // Feedback Type Labels (Romanian)
 export const FEEDBACK_LABELS = {
-    [FEEDBACK_TYPES.RED]: 'Roșu',
+    [FEEDBACK_TYPES.RED]: 'Oficial',
     [FEEDBACK_TYPES.BLACK]: 'Negru',
 };
 

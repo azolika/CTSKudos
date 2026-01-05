@@ -119,10 +119,10 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                         <button
                             onClick={() => handleSubmit(FEEDBACK_TYPES.RED)}
                             disabled={loading || !comment.trim() || !selectedCategory}
-                            className="btn btn-feedback-red flex items-center justify-center space-x-2"
+                            className="btn btn-feedback-official flex items-center justify-center space-x-2"
                         >
-                            <span>🔴</span>
-                            <span>Punct Roșu</span>
+                            <span>🟢</span>
+                            <span>Punct Oficial</span>
                         </button>
                     </div>
                 </div>
@@ -152,8 +152,8 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                             <div className="space-y-4 mb-6">
                                 <p className="text-slate-700 dark:text-slate-300">
                                     Ești sigur că vrei să acorzi un{' '}
-                                    <strong className={pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'text-red-600' : 'text-slate-900'}>
-                                        Punct {pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'Roșu' : 'Negru'}
+                                    <strong className={pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'text-green-600' : 'text-slate-900'}>
+                                        Punct {pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'Oficial' : 'Negru'}
                                     </strong>
                                     ?
                                 </p>

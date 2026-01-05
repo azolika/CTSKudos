@@ -126,7 +126,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                         <th className="text-center">Oficial</th>
                                         <th className="text-center">Kudos</th>
                                         <th className="text-center">Negru</th>
-                                        <th className="text-center">% Roșu</th>
+                                        <th className="text-center">% Oficial</th>
                                         <th>Calificativ</th>
                                     </tr>
                                 </thead>

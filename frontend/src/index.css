@@ -28,7 +28,7 @@
   --color-green-900: #003e2c;
   --color-green-950: #002218;
 
-  --color-feedback-red: #00CD93;
+  --color-feedback-official: #00CD93;
   --color-feedback-black: #000000;
 }
 
@@ -80,9 +80,9 @@
     @apply focus:ring-red-500;
   }
 
-  .btn-feedback-red {
-    @apply bg-feedback-red text-white hover:bg-red-600;
-    @apply focus:ring-red-500;
+  .btn-feedback-official {
+    @apply bg-feedback-official text-white hover:bg-green-600;
+    @apply focus:ring-green-500;
     @apply shadow-md hover:shadow-lg;
   }
 
@@ -135,7 +135,7 @@
     @apply shadow-inner;
   }
 
-  .progress-segment-red {
+  .progress-segment-official {
     @apply bg-gradient-to-r from-green-500 to-green-600;
     @apply transition-all duration-500 ease-out;
   }

@@ -1,13 +1,14 @@
 const ProgressBar = ({ percentageRed }) => {
-    const percentageBlack = 100 - percentageRed;
+    const percentageOfficial = percentageRed;
+    const percentageBlack = 100 - percentageOfficial;
 
     return (
         <div className="progress-bar">
             <div
-                className="progress-segment-red flex items-center justify-center text-white font-semibold text-sm"
-                style={{ width: `${percentageRed}%` }}
+                className="progress-segment-official flex items-center justify-center text-white font-semibold text-sm"
+                style={{ width: `${percentageOfficial}%` }}
             >
-                {percentageRed > 10 && `${percentageRed}%`}
+                {percentageOfficial > 10 && `${percentageOfficial}%`}
             </div>
             <div
                 className="progress-segment-black flex items-center justify-center text-white font-semibold text-sm"
