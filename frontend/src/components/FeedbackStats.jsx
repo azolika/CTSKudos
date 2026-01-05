@@ -31,7 +31,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
             <div className="card-body space-y-6">
                 {/* Progress Bar */}
                 <div>
-                    <ProgressBar percentageRed={percentageRed} />
+                    <ProgressBar percentageRed={percentageRed} rating={rating} />
                 </div>
 
                 {/* Stats Grid */}

@@ -31,7 +31,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                     </h2>
                 </div>
                 <div className="card-body space-y-6">
-                    <ProgressBar percentageRed={teamStats.percentageRed} />
+                    <ProgressBar percentageRed={teamStats.percentageRed} rating={teamStats.rating} />
 
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
@@ -92,7 +92,16 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                     Calificativ
                                 </p>
                                 <div className="mt-1">
-                                    <span className="badge badge-info text-xl font-black px-3 py-1">
+                                    <span className={`badge ${teamStats.rating === 'Nu există date'
+                                        ? 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                                        : teamStats.percentageRed >= 75
+                                            ? 'badge-success'
+                                            : teamStats.percentageRed >= 50
+                                                ? 'badge-info'
+                                                : teamStats.percentageRed >= 25
+                                                    ? 'badge-warning'
+                                                    : 'badge-danger'
+                                        } text-xl font-black px-3 py-1`}>
                                         {teamStats.rating}
                                     </span>
                                 </div>
