@@ -210,7 +210,7 @@ const AdminDashboard = () => {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
-                                        Oficial (30 zile)
+                                        Verzi (30 zile)
                                     </p>
                                     <p className="text-3xl font-bold text-green-600 dark:text-green-400">
                                         {stats?.red_30_days || 0}

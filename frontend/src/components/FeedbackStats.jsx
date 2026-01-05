@@ -41,7 +41,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                         <div className="flex items-center justify-center">
                             <div className="w-full">
                                 <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1">
-                                    🟢 Puncte oficiale
+                                    🟢 Puncte verzi
                                 </p>
                                 <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
                                     {stats.redManager}

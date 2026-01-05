@@ -33,7 +33,7 @@ const CategoryStats = ({ stats }) => {
                                 <div className="flex items-center space-x-2 text-[11px] mb-0.5 opacity-90">
                                     <div className="flex items-center">
                                         <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></div>
-                                        <span className="font-bold text-green-600">{stat.rosu_manager} Oficial</span>
+                                        <span className="font-bold text-green-600">{stat.rosu_manager} Verzi</span>
                                     </div>
                                     <div className="flex items-center">
                                         <div className="w-1.5 h-1.5 bg-slate-800 dark:bg-slate-400 rounded-full mr-1"></div>
@@ -49,7 +49,7 @@ const CategoryStats = ({ stats }) => {
                                     <div
                                         style={{ width: `${mRedPercent}%` }}
                                         className="bg-green-500 h-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden border-r border-white/10"
-                                        title={`${stat.rosu_manager} Puncte Oficiale Manager`}
+                                        title={`${stat.rosu_manager} Puncte Verzi Manager`}
                                     >
                                         {mRedPercent > 10 && <span className="text-[9px] text-white font-black">{Math.round(mRedPercent)}%</span>}
                                     </div>

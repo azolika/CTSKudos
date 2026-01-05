@@ -122,7 +122,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                             className="btn btn-feedback-official flex items-center justify-center space-x-2"
                         >
                             <span>🟢</span>
-                            <span>Punct Oficial</span>
+                            <span>Punct Verde</span>
                         </button>
                     </div>
                 </div>
@@ -153,7 +153,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                 <p className="text-slate-700 dark:text-slate-300">
                                     Ești sigur că vrei să acorzi un{' '}
                                     <strong className={pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'text-green-600' : 'text-slate-900'}>
-                                        Punct {pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'Oficial' : 'Negru'}
+                                        Punct {pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'Verde' : 'Negru'}
                                     </strong>
                                     ?
                                 </p>
