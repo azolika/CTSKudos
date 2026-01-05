@@ -39,7 +39,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800 text-center">
                             <div className="w-full">
                                 <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1">
-                                    🟢 Puncte verzi
+                                    🟢 Puncte pozitive
                                 </p>
                                 <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
                                     {teamStats.redManager}
@@ -51,7 +51,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg p-3 border border-slate-300 dark:border-slate-600 text-center">
                             <div className="w-full">
                                 <p className="text-m text-slate-600 dark:text-slate-400 font-bold mb-1">
-                                    ⚫ Puncte negre
+                                    ⚫ Puncte negative
                                 </p>
                                 <p className="text-3xl font-black text-slate-700 dark:text-slate-300 mt-1">
                                     {teamStats.black}
@@ -123,10 +123,10 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                         <th>Nume</th>
                                         <th>Departament</th>
                                         <th>Funcția</th>
-                                        <th className="text-center">Verzi</th>
+                                        <th className="text-center">Pozitive</th>
                                         <th className="text-center">Kudos</th>
-                                        <th className="text-center">Negru</th>
-                                        <th className="text-center">% Verzi</th>
+                                        <th className="text-center">Negative</th>
+                                        <th className="text-center">% Pozitive</th>
                                         <th>Calificativ</th>
                                     </tr>
                                 </thead>

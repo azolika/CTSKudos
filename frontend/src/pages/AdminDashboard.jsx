@@ -210,7 +210,7 @@ const AdminDashboard = () => {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
-                                        Verzi (30 zile)
+                                        Puncte pozitive (30 zile)
                                     </p>
                                     <p className="text-3xl font-bold text-green-600 dark:text-green-400">
                                         {stats?.red_30_days || 0}
@@ -228,7 +228,7 @@ const AdminDashboard = () => {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
-                                        Negre (30 zile)
+                                        Negative (30 zile)
                                     </p>
                                     <p className="text-3xl font-bold text-slate-900 dark:text-slate-400">
                                         {stats?.black_30_days || 0}

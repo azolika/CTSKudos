@@ -16,8 +16,8 @@ export const FEEDBACK_TYPES = {
 
 // Feedback Type Labels (Romanian)
 export const FEEDBACK_LABELS = {
-    [FEEDBACK_TYPES.RED]: 'Verzi',
-    [FEEDBACK_TYPES.BLACK]: 'Negru',
+    [FEEDBACK_TYPES.RED]: 'Pozitive',
+    [FEEDBACK_TYPES.BLACK]: 'Negative',
 };
 
 // Rating Thresholds and Labels
