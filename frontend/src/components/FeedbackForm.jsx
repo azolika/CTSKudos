@@ -113,7 +113,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                             className="btn btn-feedback-official flex items-center justify-center space-x-2"
                         >
                             <span>🟢</span>
-                            <span>Punct Verde</span>
+                            <span>Punct Pozitiv</span>
                         </button>
                         <button
                             onClick={() => handleSubmit(FEEDBACK_TYPES.BLACK)}
@@ -121,7 +121,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                             className="btn btn-feedback-black flex items-center justify-center space-x-2"
                         >
                             <span>⚫</span>
-                            <span>Punct Negru</span>
+                            <span>Punct Negativ</span>
                         </button>
                     </div>
                 </div>
@@ -152,7 +152,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                 <p className="text-slate-700 dark:text-slate-300">
                                     Ești sigur că vrei să acorzi un{' '}
                                     <strong className={pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'text-green-600' : 'text-slate-900'}>
-                                        Punct {pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'Verde' : 'Negru'}
+                                        Punct {pendingFeedback.point_type === FEEDBACK_TYPES.RED ? 'Pozitiv' : 'Negativ'}
                                     </strong>
                                     ?
                                 </p>

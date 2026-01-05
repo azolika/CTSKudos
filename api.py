@@ -41,11 +41,26 @@ import json
 
 app = FastAPI(title="Kudos API")
 
-from db import init_db
+from db import init_db, get_db_connection
 
 @app.on_event("startup")
 def on_startup():
     init_db()
+
+@app.get("/health")
+async def health_check():
+    try:
+        # Try to get a connection and run a simple query
+        conn = get_db_connection()
+        with conn.cursor() as c:
+            c.execute("SELECT 1")
+        conn.close()
+        return {"status": "healthy"}
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"unhealthy: {str(e)}"
+        )
 
 # ---------------------------------------------------------
 # CONFIG
