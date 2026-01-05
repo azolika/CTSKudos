@@ -198,8 +198,8 @@ const AdminDashboard = () => {
                                         {stats?.total_feedback || 0}
                                     </p>
                                 </div>
-                                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                                    <BarChart3 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                                    <BarChart3 className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                                 </div>
                             </div>
                         </div>
@@ -326,7 +326,7 @@ const AdminDashboard = () => {
                                         const colors = {
                                             [ROLES.ADMIN]: 'bg-purple-500',
                                             [ROLES.MANAGER]: 'bg-green-500',
-                                            [ROLES.USER]: 'bg-blue-500'
+                                            [ROLES.USER]: 'bg-primary-500'
                                         };
                                         const labels = {
                                             [ROLES.ADMIN]: 'Admin',

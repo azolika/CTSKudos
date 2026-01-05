@@ -1,21 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", "system-ui", "sans-serif";
+  --font-sans: "DM Sans", "system-ui", "sans-serif";
 
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #d9e6ff;
+  --color-primary-200: #bcd4ff;
+  --color-primary-300: #8eb7ff;
+  --color-primary-400: #5990ff;
+  --color-primary-500: #2063F3;
+  --color-primary-600: #1a4fdc;
+  --color-primary-700: #153fb5;
+  --color-primary-800: #123493;
+  --color-primary-900: #112e75;
+  --color-primary-950: #0a1946;
 
-  --color-feedback-red: #d9534f;
+  --color-green-50: #f0fdf9;
+  --color-green-100: #ccf7ed;
+  --color-green-200: #99efdb;
+  --color-green-300: #66e7c9;
+  --color-green-400: #33dfb7;
+  --color-green-500: #00CD93;
+  --color-green-600: #00b985;
+  --color-green-700: #008f67;
+  --color-green-800: #00664a;
+  --color-green-900: #003e2c;
+  --color-green-950: #002218;
+
+  --color-feedback-red: #F32020;
   --color-feedback-black: #000000;
 }
 
@@ -113,7 +126,7 @@
   }
 
   .badge-info {
-    @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+    @apply bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300;
   }
 
   /* Progress Bar */

@@ -93,7 +93,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
     return (
         <>
             <div className="card overflow-visible">
-                <div className="card-header bg-gradient-to-r from-emerald-500 to-green-500 py-4">
+                <div className="card-header bg-gradient-to-r from-green-400 to-green-600 py-4">
                     <h3 className="text-lg font-bold text-white flex items-center">
                         <Heart className="w-5 h-5 mr-2 fill-current" />
                         Trimite un Kudos (Apreciere)

@@ -7,7 +7,7 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
             case ROLES.ADMIN:
                 return <Shield className="w-4 h-4 text-purple-600" />;
             case ROLES.MANAGER:
-                return <UsersIcon className="w-4 h-4 text-blue-600" />;
+                return <UsersIcon className="w-4 h-4 text-primary-600" />;
             default:
                 return <User className="w-4 h-4 text-slate-600" />;
         }
@@ -18,7 +18,7 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
             case ROLES.ADMIN:
                 return 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300';
             case ROLES.MANAGER:
-                return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300';
+                return 'bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300';
             default:
                 return 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300';
         }
@@ -89,7 +89,7 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
                                         <div className="flex items-center justify-end space-x-2">
                                             <button
                                                 onClick={() => onEdit(user)}
-                                                className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                                                className="p-2 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
                                                 title="Editează"
                                             >
                                                 <Edit className="w-4 h-4" />

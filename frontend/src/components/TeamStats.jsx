@@ -73,12 +73,12 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         </div>
 
                         {/* Percentage */}
-                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800 text-center">
+                        <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-3 border border-primary-200 dark:border-primary-800 text-center">
                             <div className="w-full">
-                                <p className="text-m text-blue-600 dark:text-blue-400 font-bold mb-1">
+                                <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1">
                                     🔢 Performanță
                                 </p>
-                                <p className="text-3xl font-black text-blue-700 dark:text-blue-300 mt-1">
+                                <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
                                     {teamStats.percentageRed}%
                                 </p>
                             </div>
@@ -162,7 +162,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                                     {sub.black}
                                                 </span>
                                             </td>
-                                            <td className="text-center font-semibold text-blue-600 dark:text-blue-400">
+                                            <td className="text-center font-semibold text-primary-600 dark:text-primary-400">
                                                 {sub.percentageRed}%
                                             </td>
                                             <td>

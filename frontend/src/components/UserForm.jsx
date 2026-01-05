@@ -82,7 +82,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                     {/* Header */}
                     <div className="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
                         <div className="flex items-center space-x-3">
-                            <div className={`p-2 rounded-xl ${isEdit ? 'bg-blue-100 text-blue-600' : 'bg-primary-100 text-primary-600'} dark:bg-opacity-10`}>
+                            <div className={`p-2 rounded-xl bg-primary-100 text-primary-600 dark:bg-opacity-10`}>
                                 {isEdit ? <Save className="w-6 h-6" /> : <UserPlus className="w-6 h-6" />}
                             </div>
                             <div>
@@ -284,7 +284,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                 type="submit"
                                 disabled={loading}
                                 className={`flex-[1.5] px-6 py-3 rounded-xl font-bold text-white flex items-center justify-center space-x-2 transition-all shadow-lg active:scale-[0.98] ${isEdit
-                                    ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-200 dark:shadow-none'
+                                    ? 'bg-primary-600 hover:bg-primary-700 shadow-primary-200 dark:shadow-none'
                                     : 'bg-primary-600 hover:bg-primary-700 shadow-primary-200 dark:shadow-none'
                                     }`}
                             >

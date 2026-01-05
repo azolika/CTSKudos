@@ -7,7 +7,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
     const getRatingColor = () => {
         if (rating === 'Nu există date') return 'text-slate-400 dark:text-slate-500';
         if (percentageRed >= 75) return 'text-green-600 dark:text-green-400';
-        if (percentageRed >= 50) return 'text-blue-600 dark:text-blue-400';
+        if (percentageRed >= 50) return 'text-primary-600 dark:text-primary-400';
         if (percentageRed >= 25) return 'text-yellow-600 dark:text-yellow-400';
         return 'text-red-600 dark:text-red-400';
     };
@@ -79,13 +79,13 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                     </div>
 
                     {/* Percentage */}
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800 text-center">
+                    <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-4 border border-primary-200 dark:border-primary-800 text-center">
                         <div className="flex items-center justify-center">
                             <div className="w-full">
-                                <p className="text-m text-blue-600 dark:text-blue-400 font-bold mb-1">
+                                <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1">
                                     🔢 Performanță
                                 </p>
-                                <p className="text-3xl font-black text-blue-700 dark:text-blue-300 mt-1">
+                                <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
                                     {percentageRed}%
                                 </p>
                             </div>
