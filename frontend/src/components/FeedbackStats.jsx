@@ -36,14 +36,14 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-                    {/* Red Points */}
-                    <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-4 border border-red-200 dark:border-red-800 text-center">
+                    {/* Red Points (Official) - Now Green */}
+                    <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-4 border border-green-200 dark:border-green-800 text-center">
                         <div className="flex items-center justify-center">
                             <div className="w-full">
-                                <p className="text-m text-red-600 dark:text-red-400 font-bold mb-1">
-                                    🔴 Puncte roșii
+                                <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1">
+                                    🟢 Puncte oficiale
                                 </p>
-                                <p className="text-3xl font-black text-red-700 dark:text-red-300 mt-1">
+                                <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
                                     {stats.redManager}
                                 </p>
                             </div>
@@ -63,15 +63,15 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                         </div>
                     </div>
 
-                    {/* Kudos Card */}
-                    <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-4 border border-green-200 dark:border-green-800 text-center">
+                    {/* Kudos Card - Now Primary Blue */}
+                    <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-4 border border-primary-200 dark:border-primary-800 text-center">
                         <div className="flex items-center justify-center">
                             <div className="w-full">
-                                <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1 flex items-center justify-center">
+                                <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1 flex items-center justify-center">
                                     <Heart className="w-4 h-4 mr-1 fill-current" />
                                     Kudos
                                 </p>
-                                <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
+                                <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
                                     {stats.redPeer}
                                 </p>
                             </div>

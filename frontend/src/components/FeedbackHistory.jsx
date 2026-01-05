@@ -35,14 +35,14 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                         const isKudos = isRed && !feedback.is_manager_feedback;
 
                         let icon = '⚫';
-                        if (isKudos) icon = '💚';
-                        else if (isRed) icon = '🔴';
+                        if (isKudos) icon = '💙';
+                        else if (isRed) icon = '💚';
 
                         let bgColor = 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700'; // Default black p.
                         if (isKudos) {
-                            bgColor = 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800';
+                            bgColor = 'bg-primary-50 dark:bg-primary-900/10 border-primary-200 dark:border-primary-800';
                         } else if (isRed) {
-                            bgColor = 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800';
+                            bgColor = 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800';
                         }
 
                         return (
@@ -59,9 +59,9 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                                                     de la <span className="font-semibold">{feedback.manager_name}</span>
                                                 </p>
                                                 <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${isKudos
-                                                    ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                                                    ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200'
                                                     : isRed
-                                                        ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+                                                        ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
                                                         : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-300'
                                                     }`}>
                                                     {feedback.category || 'General'}

@@ -93,7 +93,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
     return (
         <>
             <div className="card overflow-visible">
-                <div className="card-header bg-gradient-to-r from-green-400 to-green-600 py-4">
+                <div className="card-header bg-gradient-to-r from-primary-400 to-primary-600 py-4">
                     <h3 className="text-lg font-bold text-white flex items-center">
                         <Heart className="w-5 h-5 mr-2 fill-current" />
                         Trimite un Kudos (Apreciere)
@@ -138,11 +138,11 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                         type="button"
                                         onClick={() => setSelectedBadge(badge.label)}
                                         className={`flex items-center p-3 rounded-lg border text-sm font-medium transition-all ${selectedBadge === badge.label
-                                            ? 'bg-green-100 border-green-500 text-green-800 dark:bg-green-900/30 dark:border-green-400 dark:text-green-300 ring-2 ring-green-200 dark:ring-green-900/20'
-                                            : 'bg-white border-slate-200 text-slate-700 hover:border-green-300 hover:bg-green-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700'
+                                            ? 'bg-primary-50 border-primary-500 text-primary-800 dark:bg-primary-900/30 dark:border-primary-400 dark:text-primary-300 ring-2 ring-primary-200 dark:ring-primary-900/20'
+                                            : 'bg-white border-slate-200 text-slate-700 hover:border-primary-300 hover:bg-primary-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700'
                                             }`}
                                     >
-                                        <Award className={`w-4 h-4 mr-2 ${selectedBadge === badge.label ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`} />
+                                        <Award className={`w-4 h-4 mr-2 ${selectedBadge === badge.label ? 'text-primary-600 dark:text-primary-400' : 'text-slate-400'}`} />
                                         {badge.label}
                                     </button>
                                 ))}
@@ -151,7 +151,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
 
                         {message.text && (
                             <div className={`p-3 rounded-lg text-sm ${message.type === 'success'
-                                ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
+                                ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 border border-primary-200 dark:border-primary-800'
                                 : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
                                 }`}>
                                 {message.text}
@@ -161,7 +161,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                         <button
                             type="submit"
                             disabled={loading || !selectedUserId || !selectedBadge}
-                            className="btn bg-green-500 hover:bg-green-600 text-white w-full py-3 flex items-center justify-center space-x-2 shadow-lg shadow-green-200 dark:shadow-green-900/20 transition-all active:scale-[0.98]"
+                            className="btn bg-primary-500 hover:bg-primary-600 text-white w-full py-3 flex items-center justify-center space-x-2 shadow-lg shadow-primary-200 dark:shadow-primary-900/20 transition-all active:scale-[0.98]"
                         >
                             {loading ? (
                                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
@@ -185,7 +185,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                             {/* Header */}
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-xl font-semibold text-slate-900 dark:text-white flex items-center">
-                                    <Heart className="w-6 h-6 mr-2 text-green-500 fill-current" />
+                                    <Heart className="w-6 h-6 mr-2 text-primary-500 fill-current" />
                                     Confirmare Kudos
                                 </h3>
                                 <button
@@ -229,7 +229,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                 <button
                                     onClick={confirmSubmit}
                                     disabled={loading}
-                                    className="btn bg-green-500 hover:bg-green-600 text-white flex items-center justify-center space-x-2 shadow-lg shadow-green-200 dark:shadow-green-900/20"
+                                    className="btn bg-primary-500 hover:bg-primary-600 text-white flex items-center justify-center space-x-2 shadow-lg shadow-primary-200 dark:shadow-primary-900/20"
                                 >
                                     {loading ? (
                                         <>

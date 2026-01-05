@@ -205,19 +205,19 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="card h-full border-l-4 border-red-500">
+                    <div className="card h-full border-l-4 border-green-500">
                         <div className="card-body">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
-                                        Roșii (30 zile)
+                                        Oficial (30 zile)
                                     </p>
-                                    <p className="text-3xl font-bold text-red-600 dark:text-red-400">
+                                    <p className="text-3xl font-bold text-green-600 dark:text-green-400">
                                         {stats?.red_30_days || 0}
                                     </p>
                                 </div>
-                                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                                    <TrendingUp className="w-6 h-6 text-red-600 dark:text-red-400" />
+                                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                                    <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
                                 </div>
                             </div>
                         </div>
@@ -242,19 +242,19 @@ const AdminDashboard = () => {
                     </div>
 
                     {/* New Kudos Card */}
-                    <div className="card h-full border-l-4 border-green-500">
+                    <div className="card h-full border-l-4 border-primary-500">
                         <div className="card-body">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
                                         Kudos (30 zile)
                                     </p>
-                                    <p className="text-3xl font-bold text-green-600 dark:text-green-400">
+                                    <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
                                         {stats?.kudos_30_days || 0}
                                     </p>
                                 </div>
-                                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                                    <Award className="w-6 h-6 text-green-600 dark:text-green-400" />
+                                <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                                    <Award className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                                 </div>
                             </div>
                         </div>

@@ -35,13 +35,13 @@ const TeamStats = ({ subordinates, allFeedback }) => {
 
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-                        {/* Red Points */}
-                        <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-3 border border-red-200 dark:border-red-800 text-center">
+                        {/* Red Points (Official) - Now Green */}
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800 text-center">
                             <div className="w-full">
-                                <p className="text-m text-red-600 dark:text-red-400 font-bold mb-1">
-                                    🔴 Puncte roșii
+                                <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1">
+                                    🟢 Puncte oficiale
                                 </p>
-                                <p className="text-3xl font-black text-red-700 dark:text-red-300 mt-1">
+                                <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
                                     {teamStats.redManager}
                                 </p>
                             </div>
@@ -59,14 +59,14 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                             </div>
                         </div>
 
-                        {/* Kudos Card */}
-                        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800 text-center">
+                        {/* Kudos Card - Now Primary Blue */}
+                        <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-3 border border-primary-200 dark:border-primary-800 text-center">
                             <div className="w-full">
-                                <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1 flex items-center justify-center">
+                                <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1 flex items-center justify-center">
                                     <Heart className="w-3 h-3 mr-1 fill-current" />
                                     Kudos
                                 </p>
-                                <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
+                                <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
                                     {teamStats.redPeer}
                                 </p>
                             </div>
@@ -123,7 +123,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                         <th>Nume</th>
                                         <th>Departament</th>
                                         <th>Funcția</th>
-                                        <th className="text-center">Roșu</th>
+                                        <th className="text-center">Oficial</th>
                                         <th className="text-center">Kudos</th>
                                         <th className="text-center">Negru</th>
                                         <th className="text-center">% Roșu</th>
@@ -148,12 +148,12 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                                 {sub.functia || '-'}
                                             </td>
                                             <td className="text-center">
-                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 font-semibold">
+                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-semibold">
                                                     {sub.redManager}
                                                 </span>
                                             </td>
                                             <td className="text-center">
-                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-semibold">
+                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 font-semibold">
                                                     {sub.redPeer}
                                                 </span>
                                             </td>

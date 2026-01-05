@@ -28,7 +28,7 @@
   --color-green-900: #003e2c;
   --color-green-950: #002218;
 
-  --color-feedback-red: #F32020;
+  --color-feedback-red: #00CD93;
   --color-feedback-black: #000000;
 }
 
@@ -136,7 +136,7 @@
   }
 
   .progress-segment-red {
-    @apply bg-gradient-to-r from-red-500 to-red-600;
+    @apply bg-gradient-to-r from-green-500 to-green-600;
     @apply transition-all duration-500 ease-out;
   }
 
