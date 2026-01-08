@@ -96,16 +96,17 @@ app.add_middleware(
 # CATEGORIES
 # ---------------------------------------------------------
 FEEDBACK_CATEGORIES = [
-    "Productivitate",
-    "Calitate",
-    "Muncă în echipă",
+    "Cunoștințe profesionale",
+    "Productivitate"
+    "Calitatea muncii",
+    "Munca în echipă",
+    "Responsabilitate",
+    "Atitudine",
     "Comunicare",
-    "Inițiativă",
     "Punctualitate",
-    "Creativitate",
-    "Seriozitate",
-    "Abilități tehnice",
-    "Leadership"
+    "Inițiativă/proactivitate",
+    "Disciplină/ordine/respectare reguli"
+    "Abilități de lider"
 ]
 
 @app.get("/config/categories")

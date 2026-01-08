@@ -119,7 +119,7 @@ const ManagerDashboard = () => {
                             <UserKudosBadges feedback={myFullFeedback} />
                         </h1>
                         <p className="text-slate-600 dark:text-slate-400">
-                            Gestionează echipa ta și oferă feedback angajaților.
+                            Gestionează echipa ta și oferă feedback colegilor.
                         </p>
                     </div>
 
