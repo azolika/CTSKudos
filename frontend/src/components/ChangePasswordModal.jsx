@@ -60,7 +60,7 @@ const ChangePasswordModal = ({ user, onSubmit, onCancel, loading }) => {
                     <div className="p-6 space-y-5">
                         {error && (
                             <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-3 flex items-start space-x-3">
-                                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                                <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
                                 <p className="text-sm text-red-700 dark:text-red-300 font-medium">{error}</p>
                             </div>
                         )}
@@ -125,7 +125,7 @@ const ChangePasswordModal = ({ user, onSubmit, onCancel, loading }) => {
                                     </>
                                 ) : (
                                     <>
-                                        <Save className="w-5 h-5" />
+                                        <Save className="w-6 h-6" />
                                         <span>Salvează</span>
                                     </>
                                 )}

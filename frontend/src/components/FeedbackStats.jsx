@@ -24,7 +24,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
         <div className="card fade-in">
             <div className="card-header">
                 <h2 className="text-xl font-semibold text-slate-900 dark:text-white flex items-center">
-                    <TrendingUp className="w-5 h-5 mr-2" />
+                    <TrendingUp className="w-6 h-6 mr-2" />
                     {title}
                 </h2>
             </div>
@@ -41,7 +41,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                         <div className="flex items-center justify-center">
                             <div className="w-full">
                                 <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1 flex items-center justify-center">
-                                    <Circle className="w-5 h-5 mr-1 fill-current" />
+                                    <Circle className="w-6 h-6 mr-1 fill-current" />
                                     Puncte pozitive
                                 </p>
                                 <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
@@ -55,7 +55,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                         <div className="flex items-center justify-center">
                             <div className="w-full">
                                 <p className="text-m text-slate-600 dark:text-slate-400 font-bold mb-1 flex items-center justify-center">
-                                    <Circle className="w-5 h-5 mr-1 fill-current" />
+                                    <Circle className="w-6 h-6 mr-1 fill-current" />
                                     Puncte negative
                                 </p>
                                 <p className="text-3xl font-black text-slate-700 dark:text-slate-300 mt-1">
@@ -70,7 +70,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                         <div className="flex items-center justify-center">
                             <div className="w-full">
                                 <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1 flex items-center justify-center">
-                                    <Heart className="w-4 h-4 mr-1 fill-current" />
+                                    <Heart className="w-6 h-6 mr-1 fill-current" />
                                     Kudos
                                 </p>
                                 <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
@@ -85,7 +85,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                         <div className="flex items-center justify-center">
                             <div className="w-full">
                                 <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1 flex items-center justify-center">
-                                    <Hash className="w-5 h-5 mr-1" />
+                                    <Hash className="w-6 h-6 mr-1" />
                                     Performanță
                                 </p>
                                 <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
@@ -100,7 +100,7 @@ const FeedbackStats = ({ stats, title = 'Rezultate generale' }) => {
                         <div className="flex items-center justify-center">
                             <div className="w-full">
                                 <p className="text-m text-purple-600 dark:text-purple-400 font-bold mb-1 flex items-center justify-center">
-                                    <Award className="w-4 h-4 mr-1" />
+                                    <Award className="w-6 h-6 mr-1" />
                                     Calificativ
                                 </p>
                                 <div className="mt-2">

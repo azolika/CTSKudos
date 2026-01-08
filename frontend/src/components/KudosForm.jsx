@@ -95,7 +95,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
             <div className="card overflow-visible">
                 <div className="card-header bg-gradient-to-r from-primary-400 to-primary-600 py-4">
                     <h3 className="text-lg font-bold text-white flex items-center">
-                        <Heart className="w-5 h-5 mr-2 fill-current" />
+                        <Heart className="w-6 h-6 mr-2 fill-current" />
                         Trimite un Kudos (Apreciere)
                     </h3>
                 </div>
@@ -121,7 +121,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                         </option>
                                     ))}
                                 </select>
-                                <Search className="w-5 h-5 text-slate-400 absolute left-3 top-2.5" />
+                                <Search className="w-6 h-6 text-slate-400 absolute left-3 top-2.5" />
                             </div>
                         </div>
 
@@ -167,7 +167,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                             ) : (
                                 <>
-                                    <Send className="w-5 h-5" />
+                                    <Send className="w-6 h-6" />
                                     <span className="font-bold text-lg">Trimite Kudos</span>
                                 </>
                             )}

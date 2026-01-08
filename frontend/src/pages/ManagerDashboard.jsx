@@ -11,7 +11,7 @@ import KudosForm from '../components/KudosForm';
 import KudosBadgesLegend from '../components/KudosBadgesLegend';
 import UserKudosBadges from '../components/UserKudosBadges';
 import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
-import { AlertCircle, UserCircle } from 'lucide-react';
+import { AlertCircle, UserCircle, BarChart3, User } from 'lucide-react';
 
 const ManagerDashboard = () => {
     const { user } = useAuth();
@@ -144,7 +144,7 @@ const ManagerDashboard = () => {
                 {/* Error Message */}
                 {error && (
                     <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-start space-x-3">
-                        <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                        <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
                         <div>
                             <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
                             <button
@@ -163,21 +163,23 @@ const ManagerDashboard = () => {
                         <nav className="flex -mb-px">
                             <button
                                 onClick={() => setActiveTab('manager')}
-                                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'manager'
+                                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors flex items-center space-x-2 ${activeTab === 'manager'
                                     ? 'border-primary-600 text-primary-600 dark:text-primary-400'
                                     : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
                                     }`}
                             >
-                                📊 Ca Manager
+                                <BarChart3 className="w-6 h-6" />
+                                <span>Manager</span>
                             </button>
                             <button
                                 onClick={() => setActiveTab('employee')}
-                                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'employee'
+                                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors flex items-center space-x-2 ${activeTab === 'employee'
                                     ? 'border-primary-600 text-primary-600 dark:text-primary-400'
                                     : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
                                     }`}
                             >
-                                👤 Ca Angajat
+                                <User className="w-6 h-6" />
+                                <span>Angajat</span>
                             </button>
                         </nav>
                     </div>
@@ -203,7 +205,7 @@ const ManagerDashboard = () => {
                                 <div className="card">
                                     <div className="card-header">
                                         <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center">
-                                            <UserCircle className="w-5 h-5 mr-2" />
+                                            <UserCircle className="w-6 h-6 mr-2" />
                                             Subordonații tăi
                                         </h3>
                                     </div>

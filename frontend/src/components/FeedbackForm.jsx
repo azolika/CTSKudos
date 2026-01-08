@@ -65,7 +65,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
             <div className="card">
                 <div className="card-header">
                     <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center">
-                        <Send className="w-5 h-5 mr-2" />
+                        <Send className="w-6 h-6 mr-2" />
                         Trimite feedback
                     </h3>
                 </div>
@@ -173,7 +173,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                 </div>
 
                                 <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 flex items-center space-x-2">
-                                    <AlertTriangle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
+                                    <AlertTriangle className="w-6 h-6 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
                                     <p className="text-sm text-yellow-800 dark:text-yellow-200">
                                         Această acțiune va trimite automat un email angajatului.
                                     </p>

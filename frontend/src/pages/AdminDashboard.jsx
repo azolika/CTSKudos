@@ -172,7 +172,7 @@ const AdminDashboard = () => {
                 {/* Error Message */}
                 {error && (
                     <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-start space-x-3">
-                        <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                        <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
                         <div>
                             <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
                             <button
@@ -285,7 +285,7 @@ const AdminDashboard = () => {
                         <div className="card h-fit">
                             <div className="card-header">
                                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center">
-                                    <Award className="w-5 h-5 mr-2 text-yellow-500" />
+                                    <Award className="w-6 h-6 mr-2 text-yellow-500" />
                                     Top 5 Manageri/Team Leads (Activitate)
                                 </h3>
                             </div>

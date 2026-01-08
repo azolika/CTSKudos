@@ -7,7 +7,7 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
             <div className="card">
                 <div className="card-header">
                     <h2 className="text-xl font-semibold text-slate-900 dark:text-white flex items-center">
-                        <Clock className="w-5 h-5 mr-2" />
+                        <Clock className="w-6 h-6 mr-2" />
                         {title}
                     </h2>
                 </div>
@@ -24,7 +24,7 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
         <div className="card fade-in">
             <div className="card-header">
                 <h2 className="text-xl font-semibold text-slate-900 dark:text-white flex items-center">
-                    <Clock className="w-5 h-5 mr-2" />
+                    <Clock className="w-6 h-6 mr-2" />
                     {title}
                 </h2>
             </div>
@@ -60,7 +60,7 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                                 className={`p-4 rounded-lg border ${bgColor} transition-all hover:shadow-md`}
                             >
                                 <div className="flex items-start space-x-3">
-                                    <IconComponent className={`w-6 h-6 ${iconColor} flex-shrink-0 mt-0.5`} />
+                                    <IconComponent className={`w-5 h-5 ${iconColor} flex-shrink-0 mt-0.5`} />
                                     <div className="flex-1">
                                         <div className="flex items-center justify-between mb-2">
                                             <div className="flex items-center space-x-2">

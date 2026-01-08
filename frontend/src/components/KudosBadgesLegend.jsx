@@ -27,7 +27,7 @@ const KudosBadgesLegend = ({ badges }) => {
                     >
                         <div className="flex items-center justify-between mb-3">
                             <span className="text-2xl">{badge.label.split(' ')[0]}</span>
-                            <Award className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-yellow-500 transition-colors" />
+                            <Award className="w-6 h-6 text-slate-300 dark:text-slate-600 group-hover:text-yellow-500 transition-colors" />
                         </div>
                         <h3 className="font-bold text-slate-900 dark:text-white mb-2 leading-tight">
                             {badge.label.split(' ').slice(1).join(' ')}

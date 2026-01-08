@@ -21,11 +21,11 @@ const Layout = ({ children, headerActions }) => {
     const getRoleIcon = () => {
         switch (user?.role) {
             case ROLES.ADMIN:
-                return <Shield className="w-5 h-5" />;
+                return <Shield className="w-6 h-6" />;
             case ROLES.MANAGER:
-                return <Users className="w-5 h-5" />;
+                return <Users className="w-6 h-6" />;
             default:
-                return <User className="w-5 h-5" />;
+                return <User className="w-6 h-6" />;
         }
     };
 

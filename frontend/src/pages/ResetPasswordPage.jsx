@@ -89,14 +89,14 @@ const ResetPasswordPage = () => {
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 {error && (
                                     <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-start space-x-3">
-                                        <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                                        <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
                                         <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
                                     </div>
                                 )}
 
                                 {!token && (
                                     <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 flex items-start space-x-3">
-                                        <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+                                        <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
                                         <p className="text-sm text-yellow-700 dark:text-yellow-300">
                                             Token-ul este invalid sau lipsește. Vă rugăm să folosiți link-ul din email.
                                         </p>

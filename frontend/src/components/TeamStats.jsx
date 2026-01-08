@@ -39,7 +39,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800 text-center">
                             <div className="w-full">
                                 <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1 flex items-center justify-center">
-                                    <Circle className="w-5 h-5 mr-1 fill-current" />
+                                    <Circle className="w-6 h-6 mr-1 fill-current" />
                                     Puncte pozitive
                                 </p>
                                 <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
@@ -52,7 +52,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg p-3 border border-slate-300 dark:border-slate-600 text-center">
                             <div className="w-full">
                                 <p className="text-m text-slate-600 dark:text-slate-400 font-bold mb-1 flex items-center justify-center">
-                                    <Circle className="w-5 h-5 mr-1 fill-current" />
+                                    <Circle className="w-6 h-6 mr-1 fill-current" />
                                     Puncte negative
                                 </p>
                                 <p className="text-3xl font-black text-slate-700 dark:text-slate-300 mt-1">
@@ -65,7 +65,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-3 border border-primary-200 dark:border-primary-800 text-center">
                             <div className="w-full">
                                 <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1 flex items-center justify-center">
-                                    <Heart className="w-3 h-3 mr-1 fill-current" />
+                                    <Heart className="w-6 h-6 mr-1 fill-current" />
                                     Kudos
                                 </p>
                                 <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
@@ -78,7 +78,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-3 border border-primary-200 dark:border-primary-800 text-center">
                             <div className="w-full">
                                 <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1 flex items-center justify-center">
-                                    <Hash className="w-5 h-5 mr-1" />
+                                    <Hash className="w-6 h-6 mr-1" />
                                     Performanță
                                 </p>
                                 <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
@@ -91,7 +91,7 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg p-3 border border-purple-200 dark:border-purple-800 text-center">
                             <div className="w-full">
                                 <p className="text-m text-purple-600 dark:text-purple-400 font-bold mb-1 flex items-center justify-center">
-                                    <Award className="w-3 h-3 mr-1" />
+                                    <Award className="w-6 h-6 mr-1" />
                                     Calificativ
                                 </p>
                                 <div className="mt-1">
@@ -148,8 +148,8 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                             <td className="font-medium">
                                                 {index < 3 && (
                                                     <Medal className={`w-5 h-5 inline mr-2 ${index === 0 ? 'text-yellow-500' :
-                                                            index === 1 ? 'text-slate-400' :
-                                                                'text-amber-600'
+                                                        index === 1 ? 'text-slate-400' :
+                                                            'text-amber-600'
                                                         }`} />
                                                 )}
                                                 {sub.name}

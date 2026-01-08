@@ -7,7 +7,8 @@ const ProgressBar = ({ percentageRed, rating }) => {
         <div className="progress-bar">
             {isNoData ? (
                 <div
-                    className="progress-segment-official flex items-center justify-center text-white font-semibold text-sm w-full"
+                    className="flex items-center justify-center text-slate-600 font-semibold text-sm w-full"
+                    style={{ backgroundColor: '#ECECEC' }}
                 >
                     Nu există date
                 </div>
