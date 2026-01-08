@@ -45,36 +45,34 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
             employee_name = employee[2]
             manager_name = manager[2] if manager else "Manager"
 
-            app_url = os.getenv("APP_BASE_URL", "http://localhost:5173")
-            
-            # Use labels for the email
-            point_label = "Punct Roșu" if point_type == "rosu" else "Punct Negru"
+            app_url = os.getenv("APP_BASE_URL", "http://localhost:5173")           
+           
 
             html_body = f"""
                 <div style="font-family: sans-serif; color: #334155; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
                     <div style="background: linear-gradient(to right, #3b82f6, #1d4ed8); padding: 20px; text-align: center;">
-                        <h1 style="color: white; margin: 0; font-size: 24px;">Kudos Feedback & Growth</h1>
+                        <h1 style="color: white; margin: 0; font-size: 24px;">Kudos - Feedback & Growth</h1>
                     </div>
                     <div style="padding: 30px; line-height: 1.6;">
                         <h2 style="color: #0f172a; margin-top: 0;">Ați primit un feedback nou!</h2>
                         <p>Bună, <strong>{employee_name}</strong>,</p>
                         <p>Ai primit un feedback nou de la <strong>{manager_name}</strong> în cadrul aplicației <strong>Kudos</strong>.</p>
                         
-                        <p>Poți accesa aplicația pentru a vedea istoricul complet aici:</p>
+                        <p>Pentru mai multe detalii, accesează aplicația aici:</p>
                         <p style="text-align: center; margin: 30px 0;">
                             <a href="{app_url}" style="background-color: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Accesează Aplicația</a>
                         </p>
                         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
                         <p style="font-size: 14px; color: #64748b; text-align: center;">
                             Cu stimă,<br>
-                            Echipa <strong>Kudos Feedback & Growth</strong>
+                            Echipa <strong>Kudos - Feedback & Growth</strong>
                         </p>
                     </div>
                 </div>
             """
             send_email(
                 to_email=to_email,
-                subject=f"Feedback nou: {point_label}",
+                subject=f"Feedback nou",
                 html_body=html_body
             )
     except Exception as e:

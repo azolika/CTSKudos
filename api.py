@@ -216,7 +216,7 @@ async def forgot_password(req: PasswordResetRequest):
         <p>Dacă nu ai cerut resetarea parolei, poți ignora acest email.</p>
         <br>
         <p>Cu stimă,<br>
-        Echipa <strong>Kudos Feedback & Growth</strong></p>
+        Echipa <strong>Kudos - Feedback & Growth</strong></p>
         """
         send_email(email, "Resetare parolă - KUDOS – Feedback & Growth", html)
         
