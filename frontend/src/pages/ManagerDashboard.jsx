@@ -206,7 +206,7 @@ const ManagerDashboard = () => {
                                     <div className="card-header">
                                         <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center">
                                             <UserCircle className="w-6 h-6 mr-2" />
-                                            Subordonații tăi
+                                            Echipa ta
                                         </h3>
                                     </div>
                                     <div className="card-body">
