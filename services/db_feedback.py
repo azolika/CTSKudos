@@ -60,7 +60,7 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
                         <p>Bună, <strong>{employee_name}</strong>,</p>
                         <p>Ai primit un feedback nou de la <strong>{manager_name}</strong> în cadrul aplicației <strong>Kudos</strong>.</p>
                         
-                        <p>Puteți accesa aplicația pentru a vedea istoricul complet aici:</p>
+                        <p>Poți accesa aplicația pentru a vedea istoricul complet aici:</p>
                         <p style="text-align: center; margin: 30px 0;">
                             <a href="{app_url}" style="background-color: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Accesează Aplicația</a>
                         </p>
