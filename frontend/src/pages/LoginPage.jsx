@@ -100,7 +100,7 @@ const LoginPage = () => {
                                     {/* Username Field */}
                                     <div>
                                         <label htmlFor="username" className="label">
-                                            <Mail className="w-4 h-4 inline mr-1" />
+                                            <Mail className="w-6 h-6 inline mr-1" />
                                             Email
                                         </label>
                                         <input
@@ -117,7 +117,7 @@ const LoginPage = () => {
                                     {/* Password Field */}
                                     <div>
                                         <label htmlFor="password" className="label">
-                                            <Lock className="w-4 h-4 inline mr-1" />
+                                            <Lock className="w-6 h-6 inline mr-1" />
                                             Parolă
                                         </label>
                                         <input
@@ -196,7 +196,7 @@ const LoginPage = () => {
 
                                     <div>
                                         <label htmlFor="resetEmail" className="label">
-                                            <Mail className="w-4 h-4 inline mr-1" />
+                                            <Mail className="w-6 h-6 inline mr-1" />
                                             Email
                                         </label>
                                         <input

@@ -5,11 +5,11 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
     const getRoleIcon = (role) => {
         switch (role) {
             case ROLES.ADMIN:
-                return <Shield className="w-4 h-4 text-purple-600" />;
+                return <Shield className="w-6 h-6 text-purple-600" />;
             case ROLES.MANAGER:
-                return <UsersIcon className="w-4 h-4 text-primary-600" />;
+                return <UsersIcon className="w-6 h-6 text-primary-600" />;
             default:
-                return <User className="w-4 h-4 text-slate-600" />;
+                return <User className="w-6 h-6 text-slate-600" />;
         }
     };
 
@@ -92,21 +92,21 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
                                                 className="p-2 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
                                                 title="Editează"
                                             >
-                                                <Edit className="w-4 h-4" />
+                                                <Edit className="w-6 h-6" />
                                             </button>
                                             <button
                                                 onClick={() => onPasswordChange(user)}
                                                 className="p-2 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
                                                 title="Schimbă Parola"
                                             >
-                                                <Key className="w-4 h-4" />
+                                                <Key className="w-6 h-6" />
                                             </button>
                                             <button
                                                 onClick={() => onDelete(user)}
                                                 className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                                                 title="Șterge"
                                             >
-                                                <Trash2 className="w-4 h-4" />
+                                                <Trash2 className="w-6 h-6" />
                                             </button>
                                         </div>
                                     </td>

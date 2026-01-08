@@ -363,7 +363,7 @@ const AdminDashboard = () => {
                                     onClick={handleAddUser}
                                     className="btn btn-primary flex items-center space-x-2"
                                 >
-                                    <UserPlus className="w-4 h-4" />
+                                    <UserPlus className="w-6 h-6" />
                                     <span>Adaugă Utilizator</span>
                                 </button>
                             </div>

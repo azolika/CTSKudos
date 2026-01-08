@@ -82,7 +82,7 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                                         </div>
                                         {feedback.comment && (
                                             <div className="flex items-start space-x-2 mt-2">
-                                                <MessageSquare className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                                                <MessageSquare className="w-6 h-6 text-slate-400 mt-0.5 flex-shrink-0" />
                                                 <p className="text-sm text-slate-700 dark:text-slate-300 italic">
                                                     "{feedback.comment}"
                                                 </p>

@@ -128,7 +128,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                         {/* Badges */}
                         <div>
                             <label className="label">
-                                <Sparkles className="w-4 h-4 inline mr-1 text-yellow-500" />
+                                <Sparkles className="w-6 h-6 inline mr-1 text-yellow-500" />
                                 Alege un mesaj (Badge)
                             </label>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
@@ -222,7 +222,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                     disabled={loading}
                                     className="btn btn-secondary flex items-center justify-center space-x-2"
                                 >
-                                    <X className="w-4 h-4" />
+                                    <X className="w-6 h-6" />
                                     <span>Anulează</span>
                                 </button>
 
@@ -238,7 +238,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <Send className="w-4 h-4" />
+                                            <Send className="w-6 h-6" />
                                             <span>Trimite</span>
                                         </>
                                     )}

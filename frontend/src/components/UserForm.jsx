@@ -109,7 +109,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             {/* Email */}
                             <div className="space-y-1.5">
                                 <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <Mail className="w-4 h-4 mr-1.5 text-slate-400" />
+                                    <Mail className="w-6 h-6 mr-1.5 text-slate-400" />
                                     Email
                                 </label>
                                 <input
@@ -127,7 +127,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             {!isEdit && (
                                 <div className="space-y-1.5">
                                     <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                        <Lock className="w-4 h-4 mr-1.5 text-slate-400" />
+                                        <Lock className="w-6 h-6 mr-1.5 text-slate-400" />
                                         Parolă
                                     </label>
                                     <input
@@ -145,7 +145,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             {/* Name */}
                             <div className="space-y-1.5">
                                 <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <User className="w-4 h-4 mr-1.5 text-slate-400" />
+                                    <User className="w-6 h-6 mr-1.5 text-slate-400" />
                                     Nume complet
                                 </label>
                                 <input
@@ -164,7 +164,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             {/* Role */}
                             <div className="space-y-1.5">
                                 <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <Shield className="w-4 h-4 mr-1.5 text-slate-400" />
+                                    <Shield className="w-6 h-6 mr-1.5 text-slate-400" />
                                     Rol în platformă
                                 </label>
                                 <div className="relative">
@@ -179,7 +179,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                         <option value={ROLES.MANAGER}>Manager / Team Lead</option>
                                         <option value={ROLES.ADMIN}>Administrator</option>
                                     </select>
-                                    <ChevronRight className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                    <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
                                 </div>
                             </div>
                         </div>
@@ -195,7 +195,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     {/* Department */}
                                     <div className="space-y-1.5">
                                         <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            <Briefcase className="w-4 h-4 mr-1.5 text-slate-400" />
+                                            <Briefcase className="w-6 h-6 mr-1.5 text-slate-400" />
                                             Departament
                                         </label>
                                         <div className="relative">
@@ -211,14 +211,14 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                                     <option key={dept} value={dept}>{dept}</option>
                                                 ))}
                                             </select>
-                                            <ChevronRight className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                            <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
                                         </div>
                                     </div>
 
                                     {/* Function */}
                                     <div className="space-y-1.5">
                                         <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            <Briefcase className="w-4 h-4 mr-1.5 text-slate-400" />
+                                            <Briefcase className="w-6 h-6 mr-1.5 text-slate-400" />
                                             Funcția / Rolul specific
                                         </label>
                                         <div className="relative">
@@ -235,14 +235,14 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                                     <option key={func} value={func}>{func}</option>
                                                 ))}
                                             </select>
-                                            <ChevronRight className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                            <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
                                         </div>
                                     </div>
 
                                     {/* Manager */}
                                     <div className="space-y-1.5 md:col-span-2">
                                         <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            <Users className="w-4 h-4 mr-1.5 text-slate-400" />
+                                            <Users className="w-6 h-6 mr-1.5 text-slate-400" />
                                             Supervizor / Manager Direct
                                         </label>
                                         <div className="relative">
@@ -259,7 +259,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                                     </option>
                                                 ))}
                                             </select>
-                                            <ChevronRight className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                            <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
                                         </div>
                                     </div>
                                 </div>
@@ -276,7 +276,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                 disabled={loading}
                                 className="flex-1 px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center justify-center space-x-2"
                             >
-                                <X className="w-4 h-4" />
+                                <X className="w-6 h-6" />
                                 <span>Anulează</span>
                             </button>
 

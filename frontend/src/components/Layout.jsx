@@ -83,7 +83,7 @@ const Layout = ({ children, headerActions }) => {
                                 onClick={handleLogout}
                                 className="btn btn-secondary flex items-center space-x-2"
                             >
-                                <LogOut className="w-4 h-4" />
+                                <LogOut className="w-6 h-6" />
                                 <span className="hidden sm:inline">Logout</span>
                             </button>
                         </div>

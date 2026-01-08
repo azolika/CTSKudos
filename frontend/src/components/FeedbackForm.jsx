@@ -92,7 +92,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                     {/* Comment Input */}
                     <div>
                         <label htmlFor="comment" className="label">
-                            <MessageSquare className="w-4 h-4 inline mr-1" />
+                            <MessageSquare className="w-6 h-6 inline mr-1" />
                             Comentariu (obligatoriu)
                         </label>
                         <textarea
@@ -187,7 +187,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                     disabled={loading}
                                     className="btn btn-secondary flex items-center justify-center space-x-2"
                                 >
-                                    <X className="w-4 h-4" />
+                                    <X className="w-6 h-6" />
                                     <span>Anulează</span>
                                 </button>
 
@@ -203,7 +203,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <Send className="w-4 h-4" />
+                                            <Send className="w-6 h-6" />
                                             <span>Trimite</span>
                                         </>
                                     )}

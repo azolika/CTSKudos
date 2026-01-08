@@ -105,7 +105,7 @@ const ResetPasswordPage = () => {
 
                                 <div>
                                     <label htmlFor="password" className="label">
-                                        <Lock className="w-4 h-4 inline mr-1" />
+                                        <Lock className="w-6 h-6 inline mr-1" />
                                         Parolă nouă
                                     </label>
                                     <input
@@ -121,7 +121,7 @@ const ResetPasswordPage = () => {
 
                                 <div>
                                     <label htmlFor="confirmPassword" className="label">
-                                        <Lock className="w-4 h-4 inline mr-1" />
+                                        <Lock className="w-6 h-6 inline mr-1" />
                                         Confirmă parola
                                     </label>
                                     <input
@@ -155,7 +155,7 @@ const ResetPasswordPage = () => {
                                         to="/"
                                         className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 text-sm flex items-center justify-center"
                                     >
-                                        <ArrowLeft className="w-4 h-4 mr-1" />
+                                        <ArrowLeft className="w-6 h-6 mr-1" />
                                         Înapoi la autentificare
                                     </Link>
                                 </div>
