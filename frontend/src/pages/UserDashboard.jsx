@@ -118,7 +118,7 @@ const UserDashboard = () => {
                 <KudosForm currentUser={user} onSuccess={loadFeedback} />
 
                 {/* Feedback Statistics */}
-                <FeedbackStats stats={stats} title="📊 Rezultate personale" />
+                <FeedbackStats stats={stats} title="Rezultate personale" />
 
                 {/* Category Statistics */}
                 <CategoryStats stats={categoryStats} />

@@ -1,4 +1,4 @@
-import { Clock, MessageSquare } from 'lucide-react';
+import { Clock, MessageSquare, Circle, Heart } from 'lucide-react';
 import { formatDate, FEEDBACK_TYPES } from '../utils/constants';
 
 const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
@@ -34,9 +34,18 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                         const isRed = feedback.point_type === FEEDBACK_TYPES.RED;
                         const isKudos = isRed && !feedback.is_manager_feedback;
 
-                        let icon = '⚫';
-                        if (isKudos) icon = '💙';
-                        else if (isRed) icon = '💚';
+                        let IconComponent;
+                        let iconColor;
+                        if (isKudos) {
+                            IconComponent = Heart;
+                            iconColor = 'text-primary-600 dark:text-primary-400 fill-current';
+                        } else if (isRed) {
+                            IconComponent = Circle;
+                            iconColor = 'text-green-600 dark:text-green-400 fill-current';
+                        } else {
+                            IconComponent = Circle;
+                            iconColor = 'text-slate-600 dark:text-slate-400 fill-current';
+                        }
 
                         let bgColor = 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700'; // Default black p.
                         if (isKudos) {
@@ -51,7 +60,7 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                                 className={`p-4 rounded-lg border ${bgColor} transition-all hover:shadow-md`}
                             >
                                 <div className="flex items-start space-x-3">
-                                    <span className="text-2xl">{icon}</span>
+                                    <IconComponent className={`w-6 h-6 ${iconColor} flex-shrink-0 mt-0.5`} />
                                     <div className="flex-1">
                                         <div className="flex items-center justify-between mb-2">
                                             <div className="flex items-center space-x-2">

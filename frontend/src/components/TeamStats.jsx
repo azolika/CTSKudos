@@ -1,4 +1,4 @@
-import { Users, TrendingUp, Award, Heart } from 'lucide-react';
+import { Users, TrendingUp, Award, Heart, BarChart3, ClipboardList, Circle, Hash, Medal } from 'lucide-react';
 import ProgressBar from './ProgressBar';
 import { calculateFeedbackStats } from '../utils/constants';
 
@@ -26,8 +26,8 @@ const TeamStats = ({ subordinates, allFeedback }) => {
             <div className="card fade-in">
                 <div className="card-header">
                     <h2 className="text-xl font-semibold text-slate-900 dark:text-white flex items-center">
-                        <TrendingUp className="w-5 h-5 mr-2" />
-                        📊 Rezultate generale ale echipei
+                        <BarChart3 className="w-6 h-6 mr-2" />
+                        Rezultate generale ale echipei
                     </h2>
                 </div>
                 <div className="card-body space-y-6">
@@ -38,8 +38,9 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         {/* Red Points (Official) - Now Green */}
                         <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800 text-center">
                             <div className="w-full">
-                                <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1">
-                                    🟢 Puncte pozitive
+                                <p className="text-m text-green-600 dark:text-green-400 font-bold mb-1 flex items-center justify-center">
+                                    <Circle className="w-5 h-5 mr-1 fill-current" />
+                                    Puncte pozitive
                                 </p>
                                 <p className="text-3xl font-black text-green-700 dark:text-green-300 mt-1">
                                     {teamStats.redManager}
@@ -50,8 +51,9 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         {/* Black Points */}
                         <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg p-3 border border-slate-300 dark:border-slate-600 text-center">
                             <div className="w-full">
-                                <p className="text-m text-slate-600 dark:text-slate-400 font-bold mb-1">
-                                    ⚫ Puncte negative
+                                <p className="text-m text-slate-600 dark:text-slate-400 font-bold mb-1 flex items-center justify-center">
+                                    <Circle className="w-5 h-5 mr-1 fill-current" />
+                                    Puncte negative
                                 </p>
                                 <p className="text-3xl font-black text-slate-700 dark:text-slate-300 mt-1">
                                     {teamStats.black}
@@ -75,8 +77,9 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                         {/* Percentage */}
                         <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-3 border border-primary-200 dark:border-primary-800 text-center">
                             <div className="w-full">
-                                <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1">
-                                    🔢 Performanță
+                                <p className="text-m text-primary-600 dark:text-primary-400 font-bold mb-1 flex items-center justify-center">
+                                    <Hash className="w-5 h-5 mr-1" />
+                                    Performanță
                                 </p>
                                 <p className="text-3xl font-black text-primary-700 dark:text-primary-300 mt-1">
                                     {teamStats.percentageRed}%
@@ -115,8 +118,8 @@ const TeamStats = ({ subordinates, allFeedback }) => {
             <div className="card fade-in">
                 <div className="card-header">
                     <h3 className="text-xl font-semibold text-slate-900 dark:text-white flex items-center">
-                        <Users className="w-5 h-5 mr-2" />
-                        📋 Clasament subordonați
+                        <ClipboardList className="w-6 h-6 mr-2" />
+                        Clasament subordonați
                     </h3>
                 </div>
                 <div className="card-body">
@@ -144,9 +147,10 @@ const TeamStats = ({ subordinates, allFeedback }) => {
                                         <tr key={sub.id}>
                                             <td className="font-medium">
                                                 {index < 3 && (
-                                                    <span className="mr-2">
-                                                        {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
-                                                    </span>
+                                                    <Medal className={`w-5 h-5 inline mr-2 ${index === 0 ? 'text-yellow-500' :
+                                                            index === 1 ? 'text-slate-400' :
+                                                                'text-amber-600'
+                                                        }`} />
                                                 )}
                                                 {sub.name}
                                             </td>

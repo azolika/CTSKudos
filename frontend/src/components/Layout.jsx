@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { LogOut, User, Users, Shield } from 'lucide-react';
 import { ROLES } from '../utils/constants';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, headerActions }) => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
@@ -61,6 +61,11 @@ const Layout = ({ children }) => {
 
                         {/* User Info & Logout */}
                         <div className="flex items-center space-x-4">
+                            {headerActions && (
+                                <div className="flex items-center space-x-3 mr-2">
+                                    {headerActions}
+                                </div>
+                            )}
 
                             <div className="flex items-center space-x-3 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800">
                                 {getRoleIcon()}

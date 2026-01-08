@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { feedbackAPI } from '../services/api';
 import { FEEDBACK_TYPES } from '../utils/constants';
-import { MessageSquare, Send, X, AlertTriangle } from 'lucide-react';
+import { MessageSquare, Send, X, AlertTriangle, Circle } from 'lucide-react';
 
 const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
     const [comment, setComment] = useState('');
@@ -112,7 +112,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                             disabled={loading || !comment.trim() || !selectedCategory}
                             className="btn btn-feedback-official flex items-center justify-center space-x-2"
                         >
-                            <span>🟢</span>
+                            <Circle className="w-6 h-6 fill-current" />
                             <span>Punct Pozitiv</span>
                         </button>
                         <button
@@ -120,7 +120,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                             disabled={loading || !comment.trim() || !selectedCategory}
                             className="btn btn-feedback-black flex items-center justify-center space-x-2"
                         >
-                            <span>⚫</span>
+                            <Circle className="w-6 h-6 fill-current" />
                             <span>Punct Negativ</span>
                         </button>
                     </div>
@@ -172,9 +172,10 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                     </p>
                                 </div>
 
-                                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
+                                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 flex items-center space-x-2">
+                                    <AlertTriangle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
                                     <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                                        ⚠️ Această acțiune va trimite automat un email angajatului.
+                                        Această acțiune va trimite automat un email angajatului.
                                     </p>
                                 </div>
                             </div>
