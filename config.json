@@ -77,14 +77,6 @@
       "description": "Contribuie activ la colaborarea eficientă și la succesul echipei."
     },
     {
-      "label": "🚀 Proactive Mindset",
-      "description": "Demonstrează inițiativă și orientare spre acțiune."
-    },
-    {
-      "label": "🎯 Quality First",
-      "description": "Prioritizează calitatea și respectarea standardelor profesionale."
-    },
-    {
       "label": "🛠️ Comunicare Transparentă",
       "description": "Comunică deschis, clar și responsabil."
     },
@@ -93,12 +85,20 @@
       "description": "Pentru optimismul și energia contagioasă care motivează echipa chiar și în momentele solicitante."
     },
     {
-      "label": "🌟 Inspiră prin Exemplu",
-      "description": "Creează impact pozitiv și îi inspiră pe ceilalți prin acțiuni concrete."
+      "label": "🎯 Quality First",
+      "description": "Prioritizează calitatea și respectarea standardelor profesionale."
+    },
+    {
+      "label": "🚀 Proactive Mindset",
+      "description": "Demonstrează inițiativă și orientare spre acțiune."
     },
     {
       "label": "🎓 Împărtășește cunoștințe",
       "description": "Contribuie activ la dezvoltarea colegilor prin împărtășirea cunoștințelor."
+    },
+    {
+      "label": "🌟 Inspiră prin Exemplu",
+      "description": "Creează impact pozitiv și îi inspiră pe ceilalți prin acțiuni concrete."
     },
     {
       "label": "⭐ Depășirea așteptărilor",
