@@ -168,7 +168,7 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                             ) : (
                                 <>
                                     <Send className="w-6 h-6" />
-                                    <span className="font-bold text-lg">Trimite Kudos</span>
+                                    <span className="font-bold text-lg">Trimite</span>
                                 </>
                             )}
                         </button>
