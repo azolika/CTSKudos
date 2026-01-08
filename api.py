@@ -97,7 +97,7 @@ app.add_middleware(
 # ---------------------------------------------------------
 FEEDBACK_CATEGORIES = [
     "Cunoștințe profesionale",
-    "Productivitate"
+    "Productivitate",
     "Calitatea muncii",
     "Munca în echipă",
     "Responsabilitate",
@@ -105,7 +105,7 @@ FEEDBACK_CATEGORIES = [
     "Comunicare",
     "Punctualitate",
     "Inițiativă/proactivitate",
-    "Disciplină/ordine/respectare reguli"
+    "Disciplină/ordine/respectare reguli",
     "Abilități de lider"
 ]
 
