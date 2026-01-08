@@ -53,7 +53,7 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
             html_body = f"""
                 <div style="font-family: sans-serif; color: #334155; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
                     <div style="background: linear-gradient(to right, #3b82f6, #1d4ed8); padding: 20px; text-align: center;">
-                        <h1 style="color: white; margin: 0; font-size: 24px;">Kudos by CargoTrack</h1>
+                        <h1 style="color: white; margin: 0; font-size: 24px;">Kudos Feedback & Growth</h1>
                     </div>
                     <div style="padding: 30px; line-height: 1.6;">
                         <h2 style="color: #0f172a; margin-top: 0;">Ați primit un feedback nou!</h2>
@@ -67,7 +67,7 @@ def add_feedback(manager_id: int, employee_id: int, point_type: str, comment: st
                         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
                         <p style="font-size: 14px; color: #64748b; text-align: center;">
                             Cu stimă,<br>
-                            Echipa <strong>Kudos by CargoTrack</strong>
+                            Echipa <strong>Kudos Feedback & Growth</strong>
                         </p>
                     </div>
                 </div>

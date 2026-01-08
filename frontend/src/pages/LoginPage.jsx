@@ -73,7 +73,7 @@ const LoginPage = () => {
                         Kudos
                     </h2>
                     <p className="text-lg text-slate-600 dark:text-slate-400">
-                        by CargoTrack
+                        Feedback & Growth
                     </p>
                 </div>
 
