@@ -11,7 +11,7 @@ import KudosForm from '../components/KudosForm';
 import KudosBadgesLegend from '../components/KudosBadgesLegend';
 import UserKudosBadges from '../components/UserKudosBadges';
 import { calculateFeedbackStats, PERIOD_OPTIONS, getSinceDate } from '../utils/constants';
-import { AlertCircle, UserCircle, BarChart3, User } from 'lucide-react';
+import { AlertCircle, UserCircle, UserCog, User } from 'lucide-react';
 
 const ManagerDashboard = () => {
     const { user } = useAuth();
@@ -168,7 +168,7 @@ const ManagerDashboard = () => {
                                     : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
                                     }`}
                             >
-                                <BarChart3 className="w-6 h-6" />
+                                <UserCog className="w-6 h-6" />
                                 <span>Manager</span>
                             </button>
                             <button
