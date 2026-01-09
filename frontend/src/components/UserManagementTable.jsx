@@ -89,21 +89,21 @@ const UserManagementTable = ({ users, onEdit, onDelete, onPasswordChange }) => {
                                         <div className="flex items-center justify-end space-x-2">
                                             <button
                                                 onClick={() => onEdit(user)}
-                                                className="p-2 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
+                                                className="p-2 text-feedback-black hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
                                                 title="Editează"
                                             >
                                                 <Edit className="w-6 h-6" />
                                             </button>
                                             <button
                                                 onClick={() => onPasswordChange(user)}
-                                                className="p-2 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
+                                                className="p-2 text-feedback-black hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
                                                 title="Schimbă Parola"
                                             >
                                                 <Key className="w-6 h-6" />
                                             </button>
                                             <button
                                                 onClick={() => onDelete(user)}
-                                                className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                                                className="p-2 text-feedback-black hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                                                 title="Șterge"
                                             >
                                                 <Trash2 className="w-6 h-6" />

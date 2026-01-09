@@ -145,7 +145,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             {/* Name */}
                             <div className="space-y-1.5">
                                 <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <User className="w-6 h-6 mr-1.5 text-slate-400" />
                                     Nume complet
                                 </label>
                                 <input
@@ -164,7 +163,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             {/* Role */}
                             <div className="space-y-1.5">
                                 <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <Shield className="w-6 h-6 mr-1.5 text-slate-400" />
                                     Rol în platformă
                                 </label>
                                 <div className="relative">
@@ -195,7 +193,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     {/* Department */}
                                     <div className="space-y-1.5">
                                         <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            <Briefcase className="w-6 h-6 mr-1.5 text-slate-400" />
                                             Departament
                                         </label>
                                         <div className="relative">
@@ -218,7 +215,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     {/* Function */}
                                     <div className="space-y-1.5">
                                         <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            <Briefcase className="w-6 h-6 mr-1.5 text-slate-400" />
                                             Funcția / Rolul specific
                                         </label>
                                         <div className="relative">
@@ -242,7 +238,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     {/* Manager */}
                                     <div className="space-y-1.5 md:col-span-2">
                                         <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            <Users className="w-6 h-6 mr-1.5 text-slate-400" />
                                             Supervizor / Manager Direct
                                         </label>
                                         <div className="relative">
@@ -276,7 +271,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                 disabled={loading}
                                 className="flex-1 px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center justify-center space-x-2"
                             >
-                                <X className="w-6 h-6" />
                                 <span>Anulează</span>
                             </button>
 
@@ -295,7 +289,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     </>
                                 ) : (
                                     <>
-                                        {isEdit ? <Save className="w-6 h-6" /> : <UserPlus className="w-6 h-6" />}
                                         <span>{isEdit ? 'Salvează' : 'Creează utilizator'}</span>
                                     </>
                                 )}
