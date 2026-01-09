@@ -155,134 +155,133 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     required
                                 />
                             </div>
-
-
-                            {/* Role */}
-                            {formData.role !== ROLES.ADMIN && (
-                                <div>
-                                    <div className="space-y-1.5">
-                                        <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            Rol în platformă
-                                        </label>
-                                        <div className="relative">
-                                            <select
-                                                name="role"
-                                                value={formData.role}
-                                                onChange={handleChange}
-                                                className="input appearance-none focus:ring-primary-500/20 transition-all"
-                                                required
-                                            >
-                                                <option value={ROLES.USER}>Angajat (User)</option>
-                                                <option value={ROLES.MANAGER}>Manager / Team Lead</option>
-                                                <option value={ROLES.ADMIN}>Administrator</option>
-                                            </select>
-                                            <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-1.5">
-                                        <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            Departament
-                                        </label>
-                                        <div className="relative">
-                                            <select
-                                                name="departament"
-                                                value={formData.departament}
-                                                onChange={handleChange}
-                                                className="input appearance-none focus:ring-primary-500/20 transition-all"
-                                                required
-                                            >
-                                                <option value="">Alege departamentul</option>
-                                                {departmentOptions.map((dept) => (
-                                                    <option key={dept} value={dept}>{dept}</option>
-                                                ))}
-                                            </select>
-                                            <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-1.5">
-                                        <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            Funcția / Rolul specific
-                                        </label>
-                                        <div className="relative">
-                                            <select
-                                                name="functia"
-                                                value={formData.functia}
-                                                onChange={handleChange}
-                                                className="input appearance-none focus:ring-primary-500/20 transition-all"
-                                                required
-                                                disabled={!formData.departament}
-                                            >
-                                                {!formData.departament && <option value="">Alege departamentul întâi</option>}
-                                                {functionOptions.map((func) => (
-                                                    <option key={func} value={func}>{func}</option>
-                                                ))}
-                                            </select>
-                                            <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-1.5 md:col-span-2">
-                                        <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            Supervizor / Manager Direct
-                                        </label>
-                                        <div className="relative">
-                                            <select
-                                                name="manager_id"
-                                                value={formData.manager_id || ''}
-                                                onChange={handleChange}
-                                                className="input appearance-none focus:ring-primary-500/20 transition-all font-medium"
-                                            >
-                                                <option value="">Fără manager (Nivel Top)</option>
-                                                {managerOptions.map((mgr) => (
-                                                    <option key={mgr.id} value={mgr.id}>
-                                                        {mgr.name} — {mgr.functia} ({mgr.departament})
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Organizational Section */}
-
-
-
                         </div>
 
-                        {/* Modal Footer */}
-                        <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
-                            <div className="flex flex-col sm:flex-row gap-3">
-                                <button
-                                    type="button"
-                                    onClick={onCancel}
-                                    disabled={loading}
-                                    className="flex-1 px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center justify-center space-x-2"
-                                >
-                                    <span>Anulează</span>
-                                </button>
+                        {/* Role */}
+                        {formData.role !== ROLES.ADMIN && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-1.5">
+                                    <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                        Rol în platformă
+                                    </label>
+                                    <div className="relative">
+                                        <select
+                                            name="role"
+                                            value={formData.role}
+                                            onChange={handleChange}
+                                            className="input appearance-none focus:ring-primary-500/20 transition-all"
+                                            required
+                                        >
+                                            <option value={ROLES.USER}>Angajat (User)</option>
+                                            <option value={ROLES.MANAGER}>Manager / Team Lead</option>
+                                            <option value={ROLES.ADMIN}>Administrator</option>
+                                        </select>
+                                        <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                    </div>
+                                </div>
 
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className={`flex-[1.5] px-6 py-3 rounded-xl font-bold text-white flex items-center justify-center space-x-2 transition-all shadow-lg active:scale-[0.98] ${isEdit
-                                        ? 'bg-primary-600 hover:bg-primary-700 shadow-primary-200 dark:shadow-none'
-                                        : 'bg-primary-600 hover:bg-primary-700 shadow-primary-200 dark:shadow-none'
-                                        }`}
-                                >
-                                    {loading ? (
-                                        <>
-                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                            <span>Procesare...</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span>{isEdit ? 'Salvează' : 'Creează utilizator'}</span>
-                                        </>
-                                    )}
-                                </button>
+                                <div className="space-y-1.5">
+                                    <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                        Departament
+                                    </label>
+                                    <div className="relative">
+                                        <select
+                                            name="departament"
+                                            value={formData.departament}
+                                            onChange={handleChange}
+                                            className="input appearance-none focus:ring-primary-500/20 transition-all"
+                                            required
+                                        >
+                                            <option value="">Alege departamentul</option>
+                                            {departmentOptions.map((dept) => (
+                                                <option key={dept} value={dept}>{dept}</option>
+                                            ))}
+                                        </select>
+                                        <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                        Funcția / Rolul specific
+                                    </label>
+                                    <div className="relative">
+                                        <select
+                                            name="functia"
+                                            value={formData.functia}
+                                            onChange={handleChange}
+                                            className="input appearance-none focus:ring-primary-500/20 transition-all"
+                                            required
+                                            disabled={!formData.departament}
+                                        >
+                                            {!formData.departament && <option value="">Alege departamentul întâi</option>}
+                                            {functionOptions.map((func) => (
+                                                <option key={func} value={func}>{func}</option>
+                                            ))}
+                                        </select>
+                                        <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5 md:col-span-2">
+                                    <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                        Supervizor / Manager Direct
+                                    </label>
+                                    <div className="relative">
+                                        <select
+                                            name="manager_id"
+                                            value={formData.manager_id || ''}
+                                            onChange={handleChange}
+                                            className="input appearance-none focus:ring-primary-500/20 transition-all font-medium"
+                                        >
+                                            <option value="">Fără manager (Nivel Top)</option>
+                                            {managerOptions.map((mgr) => (
+                                                <option key={mgr.id} value={mgr.id}>
+                                                    {mgr.name} — {mgr.functia} ({mgr.departament})
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                    </div>
+                                </div>
                             </div>
+                        )}
+
+                        {/* Organizational Section */}
+
+
+
+                    </div>
+
+                    {/* Modal Footer */}
+                    <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <button
+                                type="button"
+                                onClick={onCancel}
+                                disabled={loading}
+                                className="flex-1 px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center justify-center space-x-2"
+                            >
+                                <span>Anulează</span>
+                            </button>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`flex-[1.5] px-6 py-3 rounded-xl font-bold text-white flex items-center justify-center space-x-2 transition-all shadow-lg active:scale-[0.98] ${isEdit
+                                    ? 'bg-primary-600 hover:bg-primary-700 shadow-primary-200 dark:shadow-none'
+                                    : 'bg-primary-600 hover:bg-primary-700 shadow-primary-200 dark:shadow-none'
+                                    }`}
+                            >
+                                {loading ? (
+                                    <>
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                        <span>Procesare...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>{isEdit ? 'Salvează' : 'Creează utilizator'}</span>
+                                    </>
+                                )}
+                            </button>
                         </div>
                     </div>
                 </form>
