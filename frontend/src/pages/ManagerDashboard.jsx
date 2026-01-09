@@ -264,7 +264,7 @@ const ManagerDashboard = () => {
                 {activeTab === 'employee' && (
                     <div className="space-y-8 fade-in">
                         <KudosForm currentUser={user} onSuccess={loadData} />
-                        <FeedbackStats stats={myStats} title="📊 Rezultate personale" />
+                        <FeedbackStats stats={myStats} title="Rezultate personale" />
                         <CategoryStats stats={myCategoryStats} />
                         <FeedbackHistory feedbackList={myFeedback} />
                         <KudosBadgesLegend badges={badges} />
