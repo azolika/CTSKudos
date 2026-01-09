@@ -228,7 +228,7 @@ const AdminDashboard = () => {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
-                                        Negative (30 zile)
+                                        Puncte negative (30 zile)
                                     </p>
                                     <p className="text-3xl font-bold text-slate-900 dark:text-slate-400">
                                         {stats?.black_30_days || 0}
@@ -314,7 +314,7 @@ const AdminDashboard = () => {
                         <div className="card h-fit">
                             <div className="card-header">
                                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Distribuție Roluri
+                                    Distribuție roluri
                                 </h3>
                             </div>
                             <div className="card-body">
@@ -323,9 +323,9 @@ const AdminDashboard = () => {
                                         const count = stats?.user_counts?.[role] || 0;
                                         const percentage = users.length > 0 ? (count / users.length) * 100 : 0;
                                         const colors = {
-                                            [ROLES.ADMIN]: 'bg-purple-500',
-                                            [ROLES.MANAGER]: 'bg-green-500',
-                                            [ROLES.USER]: 'bg-primary-500'
+                                            [ROLES.ADMIN]: 'bg-feedback-black-500',
+                                            [ROLES.MANAGER]: 'bg-feedback-black-500',
+                                            [ROLES.USER]: 'bg-feedback-black-500',
                                         };
                                         const labels = {
                                             [ROLES.ADMIN]: 'Admin',
