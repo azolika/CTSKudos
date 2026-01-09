@@ -323,9 +323,9 @@ const AdminDashboard = () => {
                                         const count = stats?.user_counts?.[role] || 0;
                                         const percentage = users.length > 0 ? (count / users.length) * 100 : 0;
                                         const colors = {
-                                            [ROLES.ADMIN]: 'bg-feedback-black-500',
-                                            [ROLES.MANAGER]: 'bg-feedback-black-500',
-                                            [ROLES.USER]: 'bg-feedback-black-500',
+                                            [ROLES.ADMIN]: 'bg-purple-500',
+                                            [ROLES.MANAGER]: 'bg-green-500',
+                                            [ROLES.USER]: 'bg-primary-500'
                                         };
                                         const labels = {
                                             [ROLES.ADMIN]: 'Admin',
