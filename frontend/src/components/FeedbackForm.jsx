@@ -71,7 +71,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                 </div>
                 <div className="card-body space-y-4">
                     {/* Category Selector */}
-                    <div>
+                    <div className="mb-2">
                         <label htmlFor="category" className="label">
                             Categorie
                         </label>
@@ -92,7 +92,6 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                     {/* Comment Input */}
                     <div>
                         <label htmlFor="comment" className="label">
-                            <MessageSquare className="w-6 h-6 inline mr-1" />
                             Comentariu (obligatoriu)
                         </label>
                         <textarea
@@ -187,7 +186,7 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                     disabled={loading}
                                     className="btn btn-secondary flex items-center justify-center space-x-2"
                                 >
-                                    <X className="w-6 h-6" />
+
                                     <span>Anulează</span>
                                 </button>
 

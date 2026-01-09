@@ -81,12 +81,6 @@ const LoginPage = () => {
                 <div className="card slide-up">
                     {!isForgotPassword ? (
                         <>
-                            <div className="card-header">
-                                <h3 className="text-xl font-semibold text-slate-900 dark:text-white flex items-center">
-                                    <LogIn className="w-6 h-6 mr-2" />
-                                    Autentificare
-                                </h3>
-                            </div>
                             <div className="card-body">
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     {/* Error Message */}
@@ -100,7 +94,6 @@ const LoginPage = () => {
                                     {/* Username Field */}
                                     <div>
                                         <label htmlFor="username" className="label">
-                                            <Mail className="w-6 h-6 inline mr-1" />
                                             Email
                                         </label>
                                         <input
@@ -117,7 +110,6 @@ const LoginPage = () => {
                                     {/* Password Field */}
                                     <div>
                                         <label htmlFor="password" className="label">
-                                            <Lock className="w-6 h-6 inline mr-1" />
                                             Parolă
                                         </label>
                                         <input
