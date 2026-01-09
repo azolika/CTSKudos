@@ -67,7 +67,7 @@ const Layout = ({ children, headerActions }) => {
                                 </div>
                             )}
 
-                            <div className="flex items-center space-x-3 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800">
+                            <div className="flex items-center space-x-3 px-4 py-2 rounded-lg dark:bg-slate-800">
                                 {getRoleIcon()}
                                 <div className="hidden sm:block">
                                     <p className="text-sm font-medium text-slate-900 dark:text-white">

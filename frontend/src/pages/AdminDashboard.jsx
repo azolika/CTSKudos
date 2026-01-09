@@ -285,7 +285,6 @@ const AdminDashboard = () => {
                         <div className="card h-fit">
                             <div className="card-header">
                                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center">
-                                    <Award className="w-6 h-6 mr-2 text-yellow-500" />
                                     Top 5 Manageri/Team Leads (Activitate)
                                 </h3>
                             </div>
