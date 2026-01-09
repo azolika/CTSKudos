@@ -1,4 +1,4 @@
-import { Users, TrendingUp, Award, Heart, BarChart3, ClipboardList, Circle, Hash, Medal } from 'lucide-react';
+import { Award, Heart, BarChart3, ClipboardList, Circle, Hash, Medal } from 'lucide-react';
 import ProgressBar from './ProgressBar';
 import { calculateFeedbackStats } from '../utils/constants';
 

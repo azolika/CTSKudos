@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Key, Lock, Save, AlertCircle } from 'lucide-react';
+import { X, Key, AlertCircle } from 'lucide-react';
 
 const ChangePasswordModal = ({ user, onSubmit, onCancel, loading }) => {
     const [password, setPassword] = useState('');

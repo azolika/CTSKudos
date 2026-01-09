@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Save, UserPlus, Mail, User, Shield, Briefcase, Users, Lock, ChevronRight } from 'lucide-react';
+import { X, Save, UserPlus, Lock, ChevronRight } from 'lucide-react';
 import { ROLES } from '../utils/constants';
 
 const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
@@ -109,7 +109,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             {/* Email */}
                             <div className="space-y-1.5">
                                 <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <Mail className="w-6 h-6 mr-1.5 text-slate-400" />
                                     Email
                                 </label>
                                 <input

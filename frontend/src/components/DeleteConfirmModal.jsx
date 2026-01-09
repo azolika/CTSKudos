@@ -1,4 +1,4 @@
-import { X, Trash2, AlertTriangle, User } from 'lucide-react';
+import { X, AlertTriangle, User } from 'lucide-react';
 
 const DeleteConfirmModal = ({ user, onConfirm, onCancel, loading }) => {
     return (

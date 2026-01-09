@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { feedbackAPI } from '../services/api';
 import { FEEDBACK_TYPES } from '../utils/constants';
-import { MessageSquare, Send, X, AlertTriangle, Circle } from 'lucide-react';
+import { Send, X, AlertTriangle, Circle } from 'lucide-react';
 
 const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
     const [comment, setComment] = useState('');
