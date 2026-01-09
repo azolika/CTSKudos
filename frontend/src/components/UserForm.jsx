@@ -126,7 +126,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                             {!isEdit && (
                                 <div className="space-y-1.5">
                                     <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                        <Lock className="w-6 h-6 mr-1.5 text-slate-400" />
                                         Parolă
                                     </label>
                                     <input
