@@ -202,7 +202,6 @@ const FeedbackForm = ({ selectedEmployee, onSuccess }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <Send className="w-6 h-6" />
                                             <span>Trimite</span>
                                         </>
                                     )}

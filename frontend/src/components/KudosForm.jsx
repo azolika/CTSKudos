@@ -222,7 +222,6 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                     disabled={loading}
                                     className="btn btn-secondary flex items-center justify-center space-x-2"
                                 >
-                                    <X className="w-6 h-6" />
                                     <span>Anulează</span>
                                 </button>
 
@@ -238,7 +237,6 @@ const KudosForm = ({ currentUser, onSuccess }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <Send className="w-6 h-6" />
                                             <span>Trimite</span>
                                         </>
                                     )}
