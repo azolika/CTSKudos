@@ -284,6 +284,7 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                 </button>
                             </div>
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
