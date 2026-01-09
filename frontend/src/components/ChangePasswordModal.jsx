@@ -69,7 +69,6 @@ const ChangePasswordModal = ({ user, onSubmit, onCancel, loading }) => {
                             {/* New Password */}
                             <div className="space-y-1.5">
                                 <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <Lock className="w-6 h-6 mr-1.5 text-slate-400" />
                                     Noua parolă
                                 </label>
                                 <input
@@ -86,7 +85,6 @@ const ChangePasswordModal = ({ user, onSubmit, onCancel, loading }) => {
                             {/* Confirm Password */}
                             <div className="space-y-1.5">
                                 <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                    <Lock className="w-6 h-6 mr-1.5 text-slate-400" />
                                     Confirmă parolă
                                 </label>
                                 <input
@@ -125,7 +123,6 @@ const ChangePasswordModal = ({ user, onSubmit, onCancel, loading }) => {
                                     </>
                                 ) : (
                                     <>
-                                        <Save className="w-6 h-6" />
                                         <span>Salvează</span>
                                     </>
                                 )}

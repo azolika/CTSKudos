@@ -79,7 +79,6 @@ const DeleteConfirmModal = ({ user, onConfirm, onCancel, loading }) => {
                                     </>
                                 ) : (
                                     <>
-                                        <Trash2 className="w-6 h-6" />
                                         <span>Șterge</span>
                                     </>
                                 )}
