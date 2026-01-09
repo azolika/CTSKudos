@@ -155,31 +155,31 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                     required
                                 />
                             </div>
+                            {/* Role */}
+                            <div className="space-y-1.5">
+                                <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                    Rol în platformă
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        name="role"
+                                        value={formData.role}
+                                        onChange={handleChange}
+                                        className="input appearance-none focus:ring-primary-500/20 transition-all"
+                                        required
+                                    >
+                                        <option value={ROLES.USER}>Angajat (User)</option>
+                                        <option value={ROLES.MANAGER}>Manager / Team Lead</option>
+                                        <option value={ROLES.ADMIN}>Administrator</option>
+                                    </select>
+                                    <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Role */}
+                        {/* Department */}
                         {formData.role !== ROLES.ADMIN && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-1.5">
-                                    <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                        Rol în platformă
-                                    </label>
-                                    <div className="relative">
-                                        <select
-                                            name="role"
-                                            value={formData.role}
-                                            onChange={handleChange}
-                                            className="input appearance-none focus:ring-primary-500/20 transition-all"
-                                            required
-                                        >
-                                            <option value={ROLES.USER}>Angajat (User)</option>
-                                            <option value={ROLES.MANAGER}>Manager / Team Lead</option>
-                                            <option value={ROLES.ADMIN}>Administrator</option>
-                                        </select>
-                                        <ChevronRight className="w-6 h-6 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
-                                    </div>
-                                </div>
-
                                 <div className="space-y-1.5">
                                     <label className="flex items-center text-sm font-semibold text-slate-700 dark:text-slate-300">
                                         Departament
@@ -244,11 +244,6 @@ const UserForm = ({ user, allUsers, config, onSubmit, onCancel, loading }) => {
                                 </div>
                             </div>
                         )}
-
-                        {/* Organizational Section */}
-
-
-
                     </div>
 
                     {/* Modal Footer */}
