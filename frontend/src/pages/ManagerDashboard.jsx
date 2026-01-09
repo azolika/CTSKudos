@@ -246,7 +246,7 @@ const ManagerDashboard = () => {
                                     <>
                                         <FeedbackStats
                                             stats={calculateFeedbackStats(employeeFeedback)}
-                                            title={`📊 Rezultate pentru ${selectedEmployee.name}`}
+                                            title={`Rezultate pentru ${selectedEmployee.name}`}
                                         />
                                         <CategoryStats stats={selectedEmployeeCategoryStats} />
                                         <FeedbackHistory
