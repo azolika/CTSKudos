@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { BarChart3 } from 'lucide-react';
 const CategoryStats = ({ stats }) => {
     // stats: [{ category: "Productivitate", rosu: 5, negru: 2 }, ...]
 
@@ -11,6 +11,7 @@ const CategoryStats = ({ stats }) => {
     return (
         <div className="card mt-6">
             <div className="card-header">
+                <BarChart3 className="w-6 h-6 mr-2" />
                 <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Statistici pe categorii</h3>
             </div>
             <div className="card-body space-y-4">
