@@ -18,6 +18,8 @@ const CategoryStats = ({ stats }) => {
             </div>
             <div className="card-body space-y-4">
                 {stats.map((stat, idx) => {
+                    if (stat.category === 'Kudos') return null;
+
                     const total = stat.rosu_manager + stat.negru;
                     if (total === 0) return null;
 
