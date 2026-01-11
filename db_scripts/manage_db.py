@@ -168,9 +168,41 @@ def delete_all_feedback(noprompt=False):
     finally:
         conn.close()
 
+def reset_database(noprompt=False):
+    """Drop all tables and re-initialize everything."""
+    print("🛑 WARNING: This will delete EVERYTHING (Users, Hierarchy, Feedback)!")
+    if not noprompt:
+        confirm = input("Are you sure you want to completely nuked the database? (yes/no): ")
+        if confirm.lower() != 'yes':
+            print("Operation cancelled.")
+            return
+
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as c:
+            print("Dropping tables...")
+            c.execute("SET FOREIGN_KEY_CHECKS = 0")
+            c.execute("DROP TABLE IF EXISTS feedback")
+            c.execute("DROP TABLE IF EXISTS hierarchy")
+            c.execute("DROP TABLE IF EXISTS password_reset")
+            c.execute("DROP TABLE IF EXISTS users")
+            c.execute("SET FOREIGN_KEY_CHECKS = 1")
+            conn.commit()
+            print("✔ All tables dropped.")
+    except Exception as e:
+        print(f"❌ Error dropping tables: {e}")
+        return
+    finally:
+        conn.close()
+
+    # Re-initialize everything
+    print("Re-initializing database...")
+    auto_init_db()
+    print("✔ Database reset to initial state.")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Kudos Database Management Tool")
-    parser.add_argument("command", choices=["init", "fix-admin", "clear-feedback"], help="Command to execute")
+    parser.add_argument("command", choices=["init", "fix-admin", "clear-feedback", "reset-db"], help="Command to execute")
     parser.add_argument("--noprompt", action="store_true", help="Skip confirmation for destructive actions")
 
     args = parser.parse_args()
@@ -181,3 +213,5 @@ if __name__ == "__main__":
         fix_admin()
     elif args.command == "clear-feedback":
         delete_all_feedback(args.noprompt)
+    elif args.command == "reset-db":
+        reset_database(args.noprompt)

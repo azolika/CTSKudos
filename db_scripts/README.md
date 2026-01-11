@@ -17,6 +17,7 @@ python db_scripts/manage_db.py [command] [options]
 | `init` | **Initialize Database**: Creates all tables and imports initial data from `config_generated.json` if the database is empty. |
 | `fix-admin` | **Reset Admin**: Ensures the admin user (`admin@cargotrack.ro`) exists and resets its password to the default (`Cargo2025!@#`). |
 | `clear-feedback` | **Delete All Feedback**: Truncates the feedback table. This is a destructive action. |
+| `reset-db` | **Full Reset**: Drops all tables and re-initializes the database from scratch (including users from `config_generated.json`). |
 
 ## Initial Data Setup
 
