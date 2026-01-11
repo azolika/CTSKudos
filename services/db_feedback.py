@@ -146,7 +146,8 @@ def get_feedback_for_user(user_id: int, since: str = None):
     processed_rows = []
     for r in rows:
         # r: (point_type, comment, timestamp, manager_name, category, manager_id)
-        is_manager = r[5] in superior_ids
+        # Official feedback must be from a superior AND NOT in the 'Kudos' category
+        is_manager = (r[5] in superior_ids) and (r[4] != 'Kudos')
         processed_rows.append((r[0], r[1], r[2], r[3], r[4], is_manager))
         
     return processed_rows
@@ -169,7 +170,7 @@ def get_feedback_points_for_subordinates(sub_ids: list[int], since: str = None):
     c = conn.cursor()
 
     placeholders = ",".join(["%s"] * len(sub_ids))
-    query = f"SELECT point_type, employee_id, manager_id FROM feedback WHERE employee_id IN ({placeholders})"
+    query = f"SELECT point_type, employee_id, manager_id, category FROM feedback WHERE employee_id IN ({placeholders})"
     params = list(sub_ids)
     
     if since:
@@ -286,7 +287,7 @@ def get_user_stats_by_category(user_id: int, since: str = None):
             stats[cat] = {"rosu_manager": 0, "rosu_peer": 0, "negru": 0}
         
         if ptype == "rosu":
-            if mid in superior_ids:
+            if mid in superior_ids and cat != 'Kudos':
                 stats[cat]["rosu_manager"] += 1
             else:
                 stats[cat]["rosu_peer"] += 1

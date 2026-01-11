@@ -32,7 +32,7 @@ const FeedbackHistory = ({ feedbackList, title = 'Istoric feedback' }) => {
                 <div className="space-y-4">
                     {feedbackList.map((feedback, index) => {
                         const isRed = feedback.point_type === FEEDBACK_TYPES.RED;
-                        const isKudos = isRed && !feedback.is_manager_feedback;
+                        const isKudos = isRed && (feedback.category === 'Kudos' || !feedback.is_manager_feedback);
 
                         let IconComponent;
                         let iconColor;

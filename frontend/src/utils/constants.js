@@ -57,8 +57,8 @@ export const calculateFeedbackStats = (feedbackList) => {
         };
     }
 
-    const redManager = feedbackList.filter(f => f.point_type === FEEDBACK_TYPES.RED && f.is_manager_feedback).length;
-    const redPeer = feedbackList.filter(f => f.point_type === FEEDBACK_TYPES.RED && !f.is_manager_feedback).length;
+    const redManager = feedbackList.filter(f => f.point_type === FEEDBACK_TYPES.RED && f.is_manager_feedback && f.category !== 'Kudos').length;
+    const redPeer = feedbackList.filter(f => (f.point_type === FEEDBACK_TYPES.RED && f.category === 'Kudos') || (f.point_type === FEEDBACK_TYPES.RED && !f.is_manager_feedback)).length;
     const black = feedbackList.filter(f => f.point_type === FEEDBACK_TYPES.BLACK).length;
 
     // Official stats for rating calculations (ignores peer kudos)

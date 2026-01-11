@@ -327,11 +327,14 @@ async def read_team_feedback(since: Optional[str] = None, current_user: dict = D
     # 4. Process and return with the is_manager_feedback flag
     results = []
     for r in raw_data:
-        # r: (point_type, employee_id, manager_id)
+        # r: (point_type, employee_id, manager_id, category)
         is_official = check_is_superior(sender_id=r[2], recipient_id=r[1], m_map=manager_map)
+        # It's only official if it's from a superior AND NOT a Kudos
+        is_official = is_official and (r[3] != 'Kudos')
         results.append({
             "point_type": r[0],
             "employee_id": r[1],
+            "category": r[3],
             "is_manager_feedback": is_official
         })
     return results
